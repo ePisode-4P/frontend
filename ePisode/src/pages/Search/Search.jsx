@@ -2,7 +2,8 @@ import React, { useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { motion } from 'framer-motion'
 import Lottie from 'react-lottie'
-import animationData from '../../assets/lotties/no.json'
+import animationData1 from '../../assets/lotties/no.json'
+import animationData2 from '../../assets/lotties/loading.json'
 import { FaSearch } from 'react-icons/fa'
 import styles from './Search.module.css'
 import SearchCard from '../../components/Card/SearchCard'
@@ -55,10 +56,18 @@ export default function Search() {
     }),
   }
 
-  const defaultOptions = {
+  const defaultOptions1 = {
     loop: true,
     autoplay: true,
-    animationData: animationData,
+    animationData: animationData1,
+    rendererSettings: {
+      preserveAspectRatio: 'xMidYMid slice',
+    },
+  }
+  const defaultOptions2 = {
+    loop: true,
+    autoplay: true,
+    animationData: animationData2,
     rendererSettings: {
       preserveAspectRatio: 'xMidYMid slice',
     },
@@ -75,11 +84,11 @@ export default function Search() {
       <h2 className={styles.category}>검색</h2>
       <div className={styles.wrap_input}>
         <FaSearch id={styles.search_icon} />
-        <input placeholder="검색어를 입력하세요." value={keyword} onChange={(e) => setKeyword(e.target.value)} onKeyDown={handleKeyDown} />
+        <input className={styles.input} placeholder="검색어를 입력하세요." value={keyword} onChange={(e) => setKeyword(e.target.value)} onKeyDown={handleKeyDown} />
       </div>
       <div className={styles.wrap_card}>
-        {isLoading && <p>로딩 중...</p>}
-        {places.length === 0 && !isLoading && <Lottie style={{ pointerEvents: 'none', position: 'relative' }} options={defaultOptions} height={250} width={250} />}
+        {isLoading && <Lottie style={{ pointerEvents: 'none', position: 'relative' }} options={defaultOptions2} height={200} width={200} />}
+        {places.length === 0 && !isLoading && <Lottie style={{ pointerEvents: 'none', position: 'relative' }} options={defaultOptions1} height={250} width={250} />}
         {places.map((place, index) => (
           <motion.div custom={index} variants={cardVariants} initial="hidden" animate="visible" key={place.id}>
             <SearchCard

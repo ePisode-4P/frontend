@@ -110,7 +110,16 @@
   align-self: center;
 }
 
-.back {
+.back1 {
+  background-color: lightgray;
+  border-radius: 20px;
+  width: 350px;
+  margin-bottom: 10px;
+  display: flex;
+  flex-direction: row;
+}
+
+.back2 {
   background-color: lightgray;
   border-radius: 20px;
   width: 350px;
@@ -138,7 +147,7 @@
   margin: 10px;
 }
 
-.heart {
+.likes {
   font-size: 20px;
   font-weight: bold;
   margin: 10px;
