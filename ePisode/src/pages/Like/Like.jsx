@@ -104,7 +104,7 @@ export default function Like() {
       animate={{ opacity: 1, x: 0 }}
       transition={{ duration: 0.5 }}
     >
-      <h2 className={styles.category}>이거 카테고리명 뭐라고</h2>
+      <h2 className={styles.category}>관심 장소</h2>
       <div className={styles.wrap_card}>
         {recommendedPlaces.map((place, index) => (
           <motion.div custom={index} variants={cardVariants} initial="hidden" animate="visible" key={index}>
