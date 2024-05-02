@@ -84,7 +84,7 @@ export default function Search() {
       <h2 className={styles.category}>검색</h2>
       <div className={styles.wrap_input}>
         <FaSearch id={styles.search_icon} />
-        <input placeholder="검색어를 입력하세요." value={keyword} onChange={(e) => setKeyword(e.target.value)} onKeyDown={handleKeyDown} />
+        <input className={styles.input} placeholder="검색어를 입력하세요." value={keyword} onChange={(e) => setKeyword(e.target.value)} onKeyDown={handleKeyDown} />
       </div>
       <div className={styles.wrap_card}>
         {isLoading && <Lottie style={{ pointerEvents: 'none', position: 'relative' }} options={defaultOptions2} height={200} width={200} />}
