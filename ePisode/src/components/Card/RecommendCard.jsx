@@ -16,12 +16,22 @@ export default function RecommendCard({ index, place, place_name, category_name,
 
   const handleLikeClick = (e) => {
     e.stopPropagation()
-    setLiked(!liked)
+    if (disliked && !liked) {
+      setDisliked(false)
+      setLiked(true)
+    } else {
+      setLiked(!liked)
+    }
   }
 
   const handleDislikeClick = (e) => {
     e.stopPropagation()
-    setDisliked(!disliked)
+    if (liked && !disliked) {
+      setLiked(false)
+      setDisliked(true)
+    } else {
+      setDisliked(!disliked)
+    }
   }
 
   return (
