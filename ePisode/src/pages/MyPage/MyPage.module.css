@@ -4,7 +4,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(107, 107, 107, 0.5);
+  background-color: rgba(209, 209, 209, 0.5);
 
   display: flex;
   justify-content: center;
@@ -15,7 +15,9 @@
 
 .mywrap {
   z-index: 1000;
-  background-color: white;
+  background: linear-gradient(161.66deg, rgba(255, 255, 255, 0.18) 5.63%, rgba(255, 255, 255, 0.6) 94.57%);
+  box-shadow: 4px 0px 4px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(30px);
   width: 700px;
   height: 450px;
   margin-left: 50%;
@@ -108,7 +110,16 @@
   align-self: center;
 }
 
-.back {
+.back1 {
+  background-color: lightgray;
+  border-radius: 20px;
+  width: 350px;
+  margin-bottom: 10px;
+  display: flex;
+  flex-direction: row;
+}
+
+.back2 {
   background-color: lightgray;
   border-radius: 20px;
   width: 350px;
@@ -136,7 +147,7 @@
   margin: 10px;
 }
 
-.heart {
+.likes {
   font-size: 20px;
   font-weight: bold;
   margin: 10px;
