@@ -3,6 +3,60 @@ import style from './MyPageEdit.module.css'
 import { useNavigate } from 'react-router-dom'
 
 export default function MyPageEdit() {
+  const [selectedImage, setSelectedImage] = useState(null);
+
+  const handleImageChange = (event) => {
+    const imageFile = event.target.files[0];
+    const allowedExtensions = /(\.jpg|\.jpeg|\.png)$/i;
+
+    if (!allowedExtensions.exec(imageFile.name)) {
+      alert("올바른 파일 형식이 아닙니다. jpg, jpeg, png 파일만 업로드 가능합니다.");
+      event.target.value = null; // 파일 업로드 취소
+      return;
+    }
+
+    setSelectedImage(URL.createObjectURL(imageFile));
+  };
+
+  const mbtiList = [
+    "ISTJ",
+    "ISJF",
+    "INFJ",
+    "INTJ",
+    "ISTP",
+    "ISFP",
+    "INFP",
+    "INTP",
+    "ESTP",
+    "ESFP",
+    "ENFP",
+    "ENTP",
+    "ESTJ",
+    "ESFJ",
+    "ENFJ",
+    "ENTJ",
+  ]
+
+  const [selectedMBTI, setSelectedMBTI] = useState('');
+
+  const favList = [
+    "음식점",
+    "카페",
+    "문화시설",
+    "숙박",
+    "관광명소",
+  ]
+
+  const [favSelected, setFaveSelected] = useState([]);
+
+  const favClick = selectedItem => {
+    if (favSelected.includes(selectedItem)) {
+      setFaveSelected(favSelected.filter(fav => fav !== selectedItem));
+      return;
+    }
+    setFaveSelected([...favSelected, selectedItem]);
+  }
+
   const navigate = useNavigate()
 
   const handleClick = () => {
@@ -24,25 +78,50 @@ export default function MyPageEdit() {
       alert("탈퇴 취소");
     }
   }
-  
-  //TODO  사진 업로드, mbti, 관심사 선택 창
 
   return (
     <div className={style.filter} onClick={handleClick}> 
       <div className={style.mywrap} onClick={handleInnerClick}>
         <p className={style.title}>사용자 정보 수정</p>
         <div className={style.proList}>
+          <div className={style.imgGroup}>
             <p className={style.proHead}>프로필 사진</p>
+            <input className={style.imgInput} type="file" accept="image/*" onChange={handleImageChange}/>
+          </div>
             <div className={style.group}>
               <p className={style.proHead}>이름</p>
               <input className={style.inputName}></input>
             </div>
             <div className={style.group}>
               <p className={style.proHead}>MBTI</p>
-              <select className={style.selectMbti}></select>
+              <select className={style.selectMbti} onChange={(e) => setSelectedMBTI(e.target.value)}>
+                <option selected disabled>MBTI</option>
+                {mbtiList.map((mbtiList) => (
+                  <option selected={mbtiList == selectedMBTI} value={mbtiList}>{mbtiList}</option>
+                ))}
+              </select>
             </div>
             
-            <p className={style.proHead}>관심사</p>
+            <div className={style.favgroup}>
+              <p className={style.favHead}>관심사</p>
+              <div className={style.List}>
+                <ul className={style.underGroup}>
+                  {favList.map((favList, idx) => (
+                    <li
+                      className={
+                        favSelected.find(fav => fav === favList)
+                        ? style.favSelectActive
+                        : style.favSelect
+                      }
+                      onClick={()=>favClick(favList)}
+                      key={idx}
+                    >
+                      {favList}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
             <div className={style.group}>
               <p className={style.proHead}>주소</p>
               <input className={style.inputAddress}></input>

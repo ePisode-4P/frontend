@@ -22,6 +22,14 @@ export default function MyPage() {
     e.stopPropagation()
   }
 
+  const bookmarkClick = (e) => {
+    navigate('/map/bookmark')
+  }
+
+  const likesClick = (e) => {
+    navigate('/map/likes')
+  }
+
   return (
     <div className={style.filter} onClick={handleClick}> 
       <div className={style.mywrap} onClick={handleInnerClick}>
@@ -55,20 +63,20 @@ export default function MyPage() {
           }}
         ></div>
         <div className={style.bottom}>
-          <div className={style.back}>
+          <div className={style.back1}>
             <p className={style.favorite}>관심사</p>
             <p className={style.favDetail}>영화관</p>
           </div>
-          <div className={style.back}>
+          <div className={style.back1}>
             <p className={style.visit}>방문한 장소 수</p>
             <div className={style.num}>2개</div>
           </div>
-          <div className={style.back}>
+          <div className={style.back2} onClick={bookmarkClick}>
             <p className={style.bookmark}>즐겨찾기</p>
             <div className={style.num}>2개</div>
           </div>
-          <div className={style.back}>
-            <p className={style.heart}>관심장소</p>
+          <div className={style.back2} onClick={likesClick}>
+            <p className={style.likes}>관심장소</p>
             <div className={style.num}>2개</div>
           </div>
           
