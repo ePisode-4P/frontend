@@ -2,57 +2,74 @@ import React, { useState } from 'react'
 import { FaSearch } from 'react-icons/fa'
 import style from './Signup.module.css'
 import { useNavigate } from 'react-router-dom'
+import DaumPostcode from 'react-daum-postcode'
+import { signup } from '../../services/auth'
+import { useMutation } from '@tanstack/react-query'
 
 const Signup = () => {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    password: '',
-    mbti: '',
-    favorite: [],
-    address: '',
-  })
+  const [name, setName] = useState('')
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [mbti, setMbti] = useState('')
+  const [favorite, setFavorite] = useState([])
+  const [address, setAddress] = useState('')
 
   const [isRequiredEmpty, setIsRequiredEmpty] = useState(false)
+  const [showPostcode, setShowPostcode] = useState(false)
+
+  const { mutate } = useMutation({
+    mutationFn: signup,
+    onSuccess: (data) => {
+      navigate('/login')
+    },
+    onError: (error) => {
+      console.error(error)
+    },
+  })
 
   const navigate = useNavigate()
 
+  const handleAddressSearch = () => {
+    setShowPostcode(true)
+  }
+
+  const handleAddressComplete = (data) => {
+    setAddress(data.address)
+    setShowPostcode(false)
+  }
+
   const handleChange = (e) => {
     const { name, value } = e.target
-    setFormData((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }))
+    if (name === 'name') setName(value)
+    else if (name === 'email') setEmail(value)
+    else if (name === 'password') setPassword(value)
+    else if (name === 'mbti') setMbti(value)
   }
 
   const handleFavoriteChange = (e) => {
-    const { value } = e.target
-    setFormData((prevState) => ({
-      ...prevState,
-      favorite: [...prevState.favorite, value],
-    }))
+    const { value, checked } = e.target
+    if (checked) {
+      setFavorite([...favorite, value])
+    } else {
+      setFavorite(favorite.filter((item) => item !== value))
+    }
   }
 
   const handleAddressChange = (e) => {
-    const { value } = e.target
-    setFormData((prevState) => ({
-      ...prevState,
-      address: value,
-    }))
+    setAddress(e.target.value)
   }
 
   const handleSubmit = (event) => {
     event.preventDefault()
-    if (formData.name === '' || formData.email === '' || formData.password === '') {
+    if (name === '' || email === '' || password === '') {
       alert('이름, 이메일, 비밀번호를 입력하세요.')
       setIsRequiredEmpty(true)
       return
     }
     setIsRequiredEmpty(false)
-    navigate('/login')
-  }
 
-  const handleAddressSearch = () => {}
+    mutate({ username: name, email, password, favorite, address, mbti })
+  }
 
   const imgClick = () => {
     navigate('/')
@@ -67,17 +84,17 @@ const Signup = () => {
       <img className={style.logo} src="https://res.cloudinary.com/dnbf7czsn/image/upload/v1712585378/logo_on0pc8.png" onClick={imgClick} alt="logo"></img>
       <section className={style.wrap_Signup}>
         <h2 className={style.Signup}>SIGN UP</h2>
-        <p className={style.signupInfo}>
+        <div className={style.signupInfo}>
           <p className={style.signupInfoText}>Hello, new friend! I’m ePisode - your map-based</p>
           <p className={style.signupInfoText}>diary, where every entry marks a new episode. Give me a try!</p>
-        </p>
-        <p>
-          <input className={style.name} type="text" name="name" placeholder="Name *" value={formData.name} onChange={handleChange} />
-          <input className={style.email} type="text" name="email" placeholder="Email *" value={formData.email} onChange={handleChange} />
-        </p>
-        <p>
-          <input className={style.password} type="password" name="password" placeholder="Password *" value={formData.password} onChange={handleChange} />
-          <select className={style.mbti} name="mbti" value={formData.mbti} onChange={handleChange}>
+        </div>
+        <div>
+          <input className={style.name} type="text" name="name" placeholder="Name *" value={name} onChange={handleChange} />
+          <input className={style.email} type="text" name="email" placeholder="Email *" value={email} onChange={handleChange} />
+        </div>
+        <div>
+          <input className={style.password} type="password" name="password" placeholder="Password *" value={password} onChange={handleChange} />
+          <select className={style.mbti} name="mbti" value={mbti} onChange={handleChange}>
             <option value="">MBTI</option>
             <option value="ESTP">ESTP</option>
             <option value="ESTJ">ESTJ</option>
@@ -96,7 +113,7 @@ const Signup = () => {
             <option value="INFP">INFP</option>
             <option value="INFJ">INFJ</option>
           </select>
-        </p>
+        </div>
         <p className={style.favoriteLabel}>
           Favorite
           <br />
@@ -112,12 +129,17 @@ const Signup = () => {
           <input type="checkbox" name="favorite" id="관광명소" value="관광명소" onChange={handleFavoriteChange} />
           <label htmlFor="관광명소">관광명소</label>
         </p>
-        <p className={style.addressContainer}>
-          <input className={style.address} type="text" name="address" placeholder="Address" value={formData.address} onChange={handleAddressChange} />
+        <div className={style.addressContainer}>
+          <input className={style.address} type="text" name="address" placeholder="Address" value={address} onChange={handleAddressChange} />
           <button className={style.searchButton} type="button" onClick={handleAddressSearch}>
             <FaSearch style={{ fontSize: '24px', marginLeft: '5px', color: '#979797' }} />
           </button>
-        </p>
+          {showPostcode && (
+            <div>
+              <DaumPostcode onComplete={handleAddressComplete} className={style.postcode} />
+            </div>
+          )}
+        </div>
         <button className={style.button} type="submit" onClick={handleSubmit}>
           sign up
         </button>
