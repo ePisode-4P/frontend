@@ -38,7 +38,7 @@ export default function Login() {
 
   useEffect(() => {
     const isLoggedIn = localStorage.getItem('isLoggedIn')
-    if (isLoggedIn) {
+    if (isLoggedIn === 'true') {
       navigate('/map')
     }
   }, [navigate])
