@@ -34,3 +34,33 @@ export const signup = async (SignupInfo) => {
 
   return response.json()
 }
+
+export const logout = async () => {
+  const token = localStorage.getItem('access-token')
+
+  if (!token) {
+    console.error('로그아웃 실패: 토큰이 존재하지 않습니다.')
+    return
+  }
+
+  try {
+    const response = await fetch(`${API_BASE_URL}/auth/logout`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    })
+
+    if (response.ok) {
+      localStorage.removeItem('access-token')
+      localStorage.removeItem('refresh-token')
+      localStorage.setItem('isLoggedIn', false)
+      console.log('로그아웃 성공')
+    } else {
+      throw new Error('로그아웃 실패')
+    }
+  } catch (error) {
+    console.error(error.message)
+  }
+}
