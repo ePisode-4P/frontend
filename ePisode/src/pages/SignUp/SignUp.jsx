@@ -52,6 +52,8 @@ const Signup = () => {
     navigate('/login')
   }
 
+  const handleAddressSearch = () => {}
+
   const imgClick = () => {
     navigate('/')
   }
