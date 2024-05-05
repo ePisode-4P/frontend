@@ -66,10 +66,8 @@ const Signup = () => {
       <section className={style.wrap_Signup}>
         <h2 className={style.Signup}>SIGN UP</h2>
         <p className={style.signupInfo}>
-          <span className={style.signupInfoText}>Hello, new friend!</span>
-          <br />
-          <span className={style.signupInfoText}>I’m ePisode - your map-based diary, where every entry marks a new episode. Give me a try!</span>
-          <br />
+          <p className={style.signupInfoText}>Hello, new friend! I’m ePisode - your map-based</p>
+          <p className={style.signupInfoText}>diary, where every entry marks a new episode. Give me a try!</p>
         </p>
         <p>
           <input className={style.name} type="text" name="name" placeholder="Name *" value={formData.name} onChange={handleChange} />
@@ -114,7 +112,7 @@ const Signup = () => {
         </p>
         <p className={style.addressContainer}>
           <input className={style.address} type="text" name="address" placeholder="Address" value={formData.address} onChange={handleAddressChange} />
-          <button className={style.searchButton} type="button">
+          <button className={style.searchButton} type="button" onClick={handleAddressSearch}>
             <FaSearch style={{ fontSize: '24px', marginLeft: '5px', color: '#979797' }} />
           </button>
         </p>

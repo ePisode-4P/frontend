@@ -48,6 +48,10 @@ export default function Login() {
       <img className={style.logo} src="https://res.cloudinary.com/dnbf7czsn/image/upload/v1712585378/logo_on0pc8.png" onClick={imgClick} alt="logo"></img>
       <section className={style.wrap_login}>
         <h2 className={style.Login}>LOGIN</h2>
+        <p className={style.loginInfo}>
+          <p className={style.loginInfoText}>Hello, new friend! I’m ePisode - your map-based</p>
+          <p className={style.loginInfoText}> diary, where every entry marks a new episode. Give me a try!</p>
+        </p>
         <form onSubmit={handleSubmit}>
           <p>
             <input className={style.email} type="email" name="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
