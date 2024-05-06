@@ -1,6 +1,7 @@
 import React from 'react'
 import style from './MyPage.module.css'
 import { useNavigate } from 'react-router-dom'
+import { logout } from '../../services/auth'
 
 export default function MyPage() {
   const navigate = useNavigate()
@@ -10,7 +11,13 @@ export default function MyPage() {
     navigate('/map/profileedit')
   }
 
-  const logoutClick = () => {
+  const imgClick = () => {
+    navigate('/')
+  }
+
+  const logoutClick = async () => {
+    await logout()
+
     navigate('/')
   }
 
@@ -31,7 +38,7 @@ export default function MyPage() {
   }
 
   return (
-    <div className={style.filter} onClick={handleClick}> 
+    <div className={style.filter} onClick={handleClick}>
       <div className={style.mywrap} onClick={handleInnerClick}>
         <div className={style.top}>
           <img
@@ -39,18 +46,18 @@ export default function MyPage() {
             src="https://images.unsplash.com/photo-1712574340322-aaeae2cbaa8f?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
           ></img>
           <div className={style.pro}>
-
             <div className={style.proIn}>
               <div className={style.name}>닉네임</div>
               <div className={style.mbti}>ENFP</div>
-              <button className={style.edit} onClick={editClick}>edit</button>
-              <button className={style.logout} onClick={logoutClick}>Logout</button>
+              <button className={style.edit} onClick={editClick}>
+                edit
+              </button>
+              <button className={style.logout} onClick={logoutClick}>
+                Logout
+              </button>
             </div>
-            
             <div className={style.email}>abc123@gmail.com</div>
           </div>
-          
-          
         </div>
 
         <div
@@ -79,7 +86,6 @@ export default function MyPage() {
             <p className={style.likes}>관심장소</p>
             <div className={style.num}>2개</div>
           </div>
-          
         </div>
       </div>
     </div>

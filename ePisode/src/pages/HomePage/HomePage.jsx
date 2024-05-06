@@ -8,10 +8,9 @@ export default function HomePage() {
   const navigate = useNavigate()
 
   const handleClick = () => {
-    //TODO - localStorage 임시 사용 중, API 사용 할 시 바꿔야함
     const isLoggedIn = localStorage.getItem('isLoggedIn')
 
-    if (isLoggedIn) {
+    if (isLoggedIn === 'true') {
       navigate('/map')
     } else {
       navigate('/login')
