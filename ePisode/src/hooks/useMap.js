@@ -30,8 +30,42 @@ const useMap = (mapRef, apiKey, setSelectedPlace, selectedPlace) => {
 
           var marker = new window.kakao.maps.Marker({})
 
+          kakao.maps.event.addListener(marker, 'click', function () {
+            const latlng = marker.getPosition()
+
+            geocoder.coord2Address(latlng.getLng(), latlng.getLat(), function (result, status) {
+              if (status === kakao.maps.services.Status.OK) {
+                var detailAddr = !!result[0].road_address ? result[0].road_address.address_name : result[0].address.address_name
+
+                places.keywordSearch(detailAddr, function (data, status, pagination) {
+                  if (status === kakao.maps.services.Status.OK) {
+                    var place = data[0]
+                    setSelectedPlace({ ...place, x: latlng.getLng(), y: latlng.getLat() })
+                  } else {
+                    const placeFallback = {
+                      place_name: detailAddr,
+                      address_name: detailAddr,
+                      category_name: '',
+                      x: latlng.getLng(),
+                      y: latlng.getLat(),
+                    }
+                    setSelectedPlace(placeFallback)
+                  }
+                })
+              } else {
+                const placeFallback = {
+                  place_name: '알 수 없는 장소',
+                  address_name: '알려지지 않음',
+                  category_name: '',
+                  x: latlng.getLng(),
+                  y: latlng.getLat(),
+                }
+                setSelectedPlace(placeFallback)
+              }
+            })
+          })
+
           if (selectedPlace) {
-            console.log(selectedPlace)
             const selectedLocation = new window.kakao.maps.LatLng(selectedPlace.place.y, selectedPlace.place.x)
             marker.setPosition(selectedLocation)
             marker.setMap(map)
@@ -41,6 +75,7 @@ const useMap = (mapRef, apiKey, setSelectedPlace, selectedPlace) => {
               place_name: selectedPlace.place.place_name,
               address_name: selectedPlace.place.road_address_name || selectedPlace.place.address_name,
               category_name: selectedPlace.place.category_name,
+              id: selectedPlace.place.id,
               x: selectedPlace.place.x,
               y: selectedPlace.place.y,
             }
@@ -67,9 +102,7 @@ const useMap = (mapRef, apiKey, setSelectedPlace, selectedPlace) => {
                 places.keywordSearch(detailAddr, function (data, status, pagination) {
                   if (status === kakao.maps.services.Status.OK) {
                     var place = data[0]
-
-                    setSelectedPlace(place)
-
+                    setSelectedPlace({ ...place, x: latlng.getLng(), y: latlng.getLat() })
                     marker.setPosition(latlng)
                     marker.setMap(map)
                   } else {
