@@ -16,11 +16,11 @@
   height: 45px;
   cursor: pointer;
 
-  color: rgb(248, 248, 248);
+  color: rgb(0, 0, 0);
 }
 .close_diary:hover {
   transition: 0.2s;
-  color: #333333;
+  color: #ff70a6;
 }
 
 .selectedPlaceInfo {
@@ -40,14 +40,85 @@
   overflow: hidden;
 }
 
-.image {
+.school {
   width: 100%;
   height: 25%;
-  background-image: url(https://res.cloudinary.com/dnbf7czsn/image/upload/v1713246079/KakaoTalk_20240416_143948205_rsg30g.jpg);
-  /* background-image: url(https://images.unsplash.com/photo-1581898975010-1446955616ba?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D); */
+  background-image: url(https://res.cloudinary.com/dphqcgdhh/image/upload/v1715347511/School_q4vkz6.jpg);
   background-position: center;
   background-size: cover;
   background-color: lightpink;
+}
+
+.movie {
+  width: 100%;
+  height: 25%;
+  background-image: url(https://res.cloudinary.com/dphqcgdhh/image/upload/v1715349576/movie_uz4cbn.jpg);
+  background-position: center;
+  background-size: cover;
+  background-color: lightpink;
+}
+
+.cafe {
+  width: 100%;
+  height: 25%;
+  background-image: url(https://res.cloudinary.com/dphqcgdhh/image/upload/v1715349853/cafe_hmb94k.jpg);
+  background-position: center;
+  background-size: cover;
+  background-color: lightpink;
+}
+
+.station {
+  width: 100%;
+  height: 25%;
+  background-image: url(https://res.cloudinary.com/dphqcgdhh/image/upload/v1715350058/station_gbsqaq.jpg);
+  background-position: center;
+  background-size: cover;
+  background-color: lightpink;
+}
+
+.hospital {
+  width: 100%;
+  height: 25%;
+  background-image: url(https://res.cloudinary.com/dphqcgdhh/image/upload/v1715350376/hospital_emga5t.jpg);
+  background-position: center;
+  background-size: cover;
+  background-color: lightpink;
+}
+
+.mart {
+  width: 100%;
+  height: 25%;
+  background-image: url(https://res.cloudinary.com/dphqcgdhh/image/upload/v1715350756/mart_zjw7pe.jpg);
+  background-position: center;
+  background-size: cover;
+  background-color: lightpink;
+}
+
+.department {
+  width: 100%;
+  height: 25%;
+  background-image: url(https://res.cloudinary.com/dphqcgdhh/image/upload/v1715350763/department_rt0rdp.jpg);
+  background-position: center;
+  background-size: cover;
+  background-color: lightpink;
+}
+
+.park {
+  width: 100%;
+  height: 25%;
+  background-image: url(https://res.cloudinary.com/dphqcgdhh/image/upload/v1715352514/park_akblol.jpg);
+  background-position: center;
+  background-size: cover;
+  background-color: lightpink;
+}
+
+.default {
+  width: 100%;
+  height: 25%;
+  background-image: url(https://res.cloudinary.com/dnbf7czsn/image/upload/v1712585378/logo_on0pc8.png);
+  background-position: center;
+  background-size: cover;
+  background-color: white;
 }
 
 .place_info {
