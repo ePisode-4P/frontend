@@ -15,7 +15,12 @@ export default function Diary({ selectedPlace, setSelectedPlace }) {
   const navigate = useNavigate()
 
   const handleAddEpisodeClick = () => {
-    navigate('/map/new')
+    navigate('/map/new', {
+      state: {
+        x: selectedPlace.x,
+        y: selectedPlace.y,
+      },
+    })
   }
 
   const handleCloseClick = () => {

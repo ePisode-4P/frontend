@@ -1,9 +1,13 @@
 import React from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import styles from './AddEpisode.module.css'
 
 export default function AddEpisode() {
   const navigate = useNavigate()
+  const location = useLocation()
+  const { x, y } = location.state || {}
+
+  console.log(x, y)
 
   const handleClick = () => {
     navigate('/map')

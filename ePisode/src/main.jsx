@@ -33,19 +33,6 @@ ReactDOM.createRoot(document.getElementById('root')).render(
             <Route path="/signup" element={<SignUp />} />
             <Route path="/login" element={<Login />} />
 
-
-        <Route
-          path="/map"
-          element={
-            <RequireAuth>
-              <MapPage />
-            </RequireAuth>
-          }
-        >
-          <Route path="new" element={<AddEpisode />} />
-          <Route path="mypage" element={<MyPage />} />
-          <Route path="profileedit" element={<MyPageEdit/>} />
-        </Route>
             <Route
               path="/map"
               element={
@@ -56,6 +43,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
             >
               <Route path="new" element={<AddEpisode />} />
               <Route path="mypage" element={<MyPage />} />
+              <Route path="profileedit" element={<MyPageEdit />} />
               <Route path="search" element={<Search />} />
               <Route path="recommend" element={<Recommend />} />
               <Route path="likes" element={<Like />} />
