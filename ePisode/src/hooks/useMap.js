@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 
-const useMap = (mapRef, apiKey, setSelectedPlace, selectedPlace) => {
+const useMap = (mapRef, apiKey, setSelectedPlace, selectedPlace, diaryCoordinates) => {
   useEffect(() => {
     const mapScript = document.createElement('script')
 
@@ -136,6 +136,23 @@ const useMap = (mapRef, apiKey, setSelectedPlace, selectedPlace) => {
               }
             })
           })
+
+          diaryCoordinates.forEach((coord) => {
+            const diaryMarker = new window.kakao.maps.Marker({
+              position: new window.kakao.maps.LatLng(coord.y, coord.x),
+            })
+
+            kakao.maps.event.addListener(diaryMarker, 'click', function () {
+              setSelectedPlace({
+                x: coord.x,
+                y: coord.y,
+                place_name: coord.selectedPlace.place_name,
+                address_name: coord.selectedPlace.road_address_name || coord.selectedPlace.address_name,
+                category_name: coord.selectedPlace.category_name || '',
+              })
+            })
+            diaryMarker.setMap(map)
+          })
         }
 
         if (navigator.geolocation) {
@@ -168,7 +185,7 @@ const useMap = (mapRef, apiKey, setSelectedPlace, selectedPlace) => {
     return () => {
       mapScript.onload = null
     }
-  }, [mapRef, apiKey, setSelectedPlace, selectedPlace])
+  }, [mapRef, apiKey, setSelectedPlace, selectedPlace, diaryCoordinates])
 }
 
 export default useMap

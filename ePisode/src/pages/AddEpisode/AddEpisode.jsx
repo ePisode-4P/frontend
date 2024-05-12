@@ -5,13 +5,13 @@ import { BsQuestion } from 'react-icons/bs'
 import { MdAddPhotoAlternate } from 'react-icons/md'
 import { IoSunnyOutline } from 'react-icons/io5'
 import styles from './AddEpisode.module.css'
+import { useDiaryCoordinates } from '../../contexts/DiaryCoordinatesContext'
 
 export default function AddEpisode() {
   const navigate = useNavigate()
   const location = useLocation()
-  const { x, y } = location.state || {}
-
-  console.log(x, y)
+  const { x, y, selectedPlace } = location.state || {}
+  const { diaryCoordinates, setDiaryCoordinates } = useDiaryCoordinates()
 
   const [title, setTitle] = useState('')
   const [rating, setRating] = useState(0)
@@ -38,7 +38,9 @@ export default function AddEpisode() {
   }
 
   const handleSave = () => {
-    console.log({ title, rating, date, photo, text })
+    const newCoordinates = { x, y, selectedPlace }
+    setDiaryCoordinates([...diaryCoordinates, newCoordinates])
+    // console.log({ title, rating, date, photo, text })
     navigate('/map')
   }
 

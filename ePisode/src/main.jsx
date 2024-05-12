@@ -20,41 +20,46 @@ import Analysis from './pages/Analysis/Analysis'
 import Like from './pages/Like/Like'
 import Bookmark from './pages/Bookmark/Bookmark'
 import { SelectedPlaceProvider } from './contexts/SelectedPlaceContext'
+import { DiaryCoordinatesProvider } from './contexts/DiaryCoordinatesContext'
+import EpisodeDetail from './pages/EpisodeDetail/EpisodeDetail'
 
 const queryClient = new QueryClient()
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
-      <SelectedPlaceProvider>
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<MainPage />} />
-            <Route path="/signup" element={<SignUp />} />
-            <Route path="/login" element={<Login />} />
+      <DiaryCoordinatesProvider>
+        <SelectedPlaceProvider>
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<MainPage />} />
+              <Route path="/signup" element={<SignUp />} />
+              <Route path="/login" element={<Login />} />
 
-            <Route
-              path="/map"
-              element={
-                <RequireAuth>
-                  <MapPage />
-                </RequireAuth>
-              }
-            >
-              <Route path="new" element={<AddEpisode />} />
-              <Route path="mypage" element={<MyPage />} />
-              <Route path="profileedit" element={<MyPageEdit />} />
-              <Route path="search" element={<Search />} />
-              <Route path="recommend" element={<Recommend />} />
-              <Route path="likes" element={<Like />} />
-              <Route path="Bookmark" element={<Bookmark />} />
-              <Route path="analysis" element={<Analysis />} />
-            </Route>
+              <Route
+                path="/map"
+                element={
+                  <RequireAuth>
+                    <MapPage />
+                  </RequireAuth>
+                }
+              >
+                <Route path="new" element={<AddEpisode />} />
+                <Route path="episode/:episodeId" element={<EpisodeDetail />} />
+                <Route path="mypage" element={<MyPage />} />
+                <Route path="profileedit" element={<MyPageEdit />} />
+                <Route path="search" element={<Search />} />
+                <Route path="recommend" element={<Recommend />} />
+                <Route path="likes" element={<Like />} />
+                <Route path="Bookmark" element={<Bookmark />} />
+                <Route path="analysis" element={<Analysis />} />
+              </Route>
 
-            <Route path="/*" element={<NotFound />} />
-          </Routes>
-        </BrowserRouter>
-      </SelectedPlaceProvider>
+              <Route path="/*" element={<NotFound />} />
+            </Routes>
+          </BrowserRouter>
+        </SelectedPlaceProvider>
+      </DiaryCoordinatesProvider>
     </QueryClientProvider>
   </React.StrictMode>,
 )

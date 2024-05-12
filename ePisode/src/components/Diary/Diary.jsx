@@ -19,8 +19,13 @@ export default function Diary({ selectedPlace, setSelectedPlace }) {
       state: {
         x: selectedPlace.x,
         y: selectedPlace.y,
+        selectedPlace: selectedPlace,
       },
     })
+  }
+
+  const handleEpisodeClick = () => {
+    navigate('/map/episode/1')
   }
 
   const handleCloseClick = () => {
@@ -71,7 +76,9 @@ export default function Diary({ selectedPlace, setSelectedPlace }) {
       </button>
       <section className={styles.diary}>
         <ul className={styles.episodes}>
-          <li className={styles.episode}>2024/03/21 - 3월 전시 '분재'</li>
+          <li className={styles.episode} onClick={handleEpisodeClick}>
+            2024/03/21 - 3월 전시 '분재'
+          </li>
           <li className={styles.episode}>2024/04/05 - 4월 전시</li>
           <li className={styles.episode}>2023/6/13 - 6월 전시 '마지막 그리고...</li>
           <li className={styles.episode}>2023/10/10 - 10월 전시 '자연'</li>
