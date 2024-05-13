@@ -22,6 +22,7 @@ import Bookmark from './pages/Bookmark/Bookmark'
 import { SelectedPlaceProvider } from './contexts/SelectedPlaceContext'
 import { DiaryCoordinatesProvider } from './contexts/DiaryCoordinatesContext'
 import EpisodeDetail from './pages/EpisodeDetail/EpisodeDetail'
+import AnalysisAll from './pages/Analysis/AnalysisAll'
 
 const queryClient = new QueryClient()
 
@@ -53,6 +54,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
                 <Route path="likes" element={<Like />} />
                 <Route path="Bookmark" element={<Bookmark />} />
                 <Route path="analysis" element={<Analysis />} />
+                <Route path="allanalysis" element={<AnalysisAll/>}/>
               </Route>
 
               <Route path="/*" element={<NotFound />} />
