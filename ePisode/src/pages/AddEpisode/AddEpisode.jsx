@@ -5,7 +5,6 @@ import { BsQuestion } from 'react-icons/bs'
 import { MdAddPhotoAlternate } from 'react-icons/md'
 import { IoSunnyOutline } from 'react-icons/io5'
 import styles from './AddEpisode.module.css'
-import { useDiaryCoordinates } from '../../contexts/DiaryCoordinatesContext'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { addNewEpisode } from '../../services/diary'
 
@@ -14,7 +13,6 @@ export default function AddEpisode() {
   const location = useLocation()
   const queryClient = useQueryClient()
   const { x, y, selectedPlace } = location.state || {}
-  const { diaryCoordinates, setDiaryCoordinates } = useDiaryCoordinates()
 
   const [title, setTitle] = useState('')
   const [rating, setRating] = useState(0)
@@ -52,9 +50,6 @@ export default function AddEpisode() {
   }
 
   const handleSave = async () => {
-    const newCoordinates = { x, y, selectedPlace }
-    setDiaryCoordinates([...diaryCoordinates, newCoordinates])
-
     mutate({
       placeId: selectedPlace.id, //
       placeName: selectedPlace.place_name,

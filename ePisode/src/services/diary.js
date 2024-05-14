@@ -14,6 +14,23 @@ export const addNewEpisode = async (newEpisode) => {
   }
 }
 
+export const getMarkers = async () => {
+  const token = localStorage.getItem('access-token')
+
+  const response = await fetch(`${API_BASE_URL}/diaries/map`, {
+    method: 'GET',
+    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+  })
+
+  if (!response.ok) {
+    throw new Error('마커를 가져오는데 실패했습니다.')
+  }
+
+  const data = await response.json()
+
+  return data || []
+}
+
 export const getDiaries = async (x, y, offset) => {
   const token = localStorage.getItem('access-token')
 

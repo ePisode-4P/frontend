@@ -52,7 +52,6 @@ export const logout = async () => {
       localStorage.removeItem('access-token')
       localStorage.removeItem('refresh-token')
       localStorage.setItem('isLoggedIn', false)
-      console.log('로그아웃 성공')
     } else {
       throw new Error('로그아웃 실패')
     }

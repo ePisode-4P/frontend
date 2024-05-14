@@ -146,9 +146,9 @@ const useMap = (mapRef, apiKey, setSelectedPlace, selectedPlace, diaryCoordinate
               setSelectedPlace({
                 x: coord.x,
                 y: coord.y,
-                place_name: coord.selectedPlace.place_name,
-                address_name: coord.selectedPlace.road_address_name || coord.selectedPlace.address_name,
-                category_name: coord.selectedPlace.category_name || '',
+                place_name: coord.placeName,
+                address_name: coord.addressName,
+                category_name: coord.categoryName || '',
               })
             })
             diaryMarker.setMap(map)
