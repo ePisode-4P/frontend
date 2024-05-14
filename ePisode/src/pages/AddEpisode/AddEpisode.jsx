@@ -6,6 +6,8 @@ import { MdAddPhotoAlternate } from 'react-icons/md'
 import { IoSunnyOutline } from 'react-icons/io5'
 import styles from './AddEpisode.module.css'
 import { useDiaryCoordinates } from '../../contexts/DiaryCoordinatesContext'
+import { useMutation } from '@tanstack/react-query'
+import { addNewEpisode } from '../../services/diary'
 
 export default function AddEpisode() {
   const navigate = useNavigate()
@@ -19,7 +21,17 @@ export default function AddEpisode() {
   // const [weather, setWeather] = useState('')
   const [photoUrl, setPhotoUrl] = useState('')
   const [photo, setPhoto] = useState(null)
-  const [text, setText] = useState('')
+  const [content, setContent] = useState('')
+
+  const { mutate } = useMutation({
+    mutationFn: addNewEpisode,
+    onSuccess: (data) => {
+      navigate('/map')
+    },
+    onError: (error) => {
+      console.error(error)
+    },
+  })
 
   const handleClick = () => {
     navigate('/map')
@@ -37,11 +49,23 @@ export default function AddEpisode() {
     }
   }
 
-  const handleSave = () => {
+  const handleSave = async () => {
     const newCoordinates = { x, y, selectedPlace }
     setDiaryCoordinates([...diaryCoordinates, newCoordinates])
-    // console.log({ title, rating, date, photo, text })
-    navigate('/map')
+
+    mutate({
+      placeId: selectedPlace.id, //
+      placeName: selectedPlace.place_name,
+      addressName: selectedPlace.address_name,
+      x,
+      y,
+      visitDate: date,
+      goPublic: false,
+      rating,
+      content,
+      weather: 'Rain',
+      image: [],
+    })
   }
 
   return (
@@ -79,7 +103,7 @@ export default function AddEpisode() {
             </label>
             <input id="photo-upload" type="file" multiple accept="image/*" onChange={handlePhotoChange} style={{ display: 'none' }} />
           </div>
-          <textarea className={styles.content} placeholder="여기에 글을 작성하세요..." value={text} onChange={(e) => setText(e.target.value)} />
+          <textarea className={styles.content} placeholder="여기에 글을 작성하세요..." value={content} onChange={(e) => setContent(e.target.value)} />
         </div>
         <div className={styles.wrap_btn}>
           <button className={styles.btn} onClick={handleSave}>
