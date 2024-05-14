@@ -6,12 +6,10 @@ import { IoCloseOutline } from 'react-icons/io5'
 import { GoHeart, GoHeartFill } from 'react-icons/go'
 
 import { useNavigate } from 'react-router-dom'
+import { useQuery } from '@tanstack/react-query'
+import { getDiaries } from '../../services/diary'
 
 export default function Diary({ selectedPlace, setSelectedPlace }) {
-  const [loved, setLoved] = useState(false)
-
-  const categoryName = selectedPlace.category_name.split(' > ').pop()
-
   const navigate = useNavigate()
 
   const handleAddEpisodeClick = () => {
@@ -24,8 +22,23 @@ export default function Diary({ selectedPlace, setSelectedPlace }) {
     })
   }
 
-  const handleEpisodeClick = () => {
-    navigate('/map/episode/1')
+  const {
+    data: diaries = [],
+    isLoading,
+    isError,
+  } = useQuery({
+    queryKey: ['diaries', selectedPlace.x, selectedPlace.y],
+    queryFn: () => getDiaries(selectedPlace.x, selectedPlace.y, 0),
+    onError: (error) => {
+      console.error(error)
+    },
+  })
+
+  const [loved, setLoved] = useState(false)
+  const categoryName = selectedPlace.category_name.split(' > ').pop()
+
+  const handleEpisodeClick = (id) => {
+    navigate(`/map/episode/${id}`)
   }
 
   const handleCloseClick = () => {
@@ -119,13 +132,13 @@ export default function Diary({ selectedPlace, setSelectedPlace }) {
       </button>
       <section className={styles.diary}>
         <ul className={styles.episodes}>
-          <li className={styles.episode} onClick={handleEpisodeClick}>
-            2024/03/21 - 3월 전시 '분재'
-          </li>
-          <li className={styles.episode}>2024/04/05 - 4월 전시</li>
-          <li className={styles.episode}>2023/6/13 - 6월 전시 '마지막 그리고...</li>
-          <li className={styles.episode}>2023/10/10 - 10월 전시 '자연'</li>
-          <li className={styles.episode}>2023/12/18 - 10월 전시 '불타는 생각'</li>
+          {diaries &&
+            diaries.list &&
+            diaries.list.map((diary, index) => (
+              <li key={index} className={styles.episode} onClick={() => handleEpisodeClick(diary.diaryId)}>
+                {diary.writeDate} - {diary.title}
+              </li>
+            ))}
         </ul>
       </section>
     </motion.div>

@@ -6,12 +6,13 @@ import { MdAddPhotoAlternate } from 'react-icons/md'
 import { IoSunnyOutline } from 'react-icons/io5'
 import styles from './AddEpisode.module.css'
 import { useDiaryCoordinates } from '../../contexts/DiaryCoordinatesContext'
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { addNewEpisode } from '../../services/diary'
 
 export default function AddEpisode() {
   const navigate = useNavigate()
   const location = useLocation()
+  const queryClient = useQueryClient()
   const { x, y, selectedPlace } = location.state || {}
   const { diaryCoordinates, setDiaryCoordinates } = useDiaryCoordinates()
 
@@ -27,6 +28,7 @@ export default function AddEpisode() {
     mutationFn: addNewEpisode,
     onSuccess: (data) => {
       navigate('/map')
+      queryClient.invalidateQueries(['diaries'])
     },
     onError: (error) => {
       console.error(error)
@@ -62,6 +64,7 @@ export default function AddEpisode() {
       visitDate: date,
       goPublic: false,
       rating,
+      title,
       content,
       weather: 'Rain',
       image: [],
