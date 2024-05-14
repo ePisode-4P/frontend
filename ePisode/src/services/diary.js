@@ -28,7 +28,35 @@ export const getDiaries = async (x, y, offset) => {
 
   const data = await response.json()
 
-  console.log(data)
+  return data || []
+}
+
+export const getEpisode = async (id) => {
+  const token = localStorage.getItem('access-token')
+
+  const response = await fetch(`${API_BASE_URL}/diaries/${id}`, {
+    method: 'GET',
+    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+  })
+
+  if (!response.ok) {
+    throw new Error('에피소드를 가져오는데 실패했습니다.')
+  }
+
+  const data = await response.json()
 
   return data || []
+}
+
+export const removeEpisode = async (id) => {
+  const token = localStorage.getItem('access-token')
+
+  const response = await fetch(`${API_BASE_URL}/diaries/${id}`, {
+    method: 'DELETE',
+    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+  })
+
+  if (!response.ok) {
+    throw new Error('에피소드 삭제 실패')
+  }
 }

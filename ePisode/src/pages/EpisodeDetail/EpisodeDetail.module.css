@@ -48,7 +48,6 @@
 .rating {
   font-size: 1.6em;
   margin-right: 2.5em;
-  cursor: pointer;
   color: #ff70a6;
 }
 
@@ -74,7 +73,6 @@
   border: none;
   font-size: 1em;
   margin-right: 0.7em;
-  cursor: pointer;
   color: #707070;
   position: relative;
   width: 100%;

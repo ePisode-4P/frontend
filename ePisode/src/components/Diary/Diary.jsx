@@ -38,7 +38,11 @@ export default function Diary({ selectedPlace, setSelectedPlace }) {
   const categoryName = selectedPlace.category_name.split(' > ').pop()
 
   const handleEpisodeClick = (id) => {
-    navigate(`/map/episode/${id}`)
+    navigate(`/map/episode/${id}`, {
+      state: {
+        id,
+      },
+    })
   }
 
   const handleCloseClick = () => {

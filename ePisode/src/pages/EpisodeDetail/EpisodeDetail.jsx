@@ -4,17 +4,47 @@ import { BsQuestion } from 'react-icons/bs'
 import { MdAddPhotoAlternate } from 'react-icons/md'
 import { IoSunnyOutline } from 'react-icons/io5'
 import styles from './EpisodeDetail.module.css'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
+import { getEpisode, removeEpisode } from '../../services/diary'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 
 export default function EpisodeDetail() {
   const navigate = useNavigate()
-  const [title, setTitle] = useState('')
-  const [rating, setRating] = useState(4)
-  const [date, setDate] = useState('')
+  const location = useLocation()
+  const queryClient = useQueryClient()
+  const { id } = location.state || {}
+
+  const {
+    data: episode = [],
+    isLoading,
+    isError,
+  } = useQuery({
+    queryKey: ['episode', id],
+    queryFn: () => getEpisode(id),
+    onError: (error) => {
+      console.error(error)
+    },
+    enabled: !!id,
+  })
+
+  const { mutate: mutateDelete } = useMutation({
+    mutationFn: () => removeEpisode(id),
+    onSuccess: (data) => {
+      navigate('/map')
+      queryClient.invalidateQueries(['diaries'])
+    },
+    onError: (error) => {
+      console.error(error)
+    },
+  })
+
+  // const [title, setTitle] = useState('')
+  // const [rating, setRating] = useState(4)
+  // const [date, setDate] = useState('')
   // const [weather, setWeather] = useState('')
-  const [photoUrl, setPhotoUrl] = useState('')
-  const [photo, setPhoto] = useState(null)
-  const [text, setText] = useState('')
+  // const [photoUrl, setPhotoUrl] = useState('')
+  // const [photo, setPhoto] = useState(null)
+  // const [text, setText] = useState('')
 
   const handleClick = () => {
     navigate('/map')
@@ -24,21 +54,25 @@ export default function EpisodeDetail() {
     e.stopPropagation()
   }
 
+  const handleRemove = () => {
+    mutateDelete()
+  }
+
   return (
     <div className={styles.filter} onClick={handleClick}>
       <div className={styles.episode} onClick={handleInnerClick}>
         <div className={styles.wrap_title}>
           <div className={styles.rating}>
-            {[...Array(rating)].map((a, i) => (
-              <PiStarFill className="star" key={i} onClick={() => setRating(i + 1)} />
+            {[...Array(episode.rating || 0)].map((_, i) => (
+              <PiStarFill className="star" key={i} />
             ))}
-            {[...Array(5 - rating)].map((a, i) => (
-              <PiStarLight className="star" key={i} onClick={() => setRating(rating + i + 1)} />
+            {[...Array(5 - (episode.rating || 0))].map((_, i) => (
+              <PiStarLight className="star" key={i} />
             ))}
           </div>
-          <h2 className={styles.title}>왜 벌써 밤이지¿</h2>
+          <h2 className={styles.title}>{episode.title || '무제'}</h2>
           <div className={styles.wrap_date}>
-            <p className={styles.date}>2024-05-12</p>
+            <p className={styles.date}>{episode.date || '언젠가 들렀음'}</p>
             <span className={styles.weather}>
               <IoSunnyOutline />
               {/* <BsQuestion /> */}
@@ -53,11 +87,13 @@ export default function EpisodeDetail() {
               backgroundSize: 'cover',
             }}
           ></div>
-          <p className={styles.content}>왜 주말에만 시간이 빨리 가지¿</p>
+          <p className={styles.content}>{episode.content}</p>
         </div>
         <div className={styles.wrap_btn}>
           <button className={styles.btn}>Edit</button>
-          <button className={styles.btn}>Delete</button>
+          <button className={styles.btn} onClick={handleRemove}>
+            Delete
+          </button>
         </div>
       </div>
     </div>
