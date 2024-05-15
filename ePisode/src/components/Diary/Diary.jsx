@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import styles from './Diary.module.css'
 import { MdLocationOn } from 'react-icons/md'
@@ -6,11 +6,13 @@ import { IoCloseOutline } from 'react-icons/io5'
 import { GoHeart, GoHeartFill } from 'react-icons/go'
 
 import { useNavigate } from 'react-router-dom'
-import { useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { getDiaries } from '../../services/diary'
+import { addNewLike, removeLike } from '../../services/like'
 
 export default function Diary({ selectedPlace, setSelectedPlace }) {
   const navigate = useNavigate()
+  const queryClient = useQueryClient()
 
   const handleAddEpisodeClick = () => {
     navigate('/map/new', {
@@ -50,9 +52,43 @@ export default function Diary({ selectedPlace, setSelectedPlace }) {
     setSelectedPlace(null)
   }
 
+  const { mutate } = useMutation({
+    mutationFn: addNewLike,
+    onSuccess: (data) => {
+      queryClient.invalidateQueries(['diaries'])
+    },
+    onError: (error) => {
+      console.error(error)
+    },
+  })
+
   const handleLoveClick = (e) => {
     e.stopPropagation()
-    setLoved(!loved)
+
+    const placeInfo = {
+      placeId: selectedPlace.id,
+      placeName: selectedPlace.place_name,
+      x: selectedPlace.x,
+      y: selectedPlace.y,
+      addressName: selectedPlace.address_name,
+    }
+
+    if (loved) {
+      removeLike(placeInfo.x, placeInfo.y)
+        .then(() => {
+          setLoved(false)
+          queryClient.invalidateQueries(['diaries'])
+        })
+        .catch((error) => {
+          console.error(error)
+        })
+    } else {
+      mutate(placeInfo, {
+        onSuccess: () => {
+          setLoved(true)
+        },
+      })
+    }
   }
 
   const categoryGroups = {
@@ -97,6 +133,12 @@ export default function Diary({ selectedPlace, setSelectedPlace }) {
   }
 
   const imageStyle = `${styles.image} ${getCategoryStyle()}`
+
+  useEffect(() => {
+    if (diaries.isLike !== undefined) {
+      setLoved(diaries.isLike)
+    }
+  }, [diaries.isLike])
 
   return (
     <motion.div
