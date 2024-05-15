@@ -128,13 +128,15 @@ export default function Diary({ selectedPlace, setSelectedPlace }) {
         </div>
         <p className={styles.address_name}>
           <MdLocationOn className={styles.icon} />
-          {selectedPlace.road_address_name || selectedPlace.address_name}
+          {selectedPlace.address_name || selectedPlace.road_address_name}
         </p>
       </section>
       <button className={styles.add_episode} onClick={handleAddEpisodeClick}>
         <span className={styles.plus_btn}>+</span>
       </button>
       <section className={styles.diary}>
+        {isLoading && <p>로딩 중...</p>}
+        {isError && <p>작성된 에피소드가 없습니다!</p>}
         <ul className={styles.episodes}>
           {diaries &&
             diaries.list &&

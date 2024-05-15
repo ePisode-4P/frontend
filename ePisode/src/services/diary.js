@@ -14,6 +14,23 @@ export const addNewEpisode = async (newEpisode) => {
   }
 }
 
+export const getWeather = async (x, y, date) => {
+  const token = localStorage.getItem('access-token')
+
+  const response = await fetch(`${API_BASE_URL}/weather?date=${date}&x=${x}&y=${y}`, {
+    method: 'GET',
+    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+  })
+
+  if (!response.ok) {
+    throw new Error('날씨를 가져오는데 실패했습니다.')
+  }
+
+  const data = await response.json()
+
+  return data || []
+}
+
 export const getMarkers = async () => {
   const token = localStorage.getItem('access-token')
 
