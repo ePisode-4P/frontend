@@ -8,6 +8,7 @@ import { IoSunnyOutline, IoRainyOutline, IoCloudOutline, IoSnowOutline, IoThunde
 import styles from './AddEpisode.module.css'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { addNewEpisode, getWeather } from '../../services/diary'
+import { addDiaryImage } from '../../services/image'
 
 export default function AddEpisode() {
   const navigate = useNavigate()
@@ -21,6 +22,7 @@ export default function AddEpisode() {
   const [photos, setPhotos] = useState([])
   const [photoUrls, setPhotoUrls] = useState([])
   const [photoIndex, setPhotoIndex] = useState(0)
+  const [uploadedPhotos, setUploadedPhotos] = useState([])
   const [content, setContent] = useState('')
 
   const weatherIcons = {
@@ -46,7 +48,7 @@ export default function AddEpisode() {
     enabled: !!date,
   })
 
-  const { mutate } = useMutation({
+  const { mutate: mutateEpisode } = useMutation({
     mutationFn: addNewEpisode,
     onSuccess: (data) => {
       navigate('/map')
@@ -87,7 +89,16 @@ export default function AddEpisode() {
   }
 
   const handleSave = async () => {
-    mutate({
+    const uploadedPhotosUrls = await Promise.all(
+      photos.map(async (photo) => {
+        const data = await addDiaryImage(photo)
+        return data.imageUrl
+      }),
+    )
+
+    setUploadedPhotos(uploadedPhotosUrls)
+
+    mutateEpisode({
       placeId: selectedPlace.id, //
       placeName: selectedPlace.place_name,
       addressName: selectedPlace.address_name,
@@ -98,8 +109,8 @@ export default function AddEpisode() {
       rating,
       title,
       content,
-      weather: 'Rain',
-      image: [],
+      weather: weather.weather,
+      image: uploadedPhotosUrls,
     })
   }
 

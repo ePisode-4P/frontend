@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
 import { PiStarFill, PiStarLight } from 'react-icons/pi'
-import { BsQuestion } from 'react-icons/bs'
+import { BsQuestion, BsCloudFog2 } from 'react-icons/bs'
 import { MdAddPhotoAlternate } from 'react-icons/md'
-import { IoSunnyOutline } from 'react-icons/io5'
+import { GrFormNext, GrFormPrevious } from 'react-icons/gr'
+import { IoSunnyOutline, IoRainyOutline, IoCloudOutline, IoSnowOutline, IoThunderstormOutline } from 'react-icons/io5'
 import styles from './EpisodeDetail.module.css'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { getEpisode, removeEpisode } from '../../services/diary'
@@ -13,6 +14,16 @@ export default function EpisodeDetail() {
   const location = useLocation()
   const queryClient = useQueryClient()
   const { id } = location.state || {}
+
+  const weatherIcons = {
+    Clear: <IoSunnyOutline />,
+    Rain: <IoRainyOutline />,
+    Clouds: <IoCloudOutline />,
+    Snow: <IoSnowOutline />,
+    Thunderstorm: <IoThunderstormOutline />,
+    Drizzle: <IoRainyOutline />,
+    Atmosphere: <BsCloudFog2 />,
+  }
 
   const {
     data: episode = [],
@@ -45,6 +56,7 @@ export default function EpisodeDetail() {
   // const [photoUrl, setPhotoUrl] = useState('')
   // const [photo, setPhoto] = useState(null)
   // const [text, setText] = useState('')
+  const [photoIndex, setPhotoIndex] = useState(0)
 
   const handleClick = () => {
     navigate('/map')
@@ -56,6 +68,14 @@ export default function EpisodeDetail() {
 
   const handleRemove = () => {
     mutateDelete()
+  }
+
+  const handlePrevPhoto = () => {
+    setPhotoIndex((prevIndex) => (prevIndex > 0 ? prevIndex - 1 : 0))
+  }
+
+  const handleNextPhoto = () => {
+    setPhotoIndex((prevIndex) => (prevIndex < episode.diaryImage.length - 1 ? prevIndex + 1 : episode.diaryImage.length - 1))
   }
 
   return (
@@ -72,21 +92,34 @@ export default function EpisodeDetail() {
           </div>
           <h2 className={styles.title}>{episode.title || '무제'}</h2>
           <div className={styles.wrap_date}>
-            <p className={styles.date}>{episode.date || '언젠가 들렀음'}</p>
-            <span className={styles.weather}>
-              <IoSunnyOutline />
-              {/* <BsQuestion /> */}
-            </span>
+            <p className={styles.date}>{episode.visitDate || '언젠가 들렀음'}</p>
+            <span className={styles.weather}>{weatherIcons[episode.weather]}</span>
           </div>
         </div>
         <div className={styles.wrap_content}>
           <div
             className={styles.wrap_photo}
             style={{
-              backgroundImage: `url(${'https://res.cloudinary.com/dnbf7czsn/image/upload/v1713246079/KakaoTalk_20240416_143948205_rsg30g.jpg'})`,
+              backgroundImage: `url(${
+                episode.diaryImage && episode.diaryImage.length > 0 ? episode.diaryImage[photoIndex] : 'https://res.cloudinary.com/dnbf7czsn/image/upload/v1715768138/3129545_mcze7g.jpg'
+              })`,
               backgroundSize: 'cover',
+              backgroundPosition: 'center',
             }}
-          ></div>
+          >
+            <div className={styles.wrap_slider}>
+              {episode.diaryImage && episode.diaryImage.length > 1 && (
+                <button className={styles.slider} onClick={handlePrevPhoto}>
+                  <GrFormPrevious />
+                </button>
+              )}
+              {episode.diaryImage && episode.diaryImage.length > 1 && (
+                <button className={styles.slider} onClick={handleNextPhoto}>
+                  <GrFormNext />
+                </button>
+              )}
+            </div>
+          </div>
           <p className={styles.content}>{episode.content}</p>
         </div>
         <div className={styles.wrap_btn}>
