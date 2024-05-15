@@ -13,8 +13,18 @@ export default function BookmarkCard({ index, place, place_name, category_name, 
 
   const [loved, setLoved] = useState(true)
 
+  const { placeName, categoryName, addressName, x, y } = place
+
+  const newPlace = {
+    place_name: placeName,
+    category_name: categoryName,
+    address_name: addressName,
+    x: x,
+    y: y,
+  }
+
   const handleClick = () => {
-    setSelectedPlace({ place })
+    setSelectedPlace({ place: newPlace })
   }
 
   const handleLoveClick = (e) => {

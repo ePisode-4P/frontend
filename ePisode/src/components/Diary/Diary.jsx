@@ -37,7 +37,7 @@ export default function Diary({ selectedPlace, setSelectedPlace }) {
   })
 
   const [loved, setLoved] = useState(false)
-  const categoryName = selectedPlace.category_name.split(' > ').pop()
+  const categoryName = selectedPlace.category_name ? selectedPlace.category_name.split(' > ').pop() : ''
 
   const handleEpisodeClick = (id) => {
     navigate(`/map/episode/${id}`, {
