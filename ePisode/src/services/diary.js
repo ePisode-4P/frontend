@@ -14,6 +14,20 @@ export const addNewEpisode = async (newEpisode) => {
   }
 }
 
+export const editEpisode = async ({ editedEpisode, id }) => {
+  const token = localStorage.getItem('access-token')
+
+  const response = await fetch(`${API_BASE_URL}/diaries/${id}`, {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+    body: JSON.stringify(editedEpisode),
+  })
+
+  if (!response.ok) {
+    throw new Error('에피소드 수정 실패')
+  }
+}
+
 export const getWeather = async (x, y, date) => {
   const token = localStorage.getItem('access-token')
 

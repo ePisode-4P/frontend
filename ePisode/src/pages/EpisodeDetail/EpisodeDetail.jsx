@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { PiStarFill, PiStarLight } from 'react-icons/pi'
-import { BsQuestion, BsCloudFog2 } from 'react-icons/bs'
-import { MdAddPhotoAlternate } from 'react-icons/md'
+import { BsCloudFog2 } from 'react-icons/bs'
 import { GrFormNext, GrFormPrevious } from 'react-icons/gr'
 import { IoSunnyOutline, IoRainyOutline, IoCloudOutline, IoSnowOutline, IoThunderstormOutline } from 'react-icons/io5'
 import styles from './EpisodeDetail.module.css'
@@ -13,7 +12,7 @@ export default function EpisodeDetail() {
   const navigate = useNavigate()
   const location = useLocation()
   const queryClient = useQueryClient()
-  const { id } = location.state || {}
+  const { id, selectedPlace } = location.state || {}
 
   const weatherIcons = {
     Clear: <IoSunnyOutline />,
@@ -49,13 +48,6 @@ export default function EpisodeDetail() {
     },
   })
 
-  // const [title, setTitle] = useState('')
-  // const [rating, setRating] = useState(4)
-  // const [date, setDate] = useState('')
-  // const [weather, setWeather] = useState('')
-  // const [photoUrl, setPhotoUrl] = useState('')
-  // const [photo, setPhoto] = useState(null)
-  // const [text, setText] = useState('')
   const [photoIndex, setPhotoIndex] = useState(0)
 
   const handleClick = () => {
@@ -64,6 +56,16 @@ export default function EpisodeDetail() {
 
   const handleInnerClick = (e) => {
     e.stopPropagation()
+  }
+
+  const handleEdit = () => {
+    navigate('../episode/edit', {
+      state: {
+        id,
+        episode,
+        selectedPlace,
+      },
+    })
   }
 
   const handleRemove = () => {
@@ -123,7 +125,9 @@ export default function EpisodeDetail() {
           <p className={styles.content}>{episode.content}</p>
         </div>
         <div className={styles.wrap_btn}>
-          <button className={styles.btn}>Edit</button>
+          <button className={styles.btn} onClick={handleEdit}>
+            Edit
+          </button>
           <button className={styles.btn} onClick={handleRemove}>
             Delete
           </button>

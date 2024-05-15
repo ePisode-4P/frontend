@@ -41,6 +41,7 @@ export default function Diary({ selectedPlace, setSelectedPlace }) {
     navigate(`/map/episode/${id}`, {
       state: {
         id,
+        selectedPlace,
       },
     })
   }
