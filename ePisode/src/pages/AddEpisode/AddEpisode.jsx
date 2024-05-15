@@ -138,6 +138,7 @@ export default function AddEpisode() {
             style={{
               backgroundImage: `url(${photoUrls[photoIndex]})`,
               backgroundSize: 'cover',
+              backgroundPosition: 'center',
               opacity: photoUrls[photoIndex] ? 0.8 : 1,
             }}
           >
