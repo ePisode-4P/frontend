@@ -138,8 +138,14 @@ const useMap = (mapRef, apiKey, setSelectedPlace, selectedPlace, diaryCoordinate
           })
 
           diaryCoordinates.forEach((coord) => {
+            const imageSrc = 'https://res.cloudinary.com/dnbf7czsn/image/upload/v1715837810/Group_12_nvubcl.svg'
+            const imageSize = new kakao.maps.Size(100, 100)
+            const imageOption = { offset: new kakao.maps.Point(27, 69) }
+            const markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption)
+
             const diaryMarker = new window.kakao.maps.Marker({
               position: new window.kakao.maps.LatLng(coord.y, coord.x),
+              image: markerImage,
             })
 
             kakao.maps.event.addListener(diaryMarker, 'click', function () {
@@ -151,6 +157,7 @@ const useMap = (mapRef, apiKey, setSelectedPlace, selectedPlace, diaryCoordinate
                 category_name: coord.categoryName || '',
               })
             })
+
             diaryMarker.setMap(map)
           })
         }

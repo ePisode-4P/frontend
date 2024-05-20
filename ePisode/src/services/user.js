@@ -16,3 +16,20 @@ export const getUserInfo = async () => {
 
   return data || []
 }
+
+export const removeUser = async () => {
+  const token = localStorage.getItem('access-token')
+
+  const response = await fetch(`${API_BASE_URL}/user`, {
+    method: 'DELETE',
+    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+  })
+
+  if (response.ok) {
+    localStorage.removeItem('access-token')
+    localStorage.removeItem('refresh-token')
+    localStorage.setItem('isLoggedIn', false)
+  } else {
+    throw new Error('탈퇴 실패')
+  }
+}
