@@ -118,16 +118,16 @@ const Signup = () => {
           Favorite
           <br />
           <br />
-          <input type="checkbox" name="favorite" id="음식점" value="음식점" onChange={handleFavoriteChange} />
-          <label htmlFor="음식점">음식점</label>
+          <input type="checkbox" name="favorite" id="영화관" value="영화관" onChange={handleFavoriteChange} />
+          <label htmlFor="영화관">영화관</label>
           <input type="checkbox" name="favorite" id="카페" value="카페" onChange={handleFavoriteChange} />
           <label htmlFor="카페">카페</label>
           <input type="checkbox" name="favorite" id="문화시설" value="문화시설" onChange={handleFavoriteChange} />
           <label htmlFor="문화시설">문화시설</label>
           <input type="checkbox" name="favorite" id="숙박" value="숙박" onChange={handleFavoriteChange} />
           <label htmlFor="숙박">숙박</label>
-          <input type="checkbox" name="favorite" id="관광명소" value="관광명소" onChange={handleFavoriteChange} />
-          <label htmlFor="관광명소">관광명소</label>
+          <input type="checkbox" name="favorite" id="도서관" value="도서관" onChange={handleFavoriteChange} />
+          <label htmlFor="도서관">도서관</label>
         </p>
         <div className={style.addressContainer}>
           <input className={style.address} type="text" name="address" placeholder="Address" value={address} onChange={handleAddressChange} />

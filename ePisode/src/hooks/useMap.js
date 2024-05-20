@@ -73,7 +73,7 @@ const useMap = (mapRef, apiKey, setSelectedPlace, selectedPlace, diaryCoordinate
 
             const placeFallback = {
               place_name: selectedPlace.place.place_name,
-              address_name: selectedPlace.place.road_address_name || selectedPlace.place.address_name,
+              address_name: selectedPlace.place.address_name || selectedPlace.place.road_address_name,
               category_name: selectedPlace.place.category_name,
               id: selectedPlace.place.id,
               x: selectedPlace.place.x,
@@ -138,19 +138,26 @@ const useMap = (mapRef, apiKey, setSelectedPlace, selectedPlace, diaryCoordinate
           })
 
           diaryCoordinates.forEach((coord) => {
+            const imageSrc = 'https://res.cloudinary.com/dnbf7czsn/image/upload/v1715837810/Group_12_nvubcl.svg'
+            const imageSize = new kakao.maps.Size(100, 100)
+            const imageOption = { offset: new kakao.maps.Point(27, 69) }
+            const markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption)
+
             const diaryMarker = new window.kakao.maps.Marker({
               position: new window.kakao.maps.LatLng(coord.y, coord.x),
+              image: markerImage,
             })
 
             kakao.maps.event.addListener(diaryMarker, 'click', function () {
               setSelectedPlace({
                 x: coord.x,
                 y: coord.y,
-                place_name: coord.selectedPlace.place_name,
-                address_name: coord.selectedPlace.road_address_name || coord.selectedPlace.address_name,
-                category_name: coord.selectedPlace.category_name || '',
+                place_name: coord.placeName,
+                address_name: coord.addressName,
+                category_name: coord.categoryName || '',
               })
             })
+
             diaryMarker.setMap(map)
           })
         }

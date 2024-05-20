@@ -17,8 +17,6 @@ export const login = async (loginInfo) => {
   localStorage.setItem('access-token', accessToken)
   localStorage.setItem('refresh-token', refreshToken)
   localStorage.setItem('isLoggedIn', true)
-
-  return response.json()
 }
 
 export const signup = async (SignupInfo) => {
@@ -31,8 +29,6 @@ export const signup = async (SignupInfo) => {
   if (!response.ok) {
     throw new Error('회원가입 실패')
   }
-
-  return response.json()
 }
 
 export const logout = async () => {
@@ -56,7 +52,6 @@ export const logout = async () => {
       localStorage.removeItem('access-token')
       localStorage.removeItem('refresh-token')
       localStorage.setItem('isLoggedIn', false)
-      console.log('로그아웃 성공')
     } else {
       throw new Error('로그아웃 실패')
     }
