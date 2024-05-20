@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import useMap from '../../hooks/useMap'
 import styles from './MapPage.module.css'
 import SideBar from '../../components/SideBar/SideBar'
@@ -7,13 +7,33 @@ import { Outlet } from 'react-router-dom'
 import { AnimatePresence } from 'framer-motion'
 import { useSelectedPlace } from '../../contexts/SelectedPlaceContext'
 import { useDiaryCoordinates } from '../../contexts/DiaryCoordinatesContext'
+import { useQuery } from '@tanstack/react-query'
+import { getMarkers } from '../../services/diary'
 
 export default function MapPage() {
   const { selectedPlace } = useSelectedPlace()
-  const { diaryCoordinates } = useDiaryCoordinates()
+  const { diaryCoordinates, setDiaryCoordinates } = useDiaryCoordinates()
   const mapRef = useRef(null)
   const apiKey = import.meta.env.VITE_KAKAO_API_KEY
   const [userSelectedPlace, setUserSelectedPlace] = useState(null)
+
+  const {
+    data: markers = [],
+    isLoading,
+    isError,
+  } = useQuery({
+    queryKey: ['markers'],
+    queryFn: () => getMarkers(),
+    onError: (error) => {
+      console.error(error)
+    },
+  })
+
+  useEffect(() => {
+    if (markers.length > 0) {
+      setDiaryCoordinates(markers)
+    }
+  }, [markers, setDiaryCoordinates])
 
   useMap(mapRef, apiKey, setUserSelectedPlace, selectedPlace, diaryCoordinates)
 

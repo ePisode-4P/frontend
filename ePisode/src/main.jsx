@@ -22,7 +22,11 @@ import Bookmark from './pages/Bookmark/Bookmark'
 import { SelectedPlaceProvider } from './contexts/SelectedPlaceContext'
 import { DiaryCoordinatesProvider } from './contexts/DiaryCoordinatesContext'
 import EpisodeDetail from './pages/EpisodeDetail/EpisodeDetail'
+<<<<<<< HEAD
 import AnalysisAll from './pages/Analysis/AnalysisAll'
+=======
+import EditEpisode from './pages/EditEpisode/EditEpisode'
+>>>>>>> d9c6d7d61e476e69a230dcd216a56f79baeb3179
 
 const queryClient = new QueryClient()
 
@@ -46,6 +50,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
                 }
               >
                 <Route path="new" element={<AddEpisode />} />
+                <Route path="episode/edit" element={<EditEpisode />} />
                 <Route path="episode/:episodeId" element={<EpisodeDetail />} />
                 <Route path="mypage" element={<MyPage />} />
                 <Route path="profileedit" element={<MyPageEdit />} />

@@ -1,29 +1,29 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { PiStarFill, PiStarLight } from 'react-icons/pi'
 import { BsQuestion, BsCloudFog2 } from 'react-icons/bs'
 import { GrFormNext, GrFormPrevious } from 'react-icons/gr'
 import { MdAddPhotoAlternate } from 'react-icons/md'
 import { IoSunnyOutline, IoRainyOutline, IoCloudOutline, IoSnowOutline, IoThunderstormOutline } from 'react-icons/io5'
-import styles from './AddEpisode.module.css'
+import styles from './EditEpisode.module.css'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { addNewEpisode, getWeather } from '../../services/diary'
+import { editEpisode, getWeather } from '../../services/diary'
 import { addDiaryImage } from '../../services/image'
 
-export default function AddEpisode() {
+export default function EditEpisode() {
   const navigate = useNavigate()
   const location = useLocation()
   const queryClient = useQueryClient()
-  const { x, y, selectedPlace } = location.state || {}
+  const { id, episode, selectedPlace } = location.state || {}
 
-  const [title, setTitle] = useState('')
-  const [rating, setRating] = useState(0)
-  const [date, setDate] = useState('')
+  const [title, setTitle] = useState(episode.title)
+  const [rating, setRating] = useState(episode.rating)
+  const [date, setDate] = useState(episode.visitDate)
   const [photos, setPhotos] = useState([])
-  const [photoUrls, setPhotoUrls] = useState([])
+  const [photoUrls, setPhotoUrls] = useState(episode.diaryImage || [])
   const [photoIndex, setPhotoIndex] = useState(0)
   const [uploadedPhotos, setUploadedPhotos] = useState([])
-  const [content, setContent] = useState('')
+  const [content, setContent] = useState(episode.content)
 
   const weatherIcons = {
     Clear: <IoSunnyOutline />,
@@ -41,7 +41,7 @@ export default function AddEpisode() {
     isError,
   } = useQuery({
     queryKey: ['weather', date],
-    queryFn: () => getWeather(x, y, date),
+    queryFn: () => getWeather(selectedPlace.x, selectedPlace.y, date),
     onError: (error) => {
       console.error(error)
     },
@@ -49,9 +49,13 @@ export default function AddEpisode() {
   })
 
   const { mutate: mutateEpisode } = useMutation({
-    mutationFn: addNewEpisode,
+    mutationFn: editEpisode,
     onSuccess: (data) => {
-      navigate('/map')
+      navigate(`/map/episode/${id}`, {
+        state: {
+          id,
+        },
+      })
       queryClient.invalidateQueries(['diaries'])
     },
     onError: (error) => {
@@ -89,30 +93,36 @@ export default function AddEpisode() {
   }
 
   const handleSave = async () => {
-    const uploadedPhotosUrls = await Promise.all(
-      photos.map(async (photo) => {
-        const data = await addDiaryImage(photo)
-        return data.imageUrl
-      }),
-    )
+    let finalPhotoUrls = photoUrls
 
-    setUploadedPhotos(uploadedPhotosUrls)
+    if (photos.length > 0) {
+      finalPhotoUrls = await Promise.all(
+        photos.map(async (photo) => {
+          const data = await addDiaryImage(photo)
+          return data.imageUrl
+        }),
+      )
+    }
 
     mutateEpisode({
-      placeId: selectedPlace.id, //
-      placeName: selectedPlace.place_name,
-      addressName: selectedPlace.address_name,
-      x,
-      y,
-      visitDate: date,
-      goPublic: false,
-      rating,
-      title,
-      content,
-      weather: weather.weather,
-      image: uploadedPhotosUrls,
+      editedEpisode: {
+        title,
+        visitDate: date,
+        content,
+        goPublic: false,
+        rating,
+        weather: weather.weather,
+        diaryImages: finalPhotoUrls,
+      },
+      id,
     })
   }
+
+  useEffect(() => {
+    if (episode.diaryImages) {
+      setPhotoUrls(episode.diaryImages)
+    }
+  }, [episode.diaryImages])
 
   return (
     <div className={styles.filter} onClick={handleClick}>
@@ -136,7 +146,7 @@ export default function AddEpisode() {
           <div
             className={styles.wrap_photo}
             style={{
-              backgroundImage: `url(${photoUrls[photoIndex]})`,
+              backgroundImage: photoUrls.length > 0 && `url('${photoUrls[photoIndex]}')`,
               backgroundSize: 'cover',
               backgroundPosition: 'center',
               opacity: photoUrls[photoIndex] ? 0.8 : 1,

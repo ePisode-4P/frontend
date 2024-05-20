@@ -4,25 +4,46 @@ import { GoHeartFill, GoHeart } from 'react-icons/go'
 
 import styles from './BookmarkCard.module.css'
 import { useSelectedPlace } from '../../contexts/SelectedPlaceContext'
+import { removeLike } from '../../services/like'
+import { useQueryClient } from '@tanstack/react-query'
 
 export default function BookmarkCard({ index, place, place_name, category_name, road_address_name, address_name }) {
   const { setSelectedPlace } = useSelectedPlace()
-  const [loved, setLoved] = useState(false)
+  const queryClient = useQueryClient()
+
+  const [loved, setLoved] = useState(true)
+
+  const { placeName, categoryName, addressName, x, y } = place
+
+  const newPlace = {
+    place_name: placeName,
+    category_name: categoryName,
+    address_name: addressName,
+    x: x,
+    y: y,
+  }
 
   const handleClick = () => {
-    setSelectedPlace({ place })
+    setSelectedPlace({ place: newPlace })
   }
 
   const handleLoveClick = (e) => {
     e.stopPropagation()
-    setLoved(!loved)
+    removeLike(place.x, place.y)
+      .then(() => {
+        setLoved(false)
+        queryClient.invalidateQueries(['diaries'])
+      })
+      .catch((error) => {
+        console.error(error)
+      })
   }
 
   return (
     <div key={index} className={styles.card} onClick={handleClick}>
       <div className={styles.wrap}>
         <div>
-          <p className={styles.card_category}>{category_name.split(' > ').pop()}</p>
+          <p className={styles.card_category}>{category_name ? category_name.split(' > ').pop() : ''}</p>
           <p className={styles.card_title}>{place_name}</p>
         </div>
         <div className={styles.wrap_btn}>
