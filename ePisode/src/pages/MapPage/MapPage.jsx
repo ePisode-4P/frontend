@@ -9,8 +9,11 @@ import { useSelectedPlace } from '../../contexts/SelectedPlaceContext'
 import { useDiaryCoordinates } from '../../contexts/DiaryCoordinatesContext'
 import { useQuery } from '@tanstack/react-query'
 import { getMarkers } from '../../services/diary'
+// import { useHistory } from 'react-router-dom';
+// import { validateToken } from '../../services/auth'
 
 export default function MapPage() {
+  // const history = useHistory();
   const { selectedPlace } = useSelectedPlace()
   const { diaryCoordinates, setDiaryCoordinates } = useDiaryCoordinates()
   const mapRef = useRef(null)
@@ -28,6 +31,16 @@ export default function MapPage() {
       console.error(error)
     },
   })
+
+  // useEffect(() => {
+  //   const checkToken = async () => {
+  //     const isValidToken = await validateToken();
+  //     if (!isValidToken) {
+  //       history.push('/login');
+  //     }
+  //   };
+  //   checkToken();
+  // }, [history]);
 
   useEffect(() => {
     if (markers.length > 0) {
