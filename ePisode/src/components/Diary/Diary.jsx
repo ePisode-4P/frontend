@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import styles from './Diary.module.css'
 import { MdLocationOn } from 'react-icons/md'
-import { IoCloseOutline } from 'react-icons/io5'
+import { IoCloseOutline, IoPeople, IoPerson } from 'react-icons/io5'
 import { GoHeart, GoHeartFill } from 'react-icons/go'
 
 import { useNavigate } from 'react-router-dom'
@@ -37,6 +37,7 @@ export default function Diary({ selectedPlace, setSelectedPlace }) {
   })
 
   const [loved, setLoved] = useState(false)
+  const [viewMineOnly, setViewMineOnly] = useState(false)
   const categoryName = selectedPlace.category_name ? selectedPlace.category_name.split(' > ').pop() : ''
 
   const handleEpisodeClick = (id) => {
@@ -177,6 +178,15 @@ export default function Diary({ selectedPlace, setSelectedPlace }) {
       <button className={styles.add_episode} onClick={handleAddEpisodeClick}>
         <span className={styles.plus_btn}>+</span>
       </button>
+      <div className={styles.toggleWrapper}>
+        <button className={`${styles.toggleButton} ${!viewMineOnly ? styles.active : ''}`} onClick={() => setViewMineOnly(false)}>
+          내 글만 보기
+        </button>
+        <button className={`${styles.toggleButton} ${viewMineOnly ? styles.active : ''}`} onClick={() => setViewMineOnly(true)}>
+          모든 글 보기
+        </button>
+      </div>
+
       <section className={styles.diary}>
         {isLoading && <p>로딩 중...</p>}
         {isError && <p>작성된 에피소드가 없습니다!</p>}

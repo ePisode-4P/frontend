@@ -203,6 +203,35 @@
   font-size: 2.5em;
 }
 
+.toggleWrapper {
+  display: flex;
+  justify-content: start;
+  margin: 15px 35px;
+}
+
+.toggleButton {
+  height: 38px;
+  text-align: center;
+  margin: 0 3px;
+  border: solid #999999 2px;
+  border-radius: 20px;
+  padding: 0 10px;
+  background-color: transparent;
+  color: #4b4b4b;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.toggleButton:hover {
+  border: solid #ff70a6 2px;
+  color: #ff70a6;
+}
+
+.toggleButton.active {
+  border: solid #ff70a6 2px;
+  color: #ff70a6;
+}
+
 .episode {
   height: 65px;
   background: rgba(255, 255, 255, 0.45);
