@@ -205,7 +205,7 @@
 
 .toggleWrapper {
   display: flex;
-  justify-content: start;
+  justify-content: end;
   margin: 15px 35px;
 }
 
