@@ -60,35 +60,33 @@ export const logout = async () => {
   }
 }
 
-// export const validateToken = async () => {
-//   const token = localStorage.getItem('access-token');
+export const validateToken = async () => {
+  const token = localStorage.getItem('access-token')
 
-//   if (!token) {
-//     return false;
-//   }
+  if (!token) {
+    return false
+  }
 
-//   try {
-//     const response = await fetch(`${API_BASE_URL}/auth/token`, {
-//       method: 'GET',
-//       headers: {
-//         'Content-Type': 'application/json',
-//         Authorization: `Bearer ${token}`,
-//       },
-//     });
+  try {
+    const response = await fetch(`${API_BASE_URL}/auth/token`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    })
 
-//     if (!response.ok) {
-//       console.log('토큰이 만료되었습니다.');
-//       localStorage.removeItem('access-token');
-//       localStorage.removeItem('refresh-token');
-//       localStorage.setItem('isLoggedIn', false);
+    if (!response.ok) {
+      console.log('토큰이 만료되었습니다.')
+      localStorage.removeItem('access-token')
+      localStorage.removeItem('refresh-token')
+      localStorage.setItem('isLoggedIn', false)
+      return false
+    }
 
-//       window.location.href = '/login';
-//       return false;
-//     }
-
-//     return true;
-//   } catch (error) {
-//     console.error('토큰 검증 실패:', error.message);
-//     return false;
-//   }
-// };
+    return true
+  } catch (error) {
+    console.error('토큰 검증 실패:', error.message)
+    return false
+  }
+}

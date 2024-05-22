@@ -3,17 +3,16 @@ import useMap from '../../hooks/useMap'
 import styles from './MapPage.module.css'
 import SideBar from '../../components/SideBar/SideBar'
 import Diary from '../../components/Diary/Diary'
-import { Outlet } from 'react-router-dom'
+import { Outlet, useNavigate } from 'react-router-dom'
 import { AnimatePresence } from 'framer-motion'
 import { useSelectedPlace } from '../../contexts/SelectedPlaceContext'
 import { useDiaryCoordinates } from '../../contexts/DiaryCoordinatesContext'
 import { useQuery } from '@tanstack/react-query'
 import { getMarkers } from '../../services/diary'
-// import { useHistory } from 'react-router-dom';
-// import { validateToken } from '../../services/auth'
+import { validateToken } from '../../services/auth'
 
 export default function MapPage() {
-  // const history = useHistory();
+  const navigate = useNavigate()
   const { selectedPlace } = useSelectedPlace()
   const { diaryCoordinates, setDiaryCoordinates } = useDiaryCoordinates()
   const mapRef = useRef(null)
@@ -32,15 +31,15 @@ export default function MapPage() {
     },
   })
 
-  // useEffect(() => {
-  //   const checkToken = async () => {
-  //     const isValidToken = await validateToken();
-  //     if (!isValidToken) {
-  //       history.push('/login');
-  //     }
-  //   };
-  //   checkToken();
-  // }, [history]);
+  useEffect(() => {
+    const checkToken = async () => {
+      const isValidToken = await validateToken()
+      if (!isValidToken) {
+        navigate('/login')
+      }
+    }
+    checkToken()
+  }, [navigate])
 
   useEffect(() => {
     if (markers.length > 0) {

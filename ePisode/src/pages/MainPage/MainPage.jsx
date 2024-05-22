@@ -5,25 +5,20 @@ import HomePage from '../HomePage/HomePage'
 import styles from './MainPage.module.css'
 
 import { RxGithubLogo } from 'react-icons/rx'
-import { Link } from 'react-router-dom'
-// import { useHistory } from 'react-router-dom';
-// import { validateToken } from '../../services/auth'
+import { Link, useNavigate } from 'react-router-dom'
+import { validateToken } from '../../services/auth'
 
 export default function MainPage() {
-  //const history = useHistory();
   const homeRef = useRef(null)
   const aboutRef = useRef(null)
   const contactRef = useRef(null)
 
-  // useEffect(() => {
-  //   const checkToken = async () => {
-  //     const isValidToken = await validateToken();
-  //     if (!isValidToken) {
-  //       history.push('/login');
-  //     }
-  //   };
-  //   checkToken();
-  // }, [history]);
+  useEffect(() => {
+    const checkToken = async () => {
+      await validateToken()
+    }
+    checkToken()
+  }, [])
 
   return (
     <div
