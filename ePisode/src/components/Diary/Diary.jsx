@@ -36,6 +36,8 @@ export default function Diary({ selectedPlace, setSelectedPlace }) {
     },
   })
 
+  console.log(diaries)
+
   const [loved, setLoved] = useState(false)
   const [viewMineOnly, setViewMineOnly] = useState(false)
   const categoryName = selectedPlace.category_name ? selectedPlace.category_name.split(' > ').pop() : ''
@@ -133,7 +135,7 @@ export default function Diary({ selectedPlace, setSelectedPlace }) {
     }
   }
 
-  const imageStyle = `${styles.image} ${getCategoryStyle()}`
+  const imageStyle = `${styles.image} ${getCategoryStyle()} ${diaries.mainImage ? styles.hasImage : ''}`
 
   useEffect(() => {
     if (diaries.isLike !== undefined) {
@@ -159,7 +161,7 @@ export default function Diary({ selectedPlace, setSelectedPlace }) {
       <button className={styles.close_diary} onClick={handleCloseClick}>
         <IoCloseOutline />
       </button>
-      <section className={imageStyle}></section>
+      <section className={imageStyle} style={diaries.mainImage ? { backgroundImage: `url(${diaries.mainImage})` } : {}}></section>
       <section className={styles.place_info}>
         <div className={styles.wrap}>
           <div className={styles.wrap_name}>
@@ -195,7 +197,7 @@ export default function Diary({ selectedPlace, setSelectedPlace }) {
             diaries.list &&
             diaries.list.map((diary, index) => (
               <li key={index} className={styles.episode} onClick={() => handleEpisodeClick(diary.diaryId)}>
-                {diary.writeDate} - {diary.title}
+                {diary.writeDate} - {diary.title || '무제'}
               </li>
             ))}
         </ul>
