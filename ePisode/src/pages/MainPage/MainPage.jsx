@@ -1,16 +1,24 @@
-import React, { useRef } from 'react'
+import React, { useRef, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import Header from '../../components/Header/Header'
 import HomePage from '../HomePage/HomePage'
 import styles from './MainPage.module.css'
 
 import { RxGithubLogo } from 'react-icons/rx'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { validateToken } from '../../services/auth'
 
 export default function MainPage() {
   const homeRef = useRef(null)
   const aboutRef = useRef(null)
   const contactRef = useRef(null)
+
+  useEffect(() => {
+    const checkToken = async () => {
+      await validateToken()
+    }
+    checkToken()
+  }, [])
 
   return (
     <div
