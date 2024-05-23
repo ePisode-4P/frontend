@@ -62,7 +62,7 @@
 .area_list {
   display: flex;
   flex-direction: row;
-  align-items: center;
+  justify-content: center;
 }
 
 .area_box {
@@ -73,7 +73,7 @@
   width: fit-content;
   border-radius: 15px;
   border: 1px solid #b2b0b099;
-  margin-left: 50px;
+  margin: 15px;
   font-size: 20px;
   font-weight: bolder;
 }
