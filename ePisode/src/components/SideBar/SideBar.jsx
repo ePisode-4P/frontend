@@ -67,7 +67,7 @@ export default function SideBar() {
 
   const searchIconStyle = location.pathname === '/map/search' ? style : {}
   const recommendIconStyle = location.pathname === '/map/recommend' ? style : {}
-  const analysisIconStyle = location.pathname === '/map/analysis' ? style : {}
+  const analysisIconStyle = location.pathname === '/map/analysis' || location.pathname === '/map/allanalysis' ? style : {}
   const likeIconStyle = location.pathname === '/map/likes' ? style : {}
   const heartIconStyle = location.pathname === '/map/bookmark' ? style : {}
 
@@ -92,10 +92,9 @@ export default function SideBar() {
           <LuFileHeart className={styles.btn_icon} style={heartIconStyle} />
         </button>
 
-        {/* //TODO - 나중에 되돌리기 */}
-        {/* <button className={styles.btn} onClick={handleAnalysis}>
+        <button className={styles.btn} onClick={handleAnalysis}>
           <FiTable className={styles.btn_icon} style={analysisIconStyle} />
-        </button> */}
+        </button>
       </div>
       <button className={styles.btn_profile} onClick={profileClick}>
         <CgProfile className={styles.btn_icon} />

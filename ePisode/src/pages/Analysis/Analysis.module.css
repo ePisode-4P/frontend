@@ -10,6 +10,11 @@
   display: flex;
   flex-direction: column;
   padding: 20px 25px;
+
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 .top {
@@ -52,4 +57,27 @@
   &::-webkit-scrollbar {
     display: none;
   }
+}
+
+.area_list {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.area_box {
+  background: rgba(255, 255, 255, 0.581);
+  display: flex;
+  align-items: center;
+  height: 45px;
+  width: fit-content;
+  border-radius: 15px;
+  border: 1px solid #b2b0b099;
+  margin-left: 50px;
+  font-size: 20px;
+  font-weight: bolder;
+}
+
+.area_tags {
+  color: #ff70a6;
 }

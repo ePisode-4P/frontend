@@ -4,11 +4,32 @@ import styles from './Analysis.module.css'
 import { MdOutlineNavigateNext } from "react-icons/md";
 import { useNavigate } from 'react-router-dom'
 import AnalysisCard from '../../components/Card/AnalysisCard'
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js'
+import { Pie } from 'react-chartjs-2';
+
+
 
 export default function Analysis() {
-  
-  //TODO - 파이 그래프 추가하기!!!
+
   //NOTE - 배열 추후 삭제
+
+  ChartJS.register(ArcElement, Tooltip, Legend);
+
+  const data = {
+    labels: ['카페', '영화관', '미술관'],
+    datasets: [
+      {
+        data: [68.34, 21.86, 10.46],
+        backgroundColor: [
+          'rgb(255, 112, 166)',
+          'rgb(255, 156, 194)',
+          'rgb(255, 205, 224)',
+        ],
+        borderWidth: 0,
+      },
+    ],
+  };
+
   const likePlace = [
     {
       place_name: '카페 라떼',
@@ -53,6 +74,7 @@ export default function Analysis() {
     },
   ]
 
+
   const navigate = useNavigate()
   
   const handlekNext = () => {
@@ -86,7 +108,22 @@ export default function Analysis() {
         <MdOutlineNavigateNext className={styles.btn_next} onClick={handlekNext} />
       </div>
       <ul className={styles.list_wrap}>
-        <li>파이 그래프</li>
+        <Pie data={data}/>
+        <li className={styles.sub_title}>주요 활동 장소</li>
+        <div className={styles.area_list}>
+          <div className={styles.area_box}>
+            <p className={styles.area_tags}>#</p>
+            <p>구미</p>
+          </div>
+          <div className={styles.area_box}>
+            <p className={styles.area_tags}>#</p>
+            <p>대구</p>
+          </div>
+          <div className={styles.area_box}>
+            <p className={styles.area_tags}>#</p>
+            <p>부산</p>
+          </div>
+        </div>
         <li className={styles.sub_title}>좋았던 장소</li>
         <div>
         {likePlace.map((place, index) => (
