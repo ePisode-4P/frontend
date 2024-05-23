@@ -5,14 +5,14 @@ import { GrFormNext, GrFormPrevious } from 'react-icons/gr'
 import { IoSunnyOutline, IoRainyOutline, IoCloudOutline, IoSnowOutline, IoThunderstormOutline } from 'react-icons/io5'
 import styles from './EpisodeDetail.module.css'
 import { useLocation, useNavigate } from 'react-router-dom'
-import { getEpisode, removeEpisode } from '../../services/diary'
+import { getEpisode, getPublicDiaries, getPublicEpisode, removeEpisode } from '../../services/diary'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 
 export default function EpisodeDetail() {
   const navigate = useNavigate()
   const location = useLocation()
   const queryClient = useQueryClient()
-  const { id, selectedPlace } = location.state || {}
+  const { id, selectedPlace, isPublic } = location.state || {}
 
   const weatherIcons = {
     Clear: <IoSunnyOutline />,
@@ -24,18 +24,22 @@ export default function EpisodeDetail() {
     Atmosphere: <BsCloudFog2 />,
   }
 
+  const fetchEpisodeDetails = isPublic ? getPublicEpisode : getEpisode
+
   const {
     data: episode = [],
     isLoading,
     isError,
   } = useQuery({
     queryKey: ['episode', id],
-    queryFn: () => getEpisode(id),
+    queryFn: () => fetchEpisodeDetails(id),
     onError: (error) => {
       console.error(error)
     },
     enabled: !!id,
   })
+
+  console.log(episode.isMe)
 
   const { mutate: mutateDelete } = useMutation({
     mutationFn: () => removeEpisode(id),
@@ -124,14 +128,16 @@ export default function EpisodeDetail() {
           </div>
           <p className={styles.content}>{episode.content}</p>
         </div>
-        <div className={styles.wrap_btn}>
-          <button className={styles.btn} onClick={handleEdit}>
-            Edit
-          </button>
-          <button className={styles.btn} onClick={handleRemove}>
-            Delete
-          </button>
-        </div>
+        {episode.isMe !== false && (
+          <div className={styles.wrap_btn}>
+            <button className={styles.btn} onClick={handleEdit}>
+              Edit
+            </button>
+            <button className={styles.btn} onClick={handleRemove}>
+              Delete
+            </button>
+          </div>
+        )}
       </div>
     </div>
   )
