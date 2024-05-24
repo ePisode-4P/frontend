@@ -97,7 +97,7 @@ export default function Search() {
               place={place}
               place_name={place.place_name}
               category_name={place.category_name}
-              road_address_name={place.road_address_name}
+              road_address_name={place.address_name}
               address_name={place.address_name}
             />
           </motion.div>

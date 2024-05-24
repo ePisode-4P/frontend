@@ -35,7 +35,7 @@ const useMap = (mapRef, apiKey, setSelectedPlace, selectedPlace, diaryCoordinate
 
             geocoder.coord2Address(latlng.getLng(), latlng.getLat(), function (result, status) {
               if (status === kakao.maps.services.Status.OK) {
-                var detailAddr = !!result[0].road_address ? result[0].road_address.address_name : result[0].address.address_name
+                var detailAddr = !!result[0].road_address ? result[0].address.address_name : result[0].address.address_name
 
                 places.keywordSearch(detailAddr, function (data, status, pagination) {
                   if (status === kakao.maps.services.Status.OK) {
