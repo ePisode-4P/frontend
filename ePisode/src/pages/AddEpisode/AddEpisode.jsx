@@ -19,6 +19,8 @@ export default function AddEpisode() {
   const [title, setTitle] = useState('')
   const [rating, setRating] = useState(0)
   const [date, setDate] = useState('')
+  const [isPublic, setIsPublic] = useState(false)
+
   const [photos, setPhotos] = useState([])
   const [photoUrls, setPhotoUrls] = useState([])
   const [photoIndex, setPhotoIndex] = useState(0)
@@ -105,7 +107,7 @@ export default function AddEpisode() {
       x,
       y,
       visitDate: date,
-      goPublic: false,
+      goPublic: isPublic,
       rating,
       title,
       content,
@@ -162,6 +164,8 @@ export default function AddEpisode() {
           <textarea className={styles.content} placeholder="여기에 글을 작성하세요..." value={content} onChange={(e) => setContent(e.target.value)} />
         </div>
         <div className={styles.wrap_btn}>
+          <input id="public-checkbox" className={styles.checkbox} type="checkbox" checked={isPublic} onChange={(e) => setIsPublic(e.target.checked)} />
+          <label htmlFor="public-checkbox">전체 공개</label>
           <button className={styles.btn} onClick={handleSave}>
             SAVE
           </button>

@@ -181,6 +181,47 @@ input[type='date']:valid::before {
   margin: 1em 0 0 0;
   display: flex;
   justify-content: end;
+  align-items: center;
+  font-family: 'Noto Sans KR', sans-serif;
+}
+
+.wrap_btn input[type='checkbox'] + label {
+  margin: 0;
+  border: none;
+  width: 15%;
+}
+.checkbox {
+  display: none;
+}
+
+.checkbox + label {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.checkbox + label::before {
+  content: '';
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 2px solid #ff70a6;
+  border-radius: 3px;
+  margin-right: 10px;
+  background-color: white;
+  transition: background-color 0.3s;
+}
+
+.checkbox:checked + label::before {
+  background-color: #ff70a6;
+  background-image: url('data:image/svg+xml,%3Csvg width="14px" height="14px" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"%3E%3Cpolyline points="2 8.5 6 12.5 14 4.5" stroke="%23fff" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"%3E%3C/polyline%3E%3C/svg%3E');
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.checkbox:focus + label::before {
+  outline: 2px solid #ff70a6;
+  outline-offset: 2px;
 }
 
 .btn {

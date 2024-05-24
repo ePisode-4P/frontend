@@ -19,6 +19,7 @@ export default function EditEpisode() {
   const [title, setTitle] = useState(episode.title)
   const [rating, setRating] = useState(episode.rating)
   const [date, setDate] = useState(episode.visitDate)
+  const [isPublic, setIsPublic] = useState(episode.goPublic)
   const [photos, setPhotos] = useState([])
   const [photoUrls, setPhotoUrls] = useState(episode.diaryImage || [])
   const [photoIndex, setPhotoIndex] = useState(0)
@@ -109,7 +110,7 @@ export default function EditEpisode() {
         title,
         visitDate: date,
         content,
-        goPublic: false,
+        goPublic: isPublic,
         rating,
         weather: weather.weather,
         diaryImages: finalPhotoUrls,
@@ -172,6 +173,8 @@ export default function EditEpisode() {
           <textarea className={styles.content} placeholder="여기에 글을 작성하세요..." value={content} onChange={(e) => setContent(e.target.value)} />
         </div>
         <div className={styles.wrap_btn}>
+          <input id="public-checkbox" className={styles.checkbox} type="checkbox" checked={isPublic} onChange={(e) => setIsPublic(e.target.checked)} />
+          <label htmlFor="public-checkbox">전체 공개</label>
           <button className={styles.btn} onClick={handleSave}>
             SAVE
           </button>

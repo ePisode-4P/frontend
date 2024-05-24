@@ -79,6 +79,40 @@ export const getDiaries = async (x, y, offset) => {
   return data || []
 }
 
+export const getPublicDiaries = async (x, y, offset) => {
+  const token = localStorage.getItem('access-token')
+
+  const response = await fetch(`${API_BASE_URL}/diaries/public?x=${x}&y=${y}&offset=${offset}`, {
+    method: 'GET',
+    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+  })
+
+  if (!response.ok) {
+    throw new Error('전체 다이어리를 가져오는데 실패했습니다.')
+  }
+
+  const data = await response.json()
+
+  return data || []
+}
+
+export const getPublicEpisode = async (id) => {
+  const token = localStorage.getItem('access-token')
+
+  const response = await fetch(`${API_BASE_URL}/diaries/public/${id}`, {
+    method: 'GET',
+    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+  })
+
+  if (!response.ok) {
+    throw new Error('에피소드를 가져오는데 실패했습니다.')
+  }
+
+  const data = await response.json()
+
+  return data || []
+}
+
 export const getEpisode = async (id) => {
   const token = localStorage.getItem('access-token')
 
