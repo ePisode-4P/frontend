@@ -1,10 +1,16 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import style from './MyPageEdit.module.css'
 import { useNavigate } from 'react-router-dom'
-import { removeUser } from '../../services/user'
+import { getUserInfo, removeUser, updateUser } from '../../services/user'
 
 export default function MyPageEdit() {
   const [selectedImage, setSelectedImage] = useState(null)
+  const [userInfo, setUserInfo] = useState({
+    name: '',
+    mbti: '',
+    favorites: [],
+    address: '',
+  })
 
   const handleImageChange = (event) => {
     const imageFile = event.target.files[0]
@@ -45,9 +51,36 @@ export default function MyPageEdit() {
     e.stopPropagation()
   }
 
-  const saveClick = () => {
-    navigate('/map/mypage')
+  useEffect(() => {
+    const loadUserInfo = async () => {
+      try {
+        const userData = await getUserInfo()
+        setUserInfo(userData)
+        setFaveSelected(userData.favorites || [])
+      } catch (error) {
+        console.error(error)
+      }
+    }
+    loadUserInfo()
+  }, [])
+
+  const saveClick = async () => {
+    try {
+      const updatedUser = {
+        ...userInfo,
+        name: userInfo.name,
+        mbti: selectedMBTI,
+        favorites: favSelected,
+        address: userInfo.address,
+      }
+      const updatedUserInfo = await updateUser(updatedUser)
+      navigate('/map/mypage', { state: { user: updatedUserInfo } })
+    } catch (error) {
+      console.error(error)
+      alert('사용자 정보 수정에 실패했습니다.')
+    }
   }
+  
 
   const deleteClick = () => {
     if (window.confirm('탈퇴하시겠습니까?')) {

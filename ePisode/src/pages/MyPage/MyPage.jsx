@@ -1,16 +1,18 @@
 import React from 'react'
 import style from './MyPage.module.css'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 import { logout } from '../../services/auth'
 import { useQuery } from '@tanstack/react-query'
 import { getUserInfo } from '../../services/user'
 
 export default function MyPage() {
   const navigate = useNavigate()
+  const location = useLocation()
 
-  //TODO - user 정보 추가적인 연결 필요
+  const userFromState = location.state?.user
+
   const {
-    data: user = [],
+    data: user = userFromState || {},
     isLoading,
     isError,
   } = useQuery({
@@ -19,6 +21,7 @@ export default function MyPage() {
     onError: (error) => {
       console.error(error)
     },
+    enabled: !userFromState,
   })
 
   //TODO - edit 이벤트 추가
