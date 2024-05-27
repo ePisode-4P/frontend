@@ -13,7 +13,7 @@ export default function RecommendCard({ index, place, place_name, category_name,
   const [liked, setLiked] = useState(false)
   const [disliked, setDisliked] = useState(false)
 
-  const { placeName, categoryName, addressName, x, y } = place
+  const { placeName, categoryName, addressName, x, y, placeId } = place
 
   const newPlace = {
     place_name: placeName,
@@ -23,30 +23,29 @@ export default function RecommendCard({ index, place, place_name, category_name,
     y: y,
   }
 
-  const handleClick = () => {
-    setSelectedPlace({ place: newPlace })
-  }
-
   const { mutate } = useMutation({
     mutationFn: addNewInterest,
     onSuccess: (data) => {
       queryClient.invalidateQueries(['interests'])
     },
-    onError: (error) => {
-      console.error(error)
-    },
   })
+
+  const handleClick = () => {
+    setSelectedPlace({ place: newPlace })
+  }
+  
 
   const handleLikeClick = (e) => {
     e.stopPropagation()
 
     const placeInfo = {
-      placeName: newPlace.place_name,
-      categoryName: newPlace.category_name,
-      x: newPlace.x,
-      y: newPlace.y,
-      addressName: newPlace.address_name,
+      placeId,
+      placeName,
+      x,
+      y,
+      addressName,
     }
+    console.log(placeInfo);
 
     mutate(placeInfo)
 
@@ -57,6 +56,8 @@ export default function RecommendCard({ index, place, place_name, category_name,
       setLiked(!liked)
     }
   }
+
+  
 
   const handleDislikeClick = (e) => {
     e.stopPropagation()
@@ -72,7 +73,7 @@ export default function RecommendCard({ index, place, place_name, category_name,
     <div key={index} className={styles.card} onClick={handleClick}>
       <div className={styles.wrap}>
         <div>
-          <p className={styles.card_category}>{category_name.split(' > ').pop()}</p>
+          {/* <p className={styles.card_category}>{category_name.split(' > ').pop()}</p> */}
           <p className={styles.card_title}>{place_name}</p>
         </div>
         <div className={styles.wrap_btn}>

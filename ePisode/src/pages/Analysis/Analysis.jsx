@@ -20,6 +20,7 @@ export default function Analysis() {
     datasets: [
       {
         data: [68.34, 21.86, 10.46],
+        
         backgroundColor: [
           'rgb(255, 112, 166)',
           'rgb(255, 156, 194)',
@@ -28,6 +29,7 @@ export default function Analysis() {
         borderWidth: 0,
       },
     ],
+    
   };
 
   const likePlace = [
