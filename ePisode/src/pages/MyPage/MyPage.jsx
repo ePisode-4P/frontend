@@ -90,7 +90,7 @@ export default function MyPage() {
         <div className={style.bottom}>
           <div className={style.back1}>
             <p className={style.favorite}>관심사</p>
-            <p className={style.favDetail}>영화관, 카페, 도서관</p>
+            <p className={style.favDetail}>{user.favorite?.join(' ')}</p>
           </div>
           <div className={style.back1}>
             <p className={style.visit}>방문한 장소 수</p>

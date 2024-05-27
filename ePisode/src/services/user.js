@@ -46,8 +46,4 @@ export const updateUser = async (userData) => {
   if (!response.ok) {
     throw new Error('사용자 정보 업데이트에 실패했습니다.')
   }
-
-  const data = await response.json()
-
-  return data
 }

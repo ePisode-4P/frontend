@@ -1,16 +1,15 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react';
 import style from './MyPageEdit.module.css'
 import { useNavigate } from 'react-router-dom'
 import { getUserInfo, removeUser, updateUser } from '../../services/user'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 
 export default function MyPageEdit() {
   const [selectedImage, setSelectedImage] = useState(null)
-  const [userInfo, setUserInfo] = useState({
-    name: '',
-    mbti: '',
-    favorites: [],
-    address: '',
-  })
+  const [username, setUsername] = useState('')
+  const [address, setAddress] = useState('')
+
+  const navigate = useNavigate()
 
   const handleImageChange = (event) => {
     const imageFile = event.target.files[0]
@@ -25,23 +24,21 @@ export default function MyPageEdit() {
     setSelectedImage(URL.createObjectURL(imageFile))
   }
 
-  const mbtiList = ['ISTJ', 'ISJF', 'INFJ', 'INTJ', 'ISTP', 'ISFP', 'INFP', 'INTP', 'ESTP', 'ESFP', 'ENFP', 'ENTP', 'ESTJ', 'ESFJ', 'ENFJ', 'ENTJ']
+  const mbtiList = ['ESTP', 'ESTJ', 'ESFP', 'ESFJ', 'ENTP', 'ENTJ', 'ENFP', 'ENFJ', 'ISTP', 'ISTJ', 'ISFP', 'ISFJ', 'INTP', 'INTJ', 'INFP', 'INFJ']
 
   const [selectedMBTI, setSelectedMBTI] = useState('')
 
-  const favList = ['음식점', '카페', '문화시설', '숙박', '관광명소']
+  const favList = ['영화관', '카페', '문화시설', '숙박', '도서관']
 
-  const [favSelected, setFaveSelected] = useState([])
+  const [favSelected, setFavSelected] = useState([])
 
   const favClick = (selectedItem) => {
     if (favSelected.includes(selectedItem)) {
-      setFaveSelected(favSelected.filter((fav) => fav !== selectedItem))
+      setFavSelected(favSelected.filter((fav) => fav !== selectedItem))
       return
     }
-    setFaveSelected([...favSelected, selectedItem])
+    setFavSelected([...favSelected, selectedItem])
   }
-
-  const navigate = useNavigate()
 
   const handleClick = () => {
     navigate('/map')
@@ -51,27 +48,31 @@ export default function MyPageEdit() {
     e.stopPropagation()
   }
 
+  const { 
+    data: userData, 
+    error 
+  } = useQuery({
+    queryKey: ['userInfo'],
+    queryFn: getUserInfo,
+  });
+
   useEffect(() => {
-    const loadUserInfo = async () => {
-      try {
-        const userData = await getUserInfo()
-        setUserInfo(userData)
-        setFaveSelected(userData.favorites || [])
-      } catch (error) {
-        console.error(error)
-      }
+    if (userData) {
+      setFavSelected(userData.favorites || []);
+      setUsername(userData.username || '');
+      setSelectedMBTI(userData.mbti || '');
+      setAddress(userData.address || '');
     }
-    loadUserInfo()
-  }, [])
+  }, [userData]);
 
   const saveClick = async () => {
     try {
       const updatedUser = {
-        ...userInfo,
-        name: userInfo.name,
+        username: username,
         mbti: selectedMBTI,
-        favorites: favSelected,
-        address: userInfo.address,
+        userImage: 'www.example.com',
+        favorite: favSelected,
+        address: address,
       }
       const updatedUserInfo = await updateUser(updatedUser)
       navigate('/map/mypage', { state: { user: updatedUserInfo } })
@@ -108,7 +109,7 @@ export default function MyPageEdit() {
           </div>
           <div className={style.group}>
             <p className={style.proHead}>이름</p>
-            <input className={style.inputName}></input>
+            <input className={style.inputName} value={username} onChange={(e) => setUsername(e.target.value)}></input>
           </div>
           <div className={style.group}>
             <p className={style.proHead}>MBTI</p>
@@ -138,7 +139,7 @@ export default function MyPageEdit() {
           </div>
           <div className={style.group}>
             <p className={style.proHead}>주소</p>
-            <input className={style.inputAddress}></input>
+            <input className={style.inputAddress} value={address} onChange={(e) => setAddress(e.target.value)} />
           </div>
         </div>
         <div className={style.bottom}>
