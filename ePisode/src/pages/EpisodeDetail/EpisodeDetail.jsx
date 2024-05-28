@@ -71,7 +71,11 @@ export default function EpisodeDetail() {
   }
 
   const handleRemove = () => {
-    mutateDelete()
+    const isConfirmed = confirm('정말 삭제하시겠습니까?')
+
+    if (isConfirmed) {
+      mutateDelete()
+    }
   }
 
   const handlePrevPhoto = () => {
