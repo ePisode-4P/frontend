@@ -1,173 +1,192 @@
 .filter {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(209, 209, 209, 0.5);
-  
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
-    z-index: 1000;
-  }
-  
-  .mywrap {
-    z-index: 1000;
-    background: linear-gradient(161.66deg, rgba(255, 255, 255, 0.18) 5.63%, rgba(255, 255, 255, 0.6) 94.57%);
-    box-shadow: 4px 0px 4px rgba(0, 0, 0, 0.1);
-    backdrop-filter: blur(30px);
-    width: 700px;
-    height: 450px;
-    margin-left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    flex-direction:column;
-    align-items: center;
-    border-radius: 30px;
-  
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-  }
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(209, 209, 209, 0.5);
 
-  .proList {
-    display: flex;
-    flex-direction: column;
-    margin-right: auto;
-    margin-left: 150px;
-  }
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  z-index: 1000;
+}
 
-  .title {
-    font-size: 25px;
-    font-weight: bold;
-    margin-top: 25px;
-    margin-bottom: 30px;
-    margin-left: 15px;
-  }
+.mywrap {
+  z-index: 1000;
+  background: linear-gradient(161.66deg, rgba(255, 255, 255, 0.18) 5.63%, rgba(255, 255, 255, 0.6) 94.57%);
+  box-shadow: 4px 0px 4px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(30px);
+  width: 700px;
+  height: 570px;
+  margin-left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 30px;
+  flex-shrink: 0;
 
-  .proHead {
-    font-size: 15px;
-    font-weight: bold;
-    margin-bottom: 30px;
-  }
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
 
-  .imgGroup {
-    display: flex;
-    flex-direction: row;
-  }
+.proList {
+  display: flex;
+  flex-direction: column;
+  margin-right: auto;
+  margin-left: 150px;
+}
 
-  .imgInput {
-    margin-bottom: 30px;
-    margin-left: 60px;
-  }
+.title {
+  font-size: 25px;
+  font-weight: bold;
+  margin-bottom: 30px;
+  margin-left: 15px;
+}
 
-  .favHead {
-    font-size: 15px;
-    font-weight: bold;
-    margin-bottom: 20px;
-  }
+.proHead {
+  font-size: 15px;
+  font-weight: bold;
+  margin-bottom: 30px;
+}
 
-  .group {
-    display: flex;
-    flex-direction: row;
-  }
+.imgGroup {
+  display: flex;
+  flex-direction: row;
+}
 
-  .inputName {
-    height: 30px;
-    width: 150px;
-    margin-left: 110px;
-    margin-top: -10px;
-    margin-bottom: 30px;
-    border-color: black;
-    border-width: 2px;
-    border-radius: 100px;
-  }
+.imgInput {
+  margin-bottom: 30px;
+  cursor: pointer;
+}
 
-  .selectMbti {
-    height: 30px;
-    width: 150px;
-    margin-left: 104px;
-    margin-top: -10px;
-    margin-bottom: 30px;
-    border-color: black;
-    border-width: 2px;
-    border-radius: 100px;
-  }
+.favHead {
+  font-size: 15px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
 
-  .inputAddress {
-    height: 30px;
-    width: 150px;
-    margin-left: 110px;
-    margin-top: -10px;
-    margin-bottom: 30px;
-    border-color: black;
-    border-width: 2px;
-    border-radius: 100px;
-  }
+.group {
+  display: flex;
+  flex-direction: row;
+}
 
-  .bottom {
-    display: flex;
-    flex-direction: row;
-    
-  }
+.inputName {
+  height: 30px;
+  width: 150px;
+  margin-left: 110px;
+  margin-top: -10px;
+  margin-bottom: 30px;
+  border-color: black;
+  border-width: 2px;
+  border-radius: 100px;
+  padding: 10px;
+}
 
-  .saveBtn {
-    width: 70px;
-    height: 30px;
-    background-color: #ff70a6;
-    border-radius: 20px;
-    border: none;
-    font-weight: bolder;
-    font-size: 15px;
-    color: white;
-    cursor: pointer;
-    margin-left: 300px;
-  }
+.selectMbti {
+  height: 30px;
+  width: 150px;
+  margin-left: 104px;
+  margin-top: -10px;
+  margin-bottom: 30px;
+  border-color: black;
+  border-width: 2px;
+  border-radius: 100px;
+  padding: 0px 5px;
+  cursor: pointer;
+}
 
-  .deleteUser {
-    background-color: transparent;
-    border: none;
-    color: red;
-    font-weight: bolder;
-    font-size: 15px;
-    cursor: pointer;
-    margin-left: 200px;
-  }
+.inputAddress {
+  height: 30px;
+  width: 150px;
+  margin-left: 110px;
+  margin-top: -10px;
+  margin-bottom: 30px;
+  border-color: black;
+  border-width: 2px;
+  border-radius: 100px;
+  padding: 10px;
+}
+
+.bottom {
+  display: flex;
+  flex-direction: row;
+}
+
+.saveBtn {
+  width: 70px;
+  height: 30px;
+  background-color: #ff70a6;
+  border-radius: 20px;
+  border: none;
+  font-weight: bolder;
+  font-size: 15px;
+  color: white;
+  cursor: pointer;
+  margin-left: 300px;
+  flex-shrink: 0;
+}
+
+.deleteUser {
+  background-color: transparent;
+  flex-shrink: 0;
+  border: none;
+  color: red;
+  font-weight: bolder;
+  font-size: 15px;
+  cursor: pointer;
+  margin-left: 200px;
+}
 
 .List {
   margin: 0;
   padding: 0;
-  }
+}
 
- .underGroup {
+.underGroup {
   display: flex;
   justify-content: space-between;
   margin-bottom: 40px;
- }
+}
 
- .favSelect {
-  width:fit-content;
-  border: 2px solid #000000;
+.favSelect {
+  width: fit-content;
+  border: 2px solid #6a6a6a;
   border-radius: 50px;
-  color: black;
+  color: #6a6a6a;
   font-weight: bold;
-  padding: 5px 5px;
+  padding: 5px 10px;
   line-height: 25px;
   margin-left: 20px;
- }
+  cursor: pointer;
+}
 
- .favSelectActive {
+.favSelectActive {
   width: fit-content;
-  border: 2px solid #FF70A6;
+  border: 2px solid #ff70a6;
   border-radius: 50px;
   background-color: white;
-  color: #FF70A6;
+  color: #ff70a6;
   font-weight: bold;
-  padding: 5px 5px;
+  padding: 5px 10px;
   line-height: 25px;
   margin-left: 20px;
- }
+  cursor: pointer;
+}
 
+.previewImage {
+  width: 100px;
+  border-radius: 100%;
+  margin-bottom: 10px;
+}
+
+.wrap {
+  display: flex;
+  flex-direction: column;
+  margin-left: 60px;
+}

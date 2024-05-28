@@ -1,16 +1,18 @@
 import React from 'react'
 import style from './MyPage.module.css'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 import { logout } from '../../services/auth'
 import { useQuery } from '@tanstack/react-query'
 import { getUserInfo } from '../../services/user'
 
 export default function MyPage() {
   const navigate = useNavigate()
+  const location = useLocation()
 
-  //TODO - user 정보 추가적인 연결 필요
+  const userFromState = location.state?.user
+
   const {
-    data: user = [],
+    data: user = userFromState || {},
     isLoading,
     isError,
   } = useQuery({
@@ -19,7 +21,10 @@ export default function MyPage() {
     onError: (error) => {
       console.error(error)
     },
+    enabled: !userFromState,
   })
+
+  console.log(user)
 
   //TODO - edit 이벤트 추가
   const editClick = () => {
@@ -58,7 +63,11 @@ export default function MyPage() {
         <div className={style.top}>
           <img
             className={style.image}
-            src="https://images.unsplash.com/photo-1712574340322-aaeae2cbaa8f?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            src={
+              user.userImage
+                ? user.userImage
+                : 'https://images.unsplash.com/photo-1712574340322-aaeae2cbaa8f?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+            }
           ></img>
           <div className={style.pro}>
             <div className={style.proIn}>
@@ -75,19 +84,10 @@ export default function MyPage() {
           </div>
         </div>
 
-        <div
-          className={style.line}
-          style={{
-            width: '60%',
-            borderBottom: '1px solid #aaa',
-            lineHeight: '0.1em',
-            margin: '10px 0 20px',
-          }}
-        ></div>
         <div className={style.bottom}>
           <div className={style.back1}>
             <p className={style.favorite}>관심사</p>
-            <p className={style.favDetail}>영화관, 카페, 도서관</p>
+            <p className={style.favDetail}>{user.favorite?.join(' ')}</p>
           </div>
           <div className={style.back1}>
             <p className={style.visit}>방문한 장소 수</p>

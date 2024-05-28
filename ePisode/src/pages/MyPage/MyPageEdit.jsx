@@ -1,10 +1,17 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import style from './MyPageEdit.module.css'
 import { useNavigate } from 'react-router-dom'
-import { removeUser } from '../../services/user'
+import { getUserInfo, removeUser, updateUser } from '../../services/user'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { addProfileImage } from '../../services/image'
 
 export default function MyPageEdit() {
   const [selectedImage, setSelectedImage] = useState(null)
+  const [previewImage, setPreviewImage] = useState(null)
+  const [username, setUsername] = useState('')
+  const [address, setAddress] = useState('')
+
+  const navigate = useNavigate()
 
   const handleImageChange = (event) => {
     const imageFile = event.target.files[0]
@@ -16,26 +23,30 @@ export default function MyPageEdit() {
       return
     }
 
-    setSelectedImage(URL.createObjectURL(imageFile))
+    setSelectedImage(imageFile)
+
+    const reader = new FileReader()
+    reader.onloadend = () => {
+      setPreviewImage(reader.result)
+    }
+    reader.readAsDataURL(imageFile)
   }
 
-  const mbtiList = ['ISTJ', 'ISJF', 'INFJ', 'INTJ', 'ISTP', 'ISFP', 'INFP', 'INTP', 'ESTP', 'ESFP', 'ENFP', 'ENTP', 'ESTJ', 'ESFJ', 'ENFJ', 'ENTJ']
+  const mbtiList = ['ESTP', 'ESTJ', 'ESFP', 'ESFJ', 'ENTP', 'ENTJ', 'ENFP', 'ENFJ', 'ISTP', 'ISTJ', 'ISFP', 'ISFJ', 'INTP', 'INTJ', 'INFP', 'INFJ']
 
   const [selectedMBTI, setSelectedMBTI] = useState('')
 
-  const favList = ['음식점', '카페', '문화시설', '숙박', '관광명소']
+  const favList = ['영화관', '카페', '문화시설', '숙박', '도서관']
 
-  const [favSelected, setFaveSelected] = useState([])
+  const [favSelected, setFavSelected] = useState([])
 
   const favClick = (selectedItem) => {
     if (favSelected.includes(selectedItem)) {
-      setFaveSelected(favSelected.filter((fav) => fav !== selectedItem))
+      setFavSelected(favSelected.filter((fav) => fav !== selectedItem))
       return
     }
-    setFaveSelected([...favSelected, selectedItem])
+    setFavSelected([...favSelected, selectedItem])
   }
-
-  const navigate = useNavigate()
 
   const handleClick = () => {
     navigate('/map')
@@ -45,8 +56,52 @@ export default function MyPageEdit() {
     e.stopPropagation()
   }
 
-  const saveClick = () => {
-    navigate('/map/mypage')
+  const { data: userData, error } = useQuery({
+    queryKey: ['userInfo'],
+    queryFn: getUserInfo,
+  })
+
+  useEffect(() => {
+    if (userData) {
+      setFavSelected(userData.favorite || [])
+      setUsername(userData.username || '')
+      setSelectedMBTI(userData.mbti || '')
+      setAddress(userData.address || '')
+      setPreviewImage(userData.userImage || '')
+    }
+  }, [userData])
+
+  const saveClick = async () => {
+    let imageUrl = selectedImage
+
+    if (imageUrl) {
+      try {
+        const uploadResponse = await addProfileImage(imageUrl)
+        imageUrl = uploadResponse.imageUrl
+      } catch (error) {
+        console.error('이미지 업로드 실패:', error)
+        alert('이미지 업로드에 실패했습니다.')
+        return
+      }
+    } else {
+      imageUrl = userData.userImage
+    }
+
+    try {
+      const updatedUser = {
+        username: username,
+        mbti: selectedMBTI,
+        userImage: imageUrl,
+        favorite: favSelected,
+        address: address,
+      }
+
+      const updatedUserInfo = await updateUser(updatedUser)
+      navigate('/map/mypage', { state: { user: updatedUserInfo } })
+    } catch (error) {
+      console.error(error)
+      alert('사용자 정보 수정에 실패했습니다.')
+    }
   }
 
   const deleteClick = () => {
@@ -71,11 +126,14 @@ export default function MyPageEdit() {
         <div className={style.proList}>
           <div className={style.imgGroup}>
             <p className={style.proHead}>프로필 사진</p>
-            <input className={style.imgInput} type="file" accept="image/*" onChange={handleImageChange} />
+            <div className={style.wrap}>
+              {previewImage && <img src={previewImage} alt="미리보기" className={style.previewImage} />}
+              <input className={style.imgInput} type="file" accept="image/*" onChange={handleImageChange} />
+            </div>
           </div>
           <div className={style.group}>
             <p className={style.proHead}>이름</p>
-            <input className={style.inputName}></input>
+            <input className={style.inputName} value={username} onChange={(e) => setUsername(e.target.value)}></input>
           </div>
           <div className={style.group}>
             <p className={style.proHead}>MBTI</p>
@@ -96,7 +154,7 @@ export default function MyPageEdit() {
             <div className={style.List}>
               <ul className={style.underGroup}>
                 {favList.map((favList, idx) => (
-                  <li className={favSelected.find((fav) => fav === favList) ? style.favSelectActive : style.favSelect} onClick={() => favClick(favList)} key={idx}>
+                  <li className={favSelected.find((fav) => fav === favList) ? style.favSelectActive : style.favSelect} selected={favList} onClick={() => favClick(favList)} key={idx}>
                     {favList}
                   </li>
                 ))}
@@ -105,7 +163,7 @@ export default function MyPageEdit() {
           </div>
           <div className={style.group}>
             <p className={style.proHead}>주소</p>
-            <input className={style.inputAddress}></input>
+            <input className={style.inputAddress} value={address} onChange={(e) => setAddress(e.target.value)} />
           </div>
         </div>
         <div className={style.bottom}>

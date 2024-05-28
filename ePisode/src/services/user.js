@@ -33,3 +33,17 @@ export const removeUser = async () => {
     throw new Error('탈퇴 실패')
   }
 }
+
+export const updateUser = async (userData) => {
+  const token = localStorage.getItem('access-token')
+
+  const response = await fetch(`${API_BASE_URL}/user`, {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+    body: JSON.stringify(userData),
+  })
+
+  if (!response.ok) {
+    throw new Error('사용자 정보 업데이트에 실패했습니다.')
+  }
+}
