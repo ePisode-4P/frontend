@@ -19,6 +19,8 @@ export default function Like() {
     },
   })
 
+  console.log(interests);
+
   const cardVariants = {
     hidden: (index) => ({
       opacity: 0,

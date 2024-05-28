@@ -35,3 +35,11 @@
     margin-right: 3px;
     color: #4b4b4b;
 }
+
+.card_category {
+    font-size: 0.8em;
+    font-weight: bold;
+    margin-bottom: 5px;
+    margin-left: 2px;
+    color: #ff3783;
+}

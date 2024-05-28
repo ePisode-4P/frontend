@@ -1,35 +1,50 @@
-//FIXME - 임시 데이터!! 서버 연결로 고치기!!
 
-const API_BASE_URL = 'http://localhost:4000'
+
+const API_BASE_URL = 'http://ec2-15-165-25-231.ap-northeast-2.compute.amazonaws.com:8080'
 
 export const getRecommends = async () => {
-  //   const token = localStorage.getItem('access-token')
+  const token = localStorage.getItem('access-token')
 
-  const response = await fetch(`${API_BASE_URL}/recommend`, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-      // Authorization: `Bearer ${token}`
-    },
-  })
-
-  if (!response.ok) {
-    throw new Error('추천 리스트를 가져오는데 실패했습니다.')
+  if (!navigator.geolocation) {
+    throw new Error('Geolocation is not supported by your browser');
   }
 
-  const data = await response.json()
+  const getPosition = () =>
+    new Promise((resolve, reject) => {
+      navigator.geolocation.getCurrentPosition(resolve, reject);
+    });
 
-  return data || []
-}
+  try {
+    const position = await getPosition();
+    const { latitude, longitude } = position.coords;
+
+    const response = await fetch(`${API_BASE_URL}/recommend?x=${latitude}&y=${longitude}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error('추천 리스트를 가져오는데 실패했습니다.');
+    }
+
+    const data = await response.json();
+    return data || [];
+  } catch (error) {
+    throw new Error('위치를 가져오는데 실패했습니다: ' + error.message);
+  }
+};
 
 export const addNewInterest = async (placeInfo) => {
-  // const token = localStorage.getItem('access-token')
+  const token = localStorage.getItem('access-token')
 
   const response = await fetch(`${API_BASE_URL}/interests`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      // Authorization: `Bearer ${token}`
+      Authorization: `Bearer ${token}`
     },
     body: JSON.stringify(placeInfo),
   })
@@ -40,13 +55,13 @@ export const addNewInterest = async (placeInfo) => {
 }
 
 export const getInterests = async () => {
-  //   const token = localStorage.getItem('access-token')
+    const token = localStorage.getItem('access-token')
 
   const response = await fetch(`${API_BASE_URL}/interests`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      // Authorization: `Bearer ${token}`
+      Authorization: `Bearer ${token}`
     },
   })
 
@@ -59,14 +74,14 @@ export const getInterests = async () => {
   return data || []
 }
 
-export const removeInterest = async (id) => {
-  // const token = localStorage.getItem('access-token')
+export const removeInterest = async (x, y) => {
+  const token = localStorage.getItem('access-token')
 
-  const response = await fetch(`${API_BASE_URL}/interests/${id}`, {
+  const response = await fetch(`${API_BASE_URL}/interests?x=${x}&y=${y}`, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',
-      // Authorization: `Bearer ${token}`
+      Authorization: `Bearer ${token}`
     },
   })
 

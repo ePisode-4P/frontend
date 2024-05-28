@@ -4,22 +4,23 @@ import styles from './Analysis.module.css'
 import { MdOutlineNavigateNext } from "react-icons/md";
 import { useNavigate } from 'react-router-dom'
 import AnalysisCard from '../../components/Card/AnalysisCard'
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js'
+import { Chart as ChartJS, ArcElement, Tooltip, Legend, plugins } from 'chart.js'
 import { Pie } from 'react-chartjs-2';
-
+import ChartDataLabels from "chartjs-plugin-datalabels";
 
 
 export default function Analysis() {
 
   //NOTE - 배열 추후 삭제
 
-  ChartJS.register(ArcElement, Tooltip, Legend);
+  ChartJS.register(ArcElement, Tooltip, Legend, ChartDataLabels);
 
   const data = {
     labels: ['카페', '영화관', '미술관'],
     datasets: [
       {
         data: [68.34, 21.86, 10.46],
+        label: false,
         backgroundColor: [
           'rgb(255, 112, 166)',
           'rgb(255, 156, 194)',
@@ -28,6 +29,41 @@ export default function Analysis() {
         borderWidth: 0,
       },
     ],
+  };
+
+  const options = {
+    plugins: {
+      tooltip: {
+        enabled: false
+      },
+      legend: {
+        display: false,
+      },
+      datalabels: {
+        color: "black",
+        labels: {
+          title: {
+            font: {
+              weight: 'bold'
+            }
+          },
+      value: {
+        color: "black"
+      },
+        },
+
+  formatter: function (value, context) {
+    const label = context.chart.data.labels[context.dataIndex];
+
+    const formattedVal = Intl.NumberFormat("en-US", {
+      minimumFractionDigits: 2,
+        }).format(value);
+
+          return `${label}\n` + Math.round(value) + '%';
+        },
+        
+      },
+    },
   };
 
   const likePlace = [
@@ -104,11 +140,11 @@ export default function Analysis() {
       transition={{ duration: 0.5 }}
     >
       <div className={styles.top}>
-        <h2 className={styles.category}>생활 패턴 분석 보고서</h2>
+        <h2 className={styles.category}>생활 패턴 분석 레포트</h2>
         <MdOutlineNavigateNext className={styles.btn_next} onClick={handlekNext} />
       </div>
       <ul className={styles.list_wrap}>
-        <Pie data={data}/>
+        <Pie className={styles.chart} data={data} options={options}/>
         <li className={styles.sub_title}>주요 활동 장소</li>
         <div className={styles.area_list}>
           <div className={styles.area_box}>
