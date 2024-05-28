@@ -6,7 +6,6 @@ import { useQuery } from '@tanstack/react-query'
 import { getInterests } from '../../services/recommend'
 
 export default function Like() {
-  //FIXME - 임시 데이터!! 서버 연결로 고치기!!
   const {
     data: interests = [],
     isLoading,
@@ -18,8 +17,6 @@ export default function Like() {
       console.error(error)
     },
   })
-
-  console.log(interests);
 
   const cardVariants = {
     hidden: (index) => ({

@@ -24,8 +24,6 @@ export default function MyPage() {
     enabled: !userFromState,
   })
 
-  console.log(user)
-
   //TODO - edit 이벤트 추가
   const editClick = () => {
     navigate('/map/profileedit')
