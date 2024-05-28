@@ -7,6 +7,7 @@ import { addProfileImage } from '../../services/image'
 
 export default function MyPageEdit() {
   const [selectedImage, setSelectedImage] = useState(null)
+  const [previewImage, setPreviewImage] = useState(null)
   const [username, setUsername] = useState('')
   const [address, setAddress] = useState('')
 
@@ -23,6 +24,12 @@ export default function MyPageEdit() {
     }
 
     setSelectedImage(imageFile)
+
+    const reader = new FileReader()
+    reader.onloadend = () => {
+      setPreviewImage(reader.result)
+    }
+    reader.readAsDataURL(imageFile)
   }
 
   const mbtiList = ['ESTP', 'ESTJ', 'ESFP', 'ESFJ', 'ENTP', 'ENTJ', 'ENFP', 'ENFJ', 'ISTP', 'ISTJ', 'ISFP', 'ISFJ', 'INTP', 'INTJ', 'INFP', 'INFJ']
@@ -60,6 +67,7 @@ export default function MyPageEdit() {
       setUsername(userData.username || '')
       setSelectedMBTI(userData.mbti || '')
       setAddress(userData.address || '')
+      setPreviewImage(userData.userImage || '')
     }
   }, [userData])
 
@@ -75,6 +83,8 @@ export default function MyPageEdit() {
         alert('이미지 업로드에 실패했습니다.')
         return
       }
+    } else {
+      imageUrl = userData.userImage
     }
 
     try {
@@ -116,7 +126,10 @@ export default function MyPageEdit() {
         <div className={style.proList}>
           <div className={style.imgGroup}>
             <p className={style.proHead}>프로필 사진</p>
-            <input className={style.imgInput} type="file" accept="image/*" onChange={handleImageChange} />
+            <div className={style.wrap}>
+              {previewImage && <img src={previewImage} alt="미리보기" className={style.previewImage} />}
+              <input className={style.imgInput} type="file" accept="image/*" onChange={handleImageChange} />
+            </div>
           </div>
           <div className={style.group}>
             <p className={style.proHead}>이름</p>

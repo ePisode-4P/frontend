@@ -84,15 +84,6 @@ export default function MyPage() {
           </div>
         </div>
 
-        <div
-          className={style.line}
-          style={{
-            width: '60%',
-            borderBottom: '1px solid #aaa',
-            lineHeight: '0.1em',
-            margin: '10px 0 20px',
-          }}
-        ></div>
         <div className={style.bottom}>
           <div className={style.back1}>
             <p className={style.favorite}>관심사</p>

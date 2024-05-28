@@ -26,6 +26,7 @@
   flex-direction: column;
   align-items: center;
   border-radius: 30px;
+  padding: 0 40px;
 
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -39,6 +40,8 @@
   margin-top: 70px;
   margin-bottom: 10px;
   flex-wrap: wrap;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #aaa;
 }
 
 .pro {
@@ -54,6 +57,7 @@
 }
 
 .bottom {
+  margin-top: 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -91,8 +95,7 @@
 .email {
   font-size: 15px;
   font-weight: 100;
-  margin-top: 5px;
-  margin-left: 4px;
+  margin-top: 12px;
 }
 
 .logout {
