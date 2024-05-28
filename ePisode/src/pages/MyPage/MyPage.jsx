@@ -24,6 +24,8 @@ export default function MyPage() {
     enabled: !userFromState,
   })
 
+  console.log(user)
+
   //TODO - edit 이벤트 추가
   const editClick = () => {
     navigate('/map/profileedit')
@@ -61,7 +63,11 @@ export default function MyPage() {
         <div className={style.top}>
           <img
             className={style.image}
-            src="https://images.unsplash.com/photo-1712574340322-aaeae2cbaa8f?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            src={
+              user.userImage
+                ? user.userImage
+                : 'https://images.unsplash.com/photo-1712574340322-aaeae2cbaa8f?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+            }
           ></img>
           <div className={style.pro}>
             <div className={style.proIn}>

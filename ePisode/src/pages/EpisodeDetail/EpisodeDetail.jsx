@@ -39,8 +39,6 @@ export default function EpisodeDetail() {
     enabled: !!id,
   })
 
-  console.log(episode.isMe)
-
   const { mutate: mutateDelete } = useMutation({
     mutationFn: () => removeEpisode(id),
     onSuccess: (data) => {

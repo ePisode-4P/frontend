@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react'
 import style from './MyPageEdit.module.css'
 import { useNavigate } from 'react-router-dom'
 import { getUserInfo, removeUser, updateUser } from '../../services/user'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { addProfileImage } from '../../services/image'
 
 export default function MyPageEdit() {
   const [selectedImage, setSelectedImage] = useState(null)
@@ -21,7 +22,7 @@ export default function MyPageEdit() {
       return
     }
 
-    setSelectedImage(URL.createObjectURL(imageFile))
+    setSelectedImage(imageFile)
   }
 
   const mbtiList = ['ESTP', 'ESTJ', 'ESFP', 'ESFJ', 'ENTP', 'ENTJ', 'ENFP', 'ENFJ', 'ISTP', 'ISTJ', 'ISFP', 'ISFJ', 'INTP', 'INTJ', 'INFP', 'INFJ']
@@ -48,32 +49,43 @@ export default function MyPageEdit() {
     e.stopPropagation()
   }
 
-  const { 
-    data: userData, 
-    error 
-  } = useQuery({
+  const { data: userData, error } = useQuery({
     queryKey: ['userInfo'],
     queryFn: getUserInfo,
-  });
+  })
 
   useEffect(() => {
     if (userData) {
-      setFavSelected(userData.favorites || []);
-      setUsername(userData.username || '');
-      setSelectedMBTI(userData.mbti || '');
-      setAddress(userData.address || '');
+      setFavSelected(userData.favorite || [])
+      setUsername(userData.username || '')
+      setSelectedMBTI(userData.mbti || '')
+      setAddress(userData.address || '')
     }
-  }, [userData]);
+  }, [userData])
 
   const saveClick = async () => {
+    let imageUrl = selectedImage
+
+    if (imageUrl) {
+      try {
+        const uploadResponse = await addProfileImage(imageUrl)
+        imageUrl = uploadResponse.imageUrl
+      } catch (error) {
+        console.error('이미지 업로드 실패:', error)
+        alert('이미지 업로드에 실패했습니다.')
+        return
+      }
+    }
+
     try {
       const updatedUser = {
         username: username,
         mbti: selectedMBTI,
-        userImage: 'www.example.com',
+        userImage: imageUrl,
         favorite: favSelected,
         address: address,
       }
+
       const updatedUserInfo = await updateUser(updatedUser)
       navigate('/map/mypage', { state: { user: updatedUserInfo } })
     } catch (error) {
@@ -81,7 +93,6 @@ export default function MyPageEdit() {
       alert('사용자 정보 수정에 실패했습니다.')
     }
   }
-  
 
   const deleteClick = () => {
     if (window.confirm('탈퇴하시겠습니까?')) {
@@ -130,7 +141,7 @@ export default function MyPageEdit() {
             <div className={style.List}>
               <ul className={style.underGroup}>
                 {favList.map((favList, idx) => (
-                  <li className={favSelected.find((fav) => fav === favList) ? style.favSelectActive : style.favSelect} onClick={() => favClick(favList)} key={idx}>
+                  <li className={favSelected.find((fav) => fav === favList) ? style.favSelectActive : style.favSelect} selected={favList} onClick={() => favClick(favList)} key={idx}>
                     {favList}
                   </li>
                 ))}
