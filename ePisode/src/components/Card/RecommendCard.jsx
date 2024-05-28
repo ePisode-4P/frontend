@@ -10,7 +10,7 @@ import { addNewInterest } from '../../services/recommend'
 export default function RecommendCard({ index, place, place_name, category_name, road_address_name, address_name }) {
   const queryClient = useQueryClient()
   const { setSelectedPlace } = useSelectedPlace()
-  const [liked, setLiked] = useState(false)
+  const [liked, setLiked] = useState(place.isLike)
   const [disliked, setDisliked] = useState(false)
 
   const { placeName, categoryName, addressName, x, y, placeId } = place
@@ -73,7 +73,7 @@ export default function RecommendCard({ index, place, place_name, category_name,
     <div key={index} className={styles.card} onClick={handleClick}>
       <div className={styles.wrap}>
         <div>
-          {/* <p className={styles.card_category}>{category_name.split(' > ').pop()}</p> */}
+          {<p className={styles.card_category}>{category_name.split(' > ').pop()}</p>}
           <p className={styles.card_title}>{place_name}</p>
         </div>
         <div className={styles.wrap_btn}>

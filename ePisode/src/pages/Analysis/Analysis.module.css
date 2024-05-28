@@ -28,6 +28,11 @@
   font-weight: bold;
 }
 
+.chart {
+  margin-top: 15px;
+  margin-bottom: 10px;
+}
+
 .btn_next {
   width: 45px;
   height: 45px;
