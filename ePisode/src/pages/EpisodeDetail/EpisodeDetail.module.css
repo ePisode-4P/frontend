@@ -163,6 +163,7 @@ input[type='date']:valid::before {
   height: auto;
   padding: 1em;
   font-size: 1em;
+  line-height: 22px;
 
   background: rgba(255, 255, 255, 0.45);
   border: 1px solid #e8e8e8;

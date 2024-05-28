@@ -124,7 +124,9 @@ export default function EpisodeDetail() {
               )}
             </div>
           </div>
-          <p className={styles.content}>{episode.content}</p>
+          <p className={styles.content} style={{ whiteSpace: 'pre-wrap' }}>
+            {episode.content}
+          </p>
         </div>
         {episode.isMe !== false && (
           <div className={styles.wrap_btn}>
