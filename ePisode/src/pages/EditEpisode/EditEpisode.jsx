@@ -170,7 +170,16 @@ export default function EditEpisode() {
               )}
             </div>
           </div>
-          <textarea className={styles.content} placeholder="여기에 글을 작성하세요..." value={content} onChange={(e) => setContent(e.target.value)} />
+          <textarea
+            className={styles.content}
+            placeholder="여기에 글을 작성하세요..."
+            value={content}
+            onChange={(e) => {
+              if (e.target.value.length <= 500) {
+                setContent(e.target.value)
+              }
+            }}
+          />
         </div>
         <div className={styles.wrap_btn}>
           <input id="public-checkbox" className={styles.checkbox} type="checkbox" checked={isPublic} onChange={(e) => setIsPublic(e.target.checked)} />
