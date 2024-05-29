@@ -97,7 +97,7 @@ export default function MyPage() {
           </div>
           <div className={style.back2} onClick={likesClick}>
             <p className={style.likes}>관심장소</p>
-            <div className={style.num}>0개</div>
+            <div className={style.num}>{user.numInterestPlace}개</div>
           </div>
         </div>
       </div>
