@@ -1,58 +1,66 @@
-import React from 'react';
+import React from 'react'
 import styles from './AnalysisAll.module.css'
 import { motion } from 'framer-motion'
-import AnalysisAllCard from '../../components/Card/AnalysisAllCard';
-
+import AnalysisAllCard from '../../components/Card/AnalysisAllCard'
+import { useQuery } from '@tanstack/react-query'
+import { getAnalysisList } from '../../services/analysis'
+import { useNavigate } from 'react-router-dom'
 
 export default function AnalysisAll() {
-    
-    const analysis_list = [
-        {
-            date: '2024년 1월'
-        },
-        {
-            date: '2024년 2월',
-        },
-        {
-            date: '2024년 3월',
-        }
-    ]
-    
-    const cardVariants = {
-        hidden: (index) => ({
-          opacity: 0,
-          y: 20 * index,
-        }),
-        visible: (index) => ({
-          opacity: 1,
-          y: 0,
-          transition: {
-            delay: index * 0.1,
-          },
-        }),
-      }
-        
-    
-    return (
-        <motion.div className={styles.wrap}
-            style={{ zIndex: '2000', position: 'absolute', top: '0', left: '75px' }}
-            initial={{ opacity: 0, x: 0 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5 }}
-        >
-        <div className={styles.top}>
-            <h2 className={styles.category}>지난 보고서</h2>
-        </div>
-        <div>
-        {analysis_list.map((place, index) => (
+  const {
+    data: analysisList = [],
+    isLoading,
+    isError,
+  } = useQuery({
+    queryKey: ['analysisList'],
+    queryFn: () => getAnalysisList(),
+    onError: (eror) => {
+      console.error('보고서 목록을 가져오는데 실패했습니다.', error)
+    },
+  })
+
+  const cardVariants = {
+    hidden: (index) => ({
+      opacity: 0,
+      y: 20 * index,
+    }),
+    visible: (index) => ({
+      opacity: 1,
+      y: 0,
+      transition: {
+        delay: index * 0.1,
+      },
+    }),
+  }
+
+  if (isLoading) {
+    return <div>Loading...</div>
+  }
+
+  if (isError) {
+    return <div>에러가 발생했습니다.</div>
+  }
+
+  const { reportId, title, date } = analysisList
+
+  return (
+    <motion.div
+      className={styles.wrap}
+      style={{ zIndex: '2000', position: 'absolute', top: '0', left: '75px' }}
+      initial={{ opacity: 0, x: 0 }}
+      animate={{ opacity: 1, x: 0 }}
+      transition={{ duration: 0.5 }}
+    >
+      <div className={styles.top}>
+        <h2 className={styles.category}>지난 보고서</h2>
+      </div>
+      <div className={styles.wrap_card}>
+        {analysisList.map((analysisList, index) => (
           <motion.div custom={index} variants={cardVariants} initial="hidden" animate="visible" key={index}>
-            <AnalysisAllCard place={place} date={place.date}/>
+            <AnalysisAllCard title={analysisList.title} />
           </motion.div>
         ))}
-        </div>
-
-        </motion.div>
-
-    );
+      </div>
+    </motion.div>
+  )
 }
-
