@@ -77,7 +77,7 @@ export default function Analysis() {
     datasets: [
       {
         data: graphData.datasets[0].data,
-        backgroundColor: ['rgb(255, 112, 166)', 'rgb(255, 156, 194)', 'rgb(255, 205, 224)'],
+        backgroundColor: ['rgb(255, 112, 166)', 'rgb(255, 161, 199)', 'rgb(255, 203, 225)', 'rgb(254, 229, 239)'],
         borderWidth: 0,
       },
     ],
@@ -105,7 +105,7 @@ export default function Analysis() {
         },
         formatter: function (value, context) {
           const label = context.chart.data.labels[context.dataIndex]
-          return `${label}\n${Math.round(value)}%`
+          return `${label}\n${Math.round(value) * 10}%`
         },
       },
     },

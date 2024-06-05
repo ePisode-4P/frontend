@@ -56,7 +56,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
                 <Route path="likes" element={<Like />} />
                 <Route path="Bookmark" element={<Bookmark />} />
                 <Route path="analysis" element={<Analysis />} />
-                <Route path="allanalysis" element={<AnalysisAll/>}/>
+                <Route path="allanalysis" element={<AnalysisAll />} />
               </Route>
 
               <Route path="/*" element={<NotFound />} />

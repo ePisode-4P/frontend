@@ -7,6 +7,8 @@ import { getAnalysisList } from '../../services/analysis'
 import { useNavigate } from 'react-router-dom'
 
 export default function AnalysisAll() {
+  const navigate = useNavigate()
+
   const {
     data: analysisList = [],
     isLoading,
@@ -43,6 +45,11 @@ export default function AnalysisAll() {
 
   const { reportId, title, date } = analysisList
 
+  const handleClick = (id) => {
+    path: `/map/analysis/${id}`
+    navigate(path)
+  }
+
   return (
     <motion.div
       className={styles.wrap}
@@ -57,7 +64,7 @@ export default function AnalysisAll() {
       <div className={styles.wrap_card}>
         {analysisList.map((analysisList, index) => (
           <motion.div custom={index} variants={cardVariants} initial="hidden" animate="visible" key={index}>
-            <AnalysisAllCard title={analysisList.title} />
+            <AnalysisAllCard title={analysisList.title} onClick={handleClick} />
           </motion.div>
         ))}
       </div>
