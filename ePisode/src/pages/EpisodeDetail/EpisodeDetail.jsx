@@ -71,7 +71,11 @@ export default function EpisodeDetail() {
   }
 
   const handleRemove = () => {
-    mutateDelete()
+    const isConfirmed = confirm('정말 삭제하시겠습니까?')
+
+    if (isConfirmed) {
+      mutateDelete()
+    }
   }
 
   const handlePrevPhoto = () => {
@@ -124,7 +128,9 @@ export default function EpisodeDetail() {
               )}
             </div>
           </div>
-          <p className={styles.content}>{episode.content}</p>
+          <p className={styles.content} style={{ whiteSpace: 'pre-wrap' }}>
+            {episode.content}
+          </p>
         </div>
         {episode.isMe !== false && (
           <div className={styles.wrap_btn}>
