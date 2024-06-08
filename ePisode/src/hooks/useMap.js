@@ -67,6 +67,7 @@ const useMap = (mapRef, apiKey, setSelectedPlace, selectedPlace, diaryCoordinate
 
           if (selectedPlace) {
             const selectedLocation = new window.kakao.maps.LatLng(selectedPlace.place.y, selectedPlace.place.x)
+
             marker.setPosition(selectedLocation)
             marker.setMap(map)
             map.setCenter(selectedLocation)

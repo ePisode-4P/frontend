@@ -47,6 +47,10 @@ export default function MyPage() {
     e.stopPropagation()
   }
 
+  const myDiariesClick = (e) => {
+    navigate('/map/mine')
+  }
+
   const bookmarkClick = (e) => {
     navigate('/map/bookmark')
   }
@@ -83,6 +87,9 @@ export default function MyPage() {
         </div>
 
         <div className={style.bottom}>
+          <div className={style.back2} onClick={myDiariesClick}>
+            <p className={style.likes}>내가 쓴 글</p>
+          </div>
           <div className={style.back1}>
             <p className={style.favorite}>관심사</p>
             <p className={style.favDetail}>{user.favorite?.join(' ')}</p>

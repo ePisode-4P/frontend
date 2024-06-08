@@ -9,6 +9,9 @@ export const addNewEpisode = async (newEpisode) => {
     body: JSON.stringify(newEpisode),
   })
 
+  if (response.status === 400) {
+    alert('고운 말을 쓰자')
+  }
   if (!response.ok) {
     throw new Error('에피소드 작성 실패')
   }
@@ -23,6 +26,9 @@ export const editEpisode = async ({ editedEpisode, id }) => {
     body: JSON.stringify(editedEpisode),
   })
 
+  if (response.status === 400) {
+    alert('고운 말을 쓰자')
+  }
   if (!response.ok) {
     throw new Error('에피소드 수정 실패')
   }
@@ -55,6 +61,23 @@ export const getMarkers = async () => {
 
   if (!response.ok) {
     throw new Error('마커를 가져오는데 실패했습니다.')
+  }
+
+  const data = await response.json()
+
+  return data || []
+}
+
+export const getMyDiaries = async (offset) => {
+  const token = localStorage.getItem('access-token')
+
+  const response = await fetch(`${API_BASE_URL}/diaries/mine?offset=${offset}`, {
+    method: 'GET',
+    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+  })
+
+  if (!response.ok) {
+    throw new Error('내 다이어리를 가져오는데 실패했습니다.')
   }
 
   const data = await response.json()

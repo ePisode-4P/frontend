@@ -178,13 +178,19 @@ export default function Diary({ selectedPlace, setSelectedPlace }) {
             ? diaries.list &&
               diaries.list.map((diary, index) => (
                 <li key={index} className={styles.episode} onClick={() => handleEpisodeClick(diary.diaryId)}>
-                  {diary.writeDate} - {diary.title || '무제'}
+                  {diary.writeDate} - {diary.title && diary.title.length > 10 ? `${diary.title.substring(0, 10)}...` : diary.title || '무제'}
                 </li>
               ))
             : publicDiaries &&
               publicDiaries.map((publicDiary, index) => (
                 <li key={index} className={styles.episode} onClick={() => handlePublicEpisodeClick(publicDiary.diaryId)}>
-                  {publicDiary.writeDate} - {publicDiary.title || '무제'}
+                  <p>
+                    {publicDiary.writeDate} - {publicDiary.title && publicDiary.title.length > 10 ? `${publicDiary.title.substring(0, 8)}...` : publicDiary.title || '무제'}
+                  </p>
+                  <div className={styles.wrap_username}>
+                    <p className={styles.username}>write by.</p>
+                    <p className={styles.username}>{publicDiary.username}</p>
+                  </div>
                 </li>
               ))}
         </ul>

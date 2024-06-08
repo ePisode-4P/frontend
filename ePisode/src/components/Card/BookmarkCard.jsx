@@ -11,6 +11,8 @@ export default function BookmarkCard({ index, place, place_name, category_name, 
   const { setSelectedPlace } = useSelectedPlace()
   const queryClient = useQueryClient()
 
+  console.log(index)
+
   const [loved, setLoved] = useState(true)
 
   const { placeName, categoryName, addressName, x, y } = place
@@ -31,7 +33,7 @@ export default function BookmarkCard({ index, place, place_name, category_name, 
     e.stopPropagation()
     removeLike(place.x, place.y)
       .then(() => {
-        setLoved(false)
+        queryClient.invalidateQueries(['likes'])
         queryClient.invalidateQueries(['diaries'])
       })
       .catch((error) => {
