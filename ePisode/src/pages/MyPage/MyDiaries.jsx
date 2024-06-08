@@ -43,7 +43,7 @@ export default function MyDiaries() {
         isPublic: false,
       },
     })
-    console.log(selectedPlace)
+
     const newPlace = {
       place_name: selectedPlace.place_name,
       category_name: selectedPlace.category_name,
