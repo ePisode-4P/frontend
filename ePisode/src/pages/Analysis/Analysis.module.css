@@ -72,6 +72,7 @@
 
 .area_box {
   background: rgba(255, 255, 255, 0.581);
+  padding: 10px;
   display: flex;
   align-items: center;
   height: 45px;
