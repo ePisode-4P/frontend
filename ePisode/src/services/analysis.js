@@ -39,13 +39,16 @@ export const getAnalysisId = async (id) => {
 
     const response = await fetch(`${API_BASE_URL}/reports/${id}`, {
         method: 'GET',
-        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}`},
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+        },
     })
 
-    if (!response.ok){
+    if (!response.ok) {
         throw new Error('레포트를 가져오는데 실패했습니다.')
     }
 
     const data = await response.json()
-    return data || []
+    return data || {}
 }

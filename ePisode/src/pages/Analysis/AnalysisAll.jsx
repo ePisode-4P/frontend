@@ -16,8 +16,8 @@ export default function AnalysisAll() {
   } = useQuery({
     queryKey: ['analysisList'],
     queryFn: () => getAnalysisList(),
-    onError: (eror) => {
-      console.error('보고서 목록을 가져오는데 실패했습니다.', error)
+    onError: (error) => {
+      console.error(error)
     },
   })
 
@@ -43,11 +43,8 @@ export default function AnalysisAll() {
     return <div>에러가 발생했습니다.</div>
   }
 
-  const { reportId, title, date } = analysisList
-
-  const handleClick = (id) => {
-    path: `/map/analysis/${id}`
-    navigate(path)
+  const handleAnalysisClick = (id) => {
+    navigate(`/map/analysis/${id}`)
   }
 
   return (
@@ -62,9 +59,9 @@ export default function AnalysisAll() {
         <h2 className={styles.category}>지난 보고서</h2>
       </div>
       <div className={styles.wrap_card}>
-        {analysisList.map((analysisList, index) => (
+        {analysisList.map((analysis, index) => (
           <motion.div custom={index} variants={cardVariants} initial="hidden" animate="visible" key={index}>
-            <AnalysisAllCard title={analysisList.title} onClick={handleClick} />
+            <AnalysisAllCard title={analysis.title} onClick={() => handleAnalysisClick(analysis.analysisId)} />
           </motion.div>
         ))}
       </div>
