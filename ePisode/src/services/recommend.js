@@ -89,3 +89,19 @@ export const removeInterest = async (x, y) => {
     throw new Error('관심 장소 삭제 실패')
   }
 }
+
+export const markAsDisliked = async (placeId) => {
+  const token = localStorage.getItem('access-token')
+
+  const response = await fetch(`${API_BASE_URL}/recommend/no/${placeId}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`
+    },
+  })
+
+  if (!response.ok) {
+    throw new Error('추천 장소 싫어요 표시 실패')
+  }
+}
