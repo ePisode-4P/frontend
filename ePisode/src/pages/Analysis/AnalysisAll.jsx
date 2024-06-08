@@ -61,7 +61,7 @@ export default function AnalysisAll() {
       <div className={styles.wrap_card}>
         {analysisList.map((analysis, index) => (
           <motion.div custom={index} variants={cardVariants} initial="hidden" animate="visible" key={index}>
-            <AnalysisAllCard title={analysis.title} onClick={() => handleAnalysisClick(analysis.analysisId)} />
+            <AnalysisAllCard title={analysis.title} onClick={() => handleAnalysisClick(analysis.reportId)} />
           </motion.div>
         ))}
       </div>
