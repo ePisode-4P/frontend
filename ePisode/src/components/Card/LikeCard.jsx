@@ -11,8 +11,6 @@ export default function LikeCard({ index, place, place_name, category_name, road
   const { setSelectedPlace } = useSelectedPlace()
   const queryClient = useQueryClient()
 
-  console.log(category_name);
-
   const { placeName, categoryName, addressName, x, y, id } = place
 
   const newPlace = {
@@ -31,6 +29,7 @@ export default function LikeCard({ index, place, place_name, category_name, road
     e.stopPropagation()
     removeInterest(place.x, place.y)
       .then(() => {
+        queryClient.invalidateQueries(['recommends'])
         queryClient.invalidateQueries(['interests'])
       })
       .catch((error) => {
@@ -42,7 +41,7 @@ export default function LikeCard({ index, place, place_name, category_name, road
     <div key={index} className={styles.card} onClick={handleClick}>
       <div className={styles.wrap}>
         <div>
-          <p className={styles.card_category}>{category_name ? category_name.split(' > ').pop():""}</p>
+          <p className={styles.card_category}>{category_name ? category_name.split(' > ').pop() : ''}</p>
           <p className={styles.card_title}>{place_name}</p>
         </div>
         <div className={styles.wrap_btn}>

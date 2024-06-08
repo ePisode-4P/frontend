@@ -1,0 +1,103 @@
+.filter {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(209, 209, 209, 0.5);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  z-index: 1000;
+}
+
+.mywrap {
+  z-index: 1000;
+  background: linear-gradient(161.66deg, rgba(255, 255, 255, 0.18) 5.63%, rgba(255, 255, 255, 0.6) 94.57%);
+  box-shadow: 4px 0px 4px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(30px);
+  width: 700px;
+  height: 650px;
+  margin-left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 30px;
+  padding: 0 20px;
+  overflow-y: scroll;
+
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+
+  scrollbar-width: none;
+
+  /* 스크롤바 숨기기: Chrome, Safari, Edge */
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.category {
+  margin: 30px 0px;
+  font-size: 1.5em;
+  font-weight: bold;
+}
+
+.wrap_card {
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.card {
+  background: rgba(255, 255, 255, 0.581);
+  border: 1px solid #e8e8e8;
+  border-radius: 15px;
+
+  width: 100%;
+  padding: 20px;
+  margin: 0 0 10px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  cursor: pointer;
+}
+
+@media screen and (max-width: 850px) {
+  .card {
+    flex-direction: column;
+  }
+  .location {
+    margin-top: 5px;
+  }
+}
+.card:hover {
+  transition: 0.3s;
+  background-color: rgb(255, 255, 255);
+  transition: 0.3s;
+  color: #ff70a6;
+}
+.location {
+  font-size: 0.85em;
+  color: #4c4c4c;
+}
+.card:hover .location {
+  color: #ff70a6;
+}
+
+.card_title {
+  font-size: 1.2em;
+  font-weight: 600;
+}
+
+.card_category {
+  font-size: 0.8em;
+  font-weight: bold;
+  margin-bottom: 5px;
+  margin-left: 2px;
+  color: #ff3783;
+}

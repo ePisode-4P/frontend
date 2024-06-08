@@ -46,7 +46,7 @@ export default function Bookmark() {
           likes.length > 0 &&
           likes.map((place, index) => (
             <motion.div custom={index} variants={cardVariants} initial="hidden" animate="visible" key={index}>
-              <BookmarkCard place={place} place_name={place.placeName} category_name={place.categoryName} road_address_name={place.addressName} address_name={place.addressName} />
+              <BookmarkCard index={index} place={place} place_name={place.placeName} category_name={place.categoryName} road_address_name={place.addressName} address_name={place.addressName} />
             </motion.div>
           ))}
       </div>

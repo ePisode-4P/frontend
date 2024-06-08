@@ -19,7 +19,7 @@
   box-shadow: 4px 0px 4px rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(30px);
   width: 700px;
-  height: 450px;
+  height: 500px;
   margin-left: 50%;
   transform: translateX(-50%);
   display: flex;
