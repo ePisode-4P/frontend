@@ -16,7 +16,7 @@ export default function Recommend() {
     isError,
   } = useQuery({
     queryKey: ['recommends'],
-    queryFn: () => getRecommends(),
+    queryFn: getRecommends,
     onError: (error) => {
       console.error(error)
     },
@@ -68,7 +68,7 @@ export default function Recommend() {
     >
       <h2 className={styles.category}>추천 장소</h2>
       <div className={styles.wrap_card}>
-      {isLoading && <Lottie style={{ pointerEvents: 'none', position: 'relative' }} options={defaultOptions2} height={200} width={200} />}
+        {isLoading && <Lottie style={{ pointerEvents: 'none', position: 'relative' }} options={defaultOptions2} height={200} width={200} />}
 
         {recommends &&
           recommends.length > 0 &&
