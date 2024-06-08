@@ -24,8 +24,6 @@ export default function MyPage() {
     enabled: !userFromState,
   })
 
-  console.log(user)
-
   //TODO - edit 이벤트 추가
   const editClick = () => {
     navigate('/map/profileedit')
@@ -47,6 +45,10 @@ export default function MyPage() {
 
   const handleInnerClick = (e) => {
     e.stopPropagation()
+  }
+
+  const myDiariesClick = (e) => {
+    navigate('/map/mine')
   }
 
   const bookmarkClick = (e) => {
@@ -85,6 +87,9 @@ export default function MyPage() {
         </div>
 
         <div className={style.bottom}>
+          <div className={style.back2} onClick={myDiariesClick}>
+            <p className={style.likes}>내가 쓴 글</p>
+          </div>
           <div className={style.back1}>
             <p className={style.favorite}>관심사</p>
             <p className={style.favDetail}>{user.favorite?.join(' ')}</p>
@@ -99,7 +104,7 @@ export default function MyPage() {
           </div>
           <div className={style.back2} onClick={likesClick}>
             <p className={style.likes}>관심장소</p>
-            <div className={style.num}>0개</div>
+            <div className={style.num}>{user.numInterestPlace}개</div>
           </div>
         </div>
       </div>

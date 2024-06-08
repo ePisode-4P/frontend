@@ -1,16 +1,16 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { MdLocationOn } from 'react-icons/md'
 import { BiLike, BiSolidLike, BiDislike, BiSolidDislike } from 'react-icons/bi'
 
 import styles from './RecommendCard.module.css'
 import { useSelectedPlace } from '../../contexts/SelectedPlaceContext'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { addNewInterest } from '../../services/recommend'
+import { addNewInterest, removeInterest, markAsDisliked } from '../../services/recommend'
 
-export default function RecommendCard({ index, place, place_name, category_name, road_address_name, address_name }) {
+export default function RecommendCard({ index, place, isLike, place_name, category_name, road_address_name, address_name }) {
   const queryClient = useQueryClient()
   const { setSelectedPlace } = useSelectedPlace()
-  const [liked, setLiked] = useState(place.isLike)
+  const [liked, setLiked] = useState(isLike)
   const [disliked, setDisliked] = useState(false)
 
   const { placeName, categoryName, addressName, x, y, placeId } = place
@@ -23,17 +23,9 @@ export default function RecommendCard({ index, place, place_name, category_name,
     y: y,
   }
 
-  const { mutate } = useMutation({
-    mutationFn: addNewInterest,
-    onSuccess: (data) => {
-      queryClient.invalidateQueries(['interests'])
-    },
-  })
-
   const handleClick = () => {
     setSelectedPlace({ place: newPlace })
   }
-  
 
   const handleLikeClick = (e) => {
     e.stopPropagation()
@@ -45,9 +37,26 @@ export default function RecommendCard({ index, place, place_name, category_name,
       y,
       addressName,
     }
-    console.log(placeInfo);
 
-    mutate(placeInfo)
+    if (liked) {
+      removeInterest(place.x, place.y)
+        .then(() => {
+          queryClient.invalidateQueries(['recommends'])
+          queryClient.invalidateQueries(['interests'])
+        })
+        .catch((error) => {
+          console.error(error)
+        })
+    } else {
+      addNewInterest(placeInfo)
+        .then(() => {
+          queryClient.invalidateQueries(['recommends'])
+          queryClient.invalidateQueries(['interests'])
+        })
+        .catch((error) => {
+          console.error(error)
+        })
+    }
 
     if (disliked && !liked) {
       setDisliked(false)
@@ -57,10 +66,17 @@ export default function RecommendCard({ index, place, place_name, category_name,
     }
   }
 
-  
-
   const handleDislikeClick = (e) => {
     e.stopPropagation()
+    markAsDisliked(placeId)
+      .then(() => {
+        queryClient.invalidateQueries(['recommends'])
+        queryClient.invalidateQueries(['interests'])
+      })
+      .catch((error) => {
+        console.error('Failed to mark as disliked:', error)
+      })
+
     if (liked && !disliked) {
       setLiked(false)
       setDisliked(true)
@@ -68,6 +84,10 @@ export default function RecommendCard({ index, place, place_name, category_name,
       setDisliked(!disliked)
     }
   }
+
+  useEffect(() => {
+    setLiked(isLike)
+  }, [isLike])
 
   return (
     <div key={index} className={styles.card} onClick={handleClick}>
