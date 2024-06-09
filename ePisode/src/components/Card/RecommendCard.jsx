@@ -5,7 +5,7 @@ import { BiLike, BiSolidLike, BiDislike, BiSolidDislike } from 'react-icons/bi'
 import styles from './RecommendCard.module.css'
 import { useSelectedPlace } from '../../contexts/SelectedPlaceContext'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { addNewInterest, removeInterest } from '../../services/recommend'
+import { addNewInterest, removeInterest, markAsDisliked } from '../../services/recommend'
 
 export default function RecommendCard({ index, place, isLike, place_name, category_name, road_address_name, address_name }) {
   const queryClient = useQueryClient()
@@ -68,12 +68,20 @@ export default function RecommendCard({ index, place, isLike, place_name, catego
 
   const handleDislikeClick = (e) => {
     e.stopPropagation()
-    if (liked && !disliked) {
-      setLiked(false)
-      setDisliked(true)
-    } else {
-      setDisliked(!disliked)
-    }
+    markAsDisliked(placeId)
+      .then(() => {
+        removeInterest(place.x, place.y)
+          .then(() => {
+            queryClient.invalidateQueries(['recommends'])
+            queryClient.invalidateQueries(['interests'])
+          })
+          .catch((error) => {
+            console.error(error)
+          })
+      })
+      .catch((error) => {
+        console.error('Failed to mark as disliked:', error)
+      })
   }
 
   useEffect(() => {

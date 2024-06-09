@@ -4,10 +4,12 @@ import animationData2 from '../../assets/lotties/loading.json'
 import { motion } from 'framer-motion'
 import styles from './Recommend.module.css'
 import RecommendCard from '../../components/Card/RecommendCard'
-import { getRecommends } from '../../services/recommend'
-import { useQuery } from '@tanstack/react-query'
+import { getRecommends, markAsDisliked } from '../../services/recommend'
+import { useQuery, useQueryClient} from '@tanstack/react-query'
 
 export default function Recommend() {
+  const queryClient = useQueryClient()
+
   const {
     data: recommends = [],
     isLoading,
@@ -23,6 +25,15 @@ export default function Recommend() {
     staleTime: Infinity,
     cacheTime: 0,
   })
+
+  const handleDislike = async (placeId) => {
+    try {
+      await markAsDisliked(placeId)
+      queryClient.invalidateQueries(['recommends'])
+    } catch (error) {
+      console.error('Failed to mark as disliked:', error)
+    }
+  }  
 
   const cardVariants = {
     hidden: (index) => ({
@@ -62,7 +73,7 @@ export default function Recommend() {
         {recommends &&
           recommends.length > 0 &&
           recommends.map((place, index) => (
-            <motion.div custom={index} variants={cardVariants} initial="hidden" animate="visible" key={index}>
+            <motion.div custom={index} variants={cardVariants} initial="hidden" animate="visible" key={place.id}>
               <RecommendCard
                 place={place}
                 isLike={place.isLike}
@@ -70,7 +81,8 @@ export default function Recommend() {
                 category_name={place.categoryName}
                 road_address_name={place.addressName}
                 address_name={place.addressName}
-              />
+                onDislike={handleDislike} 
+                />
             </motion.div>
           ))}
       </div>
