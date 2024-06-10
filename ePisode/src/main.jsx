@@ -24,7 +24,11 @@ import { DiaryCoordinatesProvider } from './contexts/DiaryCoordinatesContext'
 import EpisodeDetail from './pages/EpisodeDetail/EpisodeDetail'
 import AnalysisAll from './pages/Analysis/AnalysisAll'
 import EditEpisode from './pages/EditEpisode/EditEpisode'
+<<<<<<< HEAD
 import PastAnalysis from './pages/Analysis/PastAnalysis'
+=======
+import MyDiaries from './pages/MyPage/MyDiaries'
+>>>>>>> a32ef60379a9dd514c280adcff5bfb922885907f
 
 const queryClient = new QueryClient()
 
@@ -52,6 +56,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
                 <Route path="episode/:episodeId" element={<EpisodeDetail />} />
                 <Route path="mypage" element={<MyPage />} />
                 <Route path="profileedit" element={<MyPageEdit />} />
+                <Route path="mine" element={<MyDiaries />} />
                 <Route path="search" element={<Search />} />
                 <Route path="recommend" element={<Recommend />} />
                 <Route path="likes" element={<Like />} />
