@@ -24,11 +24,8 @@ import { DiaryCoordinatesProvider } from './contexts/DiaryCoordinatesContext'
 import EpisodeDetail from './pages/EpisodeDetail/EpisodeDetail'
 import AnalysisAll from './pages/Analysis/AnalysisAll'
 import EditEpisode from './pages/EditEpisode/EditEpisode'
-<<<<<<< HEAD
 import PastAnalysis from './pages/Analysis/PastAnalysis'
-=======
 import MyDiaries from './pages/MyPage/MyDiaries'
->>>>>>> a32ef60379a9dd514c280adcff5bfb922885907f
 
 const queryClient = new QueryClient()
 
