@@ -70,14 +70,15 @@ export default function RecommendCard({ index, place, isLike, place_name, catego
     e.stopPropagation()
     markAsDisliked(placeId)
       .then(() => {
-        removeInterest(place.x, place.y)
-          .then(() => {
-            queryClient.invalidateQueries(['recommends'])
-            queryClient.invalidateQueries(['interests'])
-          })
-          .catch((error) => {
-            console.error(error)
-          })
+        setDisliked(true)
+        queryClient.invalidateQueries(['recommends'])
+        queryClient.invalidateQueries(['interests'])
+        setDisliked(false)
+      })
+      .then(() => {
+        if (liked) {
+          removeInterest(place.x, place.y)
+        }
       })
       .catch((error) => {
         console.error('Failed to mark as disliked:', error)

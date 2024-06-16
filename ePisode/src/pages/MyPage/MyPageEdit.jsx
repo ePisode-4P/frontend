@@ -2,14 +2,18 @@ import React, { useState, useEffect } from 'react'
 import style from './MyPageEdit.module.css'
 import { useNavigate } from 'react-router-dom'
 import { getUserInfo, removeUser, updateUser } from '../../services/user'
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { useQuery } from '@tanstack/react-query'
+import DaumPostcode from 'react-daum-postcode'
+
 import { addProfileImage } from '../../services/image'
+import { FaSearch } from 'react-icons/fa'
 
 export default function MyPageEdit() {
   const [selectedImage, setSelectedImage] = useState(null)
   const [previewImage, setPreviewImage] = useState(null)
   const [username, setUsername] = useState('')
   const [address, setAddress] = useState('')
+  const [showPostcode, setShowPostcode] = useState(false)
 
   const navigate = useNavigate()
 
@@ -36,7 +40,7 @@ export default function MyPageEdit() {
 
   const [selectedMBTI, setSelectedMBTI] = useState('')
 
-  const favList = ['영화관', '카페', '문화시설', '숙박', '도서관']
+  const favList = ['영화관', '카페', '문화시설', '캠핑', '도서관']
 
   const [favSelected, setFavSelected] = useState([])
 
@@ -54,6 +58,19 @@ export default function MyPageEdit() {
 
   const handleInnerClick = (e) => {
     e.stopPropagation()
+  }
+
+  const handleAddressChange = (e) => {
+    setAddress(e.target.value)
+  }
+
+  const handleAddressSearch = () => {
+    setShowPostcode(true)
+  }
+
+  const handleAddressComplete = (data) => {
+    setAddress(data.address)
+    setShowPostcode(false)
   }
 
   const { data: userData, error } = useQuery({
@@ -133,7 +150,15 @@ export default function MyPageEdit() {
           </div>
           <div className={style.group}>
             <p className={style.proHead}>이름</p>
-            <input className={style.inputName} value={username} onChange={(e) => setUsername(e.target.value)}></input>
+            <input
+              className={style.inputName}
+              value={username}
+              onChange={(e) => {
+                if (e.target.value.length <= 15) {
+                  setUsername(e.target.value)
+                }
+              }}
+            ></input>
           </div>
           <div className={style.group}>
             <p className={style.proHead}>MBTI</p>
@@ -161,9 +186,21 @@ export default function MyPageEdit() {
               </ul>
             </div>
           </div>
-          <div className={style.group}>
+          <div className={style.addressGroup}>
             <p className={style.proHead}>주소</p>
-            <input className={style.inputAddress} value={address} onChange={(e) => setAddress(e.target.value)} />
+            <div className={style.addressContainer}>
+              <div>
+                <input className={style.inputAddress} type="text" name="address" placeholder="Address" value={address} onChange={handleAddressChange} />
+                <button className={style.searchButton} type="button" onClick={handleAddressSearch}>
+                  <FaSearch style={{ fontSize: '24px', marginLeft: '5px', color: '#979797' }} />
+                </button>
+              </div>
+              {showPostcode && (
+                <div>
+                  <DaumPostcode onComplete={handleAddressComplete} className={style.postcode} />
+                </div>
+              )}
+            </div>
           </div>
         </div>
         <div className={style.bottom}>

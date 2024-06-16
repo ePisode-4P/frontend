@@ -8,6 +8,7 @@ export const login = async (loginInfo) => {
   })
 
   if (!response.ok) {
+    alert('로그인에 실패했습니다.')
     throw new Error('로그인 실패')
   }
 
@@ -26,7 +27,10 @@ export const signup = async (SignupInfo) => {
     body: JSON.stringify(SignupInfo),
   })
 
-  if (!response.ok) {
+  if (response.status == 409) {
+    alert('이미 가입된 이메일입니다.')
+  } else if (!response.ok) {
+    alert('회원가입에 실패했습니다.')
     throw new Error('회원가입 실패')
   }
 }

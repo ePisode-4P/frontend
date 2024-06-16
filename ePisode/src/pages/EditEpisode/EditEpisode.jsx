@@ -140,7 +140,7 @@ export default function EditEpisode() {
           <input className={styles.title} type="text" placeholder="제목" value={title} onChange={(e) => setTitle(e.target.value)} />
           <div className={styles.wrap_date}>
             <input className={styles.date} type="date" value={date} onChange={(e) => setDate(e.target.value)} />
-            <span className={styles.weather}>{weather.length > 0 && weather.weather ? <BsQuestion /> : weatherIcons[weather.weather]}</span>
+            <span className={styles.weather}>{weather.weather === null ? <BsQuestion /> : weather.weather ? weatherIcons[weather.weather] : <BsQuestion />}</span>
           </div>
         </div>
         <div className={styles.wrap_content}>

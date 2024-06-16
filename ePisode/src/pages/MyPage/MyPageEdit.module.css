@@ -19,15 +19,24 @@
   box-shadow: 4px 0px 4px rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(30px);
   width: 700px;
-  height: 570px;
+  height: 500px;
   margin-left: 50%;
   transform: translateX(-50%);
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
+  padding: 40px 0;
   border-radius: 30px;
   flex-shrink: 0;
+
+  overflow-y: scroll;
+
+  scrollbar-width: none;
+
+  /* 스크롤바 숨기기: Chrome, Safari, Edge */
+  &::-webkit-scrollbar {
+    display: none;
+  }
 
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -52,7 +61,6 @@
 .proHead {
   font-size: 15px;
   font-weight: bold;
-  margin-bottom: 30px;
 }
 
 .imgGroup {
@@ -66,23 +74,32 @@
 }
 
 .favHead {
+  height: 30px;
   font-size: 15px;
   font-weight: bold;
-  margin-bottom: 20px;
+  margin-top: 10px;
+  margin-bottom: 1em;
 }
 
 .group {
   display: flex;
+  align-items: center;
   flex-direction: row;
+  margin-bottom: 1em;
+}
+
+.addressGroup {
+  display: flex;
+  align-items: start;
+  flex-direction: row;
+  margin-bottom: 1em;
 }
 
 .inputName {
   height: 30px;
   width: 150px;
   margin-left: 110px;
-  margin-top: -10px;
-  margin-bottom: 30px;
-  border-color: black;
+  border-color: #6a6a6a;
   border-width: 2px;
   border-radius: 100px;
   padding: 10px;
@@ -92,12 +109,23 @@
   height: 30px;
   width: 150px;
   margin-left: 104px;
-  margin-top: -10px;
-  margin-bottom: 30px;
-  border-color: black;
+  border-color: #6a6a6a;
   border-width: 2px;
   border-radius: 100px;
   padding: 0px 5px;
+  cursor: pointer;
+}
+
+.addressContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.searchButton {
+  background: none;
+  border: none;
   cursor: pointer;
 }
 
@@ -105,9 +133,7 @@
   height: 30px;
   width: 150px;
   margin-left: 110px;
-  margin-top: -10px;
-  margin-bottom: 30px;
-  border-color: black;
+  border-color: #6a6a6a;
   border-width: 2px;
   border-radius: 100px;
   padding: 10px;
@@ -116,6 +142,7 @@
 .bottom {
   display: flex;
   flex-direction: row;
+  margin-top: 10px;
 }
 
 .saveBtn {
@@ -151,7 +178,7 @@
 .underGroup {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 40px;
+  margin-bottom: 30px;
 }
 
 .favSelect {
@@ -183,6 +210,10 @@
   width: 100px;
   border-radius: 100%;
   margin-bottom: 10px;
+}
+
+.postcode {
+  margin-bottom: 0.2em;
 }
 
 .wrap {

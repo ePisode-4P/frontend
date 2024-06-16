@@ -73,6 +73,7 @@ export default function MyDiaries() {
       <div className={styles.mywrap} onClick={handleInnerClick}>
         <h2 className={styles.category}>내가 쓴 글</h2>
         <div className={styles.wrap_card}>
+          {mine.length == 0 && <p>내가 쓴 글이 없습니다.</p>}
           {mine.map((diary, index) => (
             <motion.div custom={index} variants={cardVariants} initial="hidden" animate="visible" key={index}>
               <div

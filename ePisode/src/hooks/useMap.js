@@ -1,6 +1,9 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 
 const useMap = (mapRef, apiKey, setSelectedPlace, selectedPlace, diaryCoordinates) => {
+  const mapInstance = useRef(null)
+  const markerInstance = useRef(null)
+
   useEffect(() => {
     const mapScript = document.createElement('script')
 
@@ -66,6 +69,7 @@ const useMap = (mapRef, apiKey, setSelectedPlace, selectedPlace, diaryCoordinate
           })
 
           if (selectedPlace) {
+            console.log(selectedPlace)
             const selectedLocation = new window.kakao.maps.LatLng(selectedPlace.place.y, selectedPlace.place.x)
 
             marker.setPosition(selectedLocation)
@@ -85,6 +89,9 @@ const useMap = (mapRef, apiKey, setSelectedPlace, selectedPlace, diaryCoordinate
           }
 
           marker.setMap(map)
+
+          mapInstance.current = map
+          markerInstance.current = marker
 
           const geocoder = new window.kakao.maps.services.Geocoder()
           const places = new window.kakao.maps.services.Places()
@@ -194,6 +201,15 @@ const useMap = (mapRef, apiKey, setSelectedPlace, selectedPlace, diaryCoordinate
       mapScript.onload = null
     }
   }, [mapRef, apiKey, setSelectedPlace, selectedPlace, diaryCoordinates])
+
+  useEffect(() => {
+    if (mapInstance.current && markerInstance.current && selectedPlace) {
+      const selectedLocation = new window.kakao.maps.LatLng(selectedPlace.y, selectedPlace.x)
+      markerInstance.current.setPosition(selectedLocation)
+      markerInstance.current.setMap(mapInstance.current)
+      mapInstance.current.setCenter(selectedLocation)
+    }
+  }, [selectedPlace])
 }
 
 export default useMap

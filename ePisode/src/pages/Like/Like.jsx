@@ -42,6 +42,7 @@ export default function Like() {
     >
       <h2 className={styles.category}>관심 장소</h2>
       <div className={styles.wrap_card}>
+        {interests.length == 0 && <p>관심 장소로 등록된 장소가 없습니다.</p>}
         {interests &&
           interests.length > 0 &&
           interests.map((place, index) => (

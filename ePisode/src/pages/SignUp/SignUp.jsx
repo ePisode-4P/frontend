@@ -40,10 +40,20 @@ const Signup = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target
-    if (name === 'name') setName(value)
-    else if (name === 'email') setEmail(value)
-    else if (name === 'password') setPassword(value)
-    else if (name === 'mbti') setMbti(value)
+
+    if (name === 'name') {
+      if (value.length <= 15) {
+        setName(value)
+      }
+    } else if (name === 'email') {
+      setEmail(value)
+    } else if (name === 'password') {
+      if (value.length <= 20) {
+        setPassword(value)
+      }
+    } else if (name === 'mbti') {
+      setMbti(value)
+    }
   }
 
   const handleFavoriteChange = (e) => {
@@ -90,7 +100,7 @@ const Signup = () => {
         </div>
         <div>
           <input className={style.name} type="text" name="name" placeholder="Name *" value={name} onChange={handleChange} />
-          <input className={style.email} type="text" name="email" placeholder="Email *" value={email} onChange={handleChange} />
+          <input className={style.email} type="email" name="email" placeholder="Email *" value={email} onChange={handleChange} />
         </div>
         <div>
           <input className={style.password} type="password" name="password" placeholder="Password *" value={password} onChange={handleChange} />
@@ -124,8 +134,8 @@ const Signup = () => {
           <label htmlFor="카페">카페</label>
           <input type="checkbox" name="favorite" id="문화시설" value="문화시설" onChange={handleFavoriteChange} />
           <label htmlFor="문화시설">문화시설</label>
-          <input type="checkbox" name="favorite" id="숙박" value="숙박" onChange={handleFavoriteChange} />
-          <label htmlFor="숙박">숙박</label>
+          <input type="checkbox" name="favorite" id="캠핑" value="캠핑" onChange={handleFavoriteChange} />
+          <label htmlFor="캠핑">캠핑</label>
           <input type="checkbox" name="favorite" id="도서관" value="도서관" onChange={handleFavoriteChange} />
           <label htmlFor="도서관">도서관</label>
         </p>

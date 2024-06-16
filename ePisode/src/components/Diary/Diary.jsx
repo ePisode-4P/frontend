@@ -77,6 +77,10 @@ export default function Diary({ selectedPlace, setSelectedPlace }) {
     setSelectedPlace(null)
   }
 
+  const handleSelectPlace = () => {
+    setSelectedPlace((prevPlace) => ({ ...prevPlace }))
+  }
+
   const { mutate } = useMutation({
     mutationFn: addNewLike,
     onSuccess: (data) => {
@@ -146,7 +150,9 @@ export default function Diary({ selectedPlace, setSelectedPlace }) {
       <section className={styles.place_info}>
         <div className={styles.wrap}>
           <div className={styles.wrap_name}>
-            <h2 className={styles.place_name}>{selectedPlace.place_name}</h2>
+            <h2 className={styles.place_name} onClick={handleSelectPlace}>
+              {selectedPlace.place_name}
+            </h2>
             <p className={styles.category_name}>{categoryName}</p>
           </div>
           <button className={styles.btn} onClick={handleLoveClick}>

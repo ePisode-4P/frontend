@@ -42,6 +42,7 @@ export default function Bookmark() {
     >
       <h2 className={styles.category}>즐겨찾기</h2>
       <div className={styles.wrap_card}>
+        {likes.length == 0 && <p>즐겨찾기로 등록된 장소가 없습니다.</p>}
         {likes &&
           likes.length > 0 &&
           likes.map((place, index) => (

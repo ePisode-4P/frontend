@@ -4,36 +4,21 @@ import animationData2 from '../../assets/lotties/loading.json'
 import { motion } from 'framer-motion'
 import styles from './Recommend.module.css'
 import RecommendCard from '../../components/Card/RecommendCard'
-import { getRecommends, markAsDisliked } from '../../services/recommend'
-import { useQuery, useQueryClient} from '@tanstack/react-query'
+import { getRecommends } from '../../services/recommend'
+import { useQuery } from '@tanstack/react-query'
 
 export default function Recommend() {
-  const queryClient = useQueryClient()
-
   const {
     data: recommends = [],
     isLoading,
     isError,
   } = useQuery({
     queryKey: ['recommends'],
-    queryFn: getRecommends,
+    queryFn: () => getRecommends(),
     onError: (error) => {
       console.error(error)
     },
-    refetchOnWindowFocus: true,
-    refetchOnMount: true,
-    staleTime: Infinity,
-    cacheTime: 0,
   })
-
-  const handleDislike = async (placeId) => {
-    try {
-      await markAsDisliked(placeId)
-      queryClient.invalidateQueries(['recommends'])
-    } catch (error) {
-      console.error('Failed to mark as disliked:', error)
-    }
-  }  
 
   const cardVariants = {
     hidden: (index) => ({
@@ -69,7 +54,7 @@ export default function Recommend() {
       <h2 className={styles.category}>추천 장소</h2>
       <div className={styles.wrap_card}>
         {isLoading && <Lottie style={{ pointerEvents: 'none', position: 'relative' }} options={defaultOptions2} height={200} width={200} />}
-
+        {recommends.length == 0 && <p>추천 장소가 없습니다.</p>}
         {recommends &&
           recommends.length > 0 &&
           recommends.map((place, index) => (
@@ -81,8 +66,7 @@ export default function Recommend() {
                 category_name={place.categoryName}
                 road_address_name={place.addressName}
                 address_name={place.addressName}
-                onDislike={handleDislike} 
-                />
+              />
             </motion.div>
           ))}
       </div>

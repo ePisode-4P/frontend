@@ -13,6 +13,7 @@ export const addNewEpisode = async (newEpisode) => {
     alert('고운 말을 쓰자')
   }
   if (!response.ok) {
+    alert('에피소드 작성에 실패했습니다.')
     throw new Error('에피소드 작성 실패')
   }
 }
@@ -30,6 +31,7 @@ export const editEpisode = async ({ editedEpisode, id }) => {
     alert('고운 말을 쓰자')
   }
   if (!response.ok) {
+    alert('에피소드 수정에 실패했습니다.')
     throw new Error('에피소드 수정 실패')
   }
 }
@@ -162,6 +164,7 @@ export const removeEpisode = async (id) => {
   })
 
   if (!response.ok) {
+    alert('에피소드 삭제에 실패했습니다.')
     throw new Error('에피소드 삭제 실패')
   }
 }
