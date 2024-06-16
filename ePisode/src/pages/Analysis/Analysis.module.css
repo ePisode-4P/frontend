@@ -22,29 +22,10 @@
   flex-direction: row;
 }
 
-.title_wrap {
-  display: flex;
-  flex-direction: row;
-}
-
 .category {
   margin: 10px 0px;
   font-size: 1.5em;
   font-weight: bold;
-}
-
-.lottie_wrap {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-}
-
-.noReport {
-  margin-top: 20px;
-  font-size: 15px;
-  color: #666;
 }
 
 .chart {
@@ -63,19 +44,6 @@
 .btn_next:hover {
   transition: 0.2s;
   color: #ff70a6;
-}
-
-.btn_next:hover {
-  transition: 0.2s;
-  color: #ff70a6;
-}
-
-.btn_downLoad {
-  width: 25px;
-  height: 25px;
-  margin-top: 12px;
-  margin-left: 5px;
-  cursor: pointer;
 }
 
 .sub_title {

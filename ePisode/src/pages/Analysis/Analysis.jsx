@@ -9,9 +9,6 @@ import { Pie } from 'react-chartjs-2'
 import ChartDataLabels from 'chartjs-plugin-datalabels'
 import { useQuery } from '@tanstack/react-query'
 import { getAnalysisRecency } from '../../services/analysis'
-import Lottie from 'react-lottie'
-import noData from '../../assets/lotties/nothing.json'
-import { MdOutlineFileDownload } from 'react-icons/md'
 
 ChartJS.register(ArcElement, Tooltip, Legend, ChartDataLabels)
 
@@ -66,15 +63,10 @@ export default function Analysis() {
         transition={{ duration: 0.5 }}
       >
         <div className={styles.top}>
-          <div className={styles.title_wrap}>
-            <h2 className={styles.category}>생활 패턴 분석 레포트</h2>
-          </div>
+          <h2 className={styles.category}>생활 패턴 분석 레포트</h2>
           <MdOutlineNavigateNext className={styles.btn_next} onClick={handleNext} />
         </div>
-        <div className={styles.lottie_wrap}>
-          <Lottie style={{ pointerEvents: 'none', position: 'relative' }} options={defaultOptions1} height={200} width={200} />
-          <div className={styles.noReport}>레포트가 존재하지 않습니다.</div>
-        </div>
+        <div>방문한 장소가 없습니다.</div>
       </motion.div>
     )
   }
@@ -119,15 +111,6 @@ export default function Analysis() {
     },
   }
 
-  const defaultOptions1 = {
-    loop: true,
-    autoplay: true,
-    animationData: noData,
-    renderSettings: {
-      preserveAspectRatio: 'xMidYMid slice',
-    },
-  }
-
   return (
     <motion.div
       className={styles.wrap}
@@ -137,10 +120,7 @@ export default function Analysis() {
       transition={{ duration: 0.5 }}
     >
       <div className={styles.top}>
-        <div className={styles.title_wrap}>
-          <h2 className={styles.category}>생활 패턴 분석 레포트</h2>
-          <MdOutlineFileDownload className={styles.btn_downLoad} />
-        </div>
+        <h2 className={styles.category}>생활 패턴 분석 레포트</h2>
         <MdOutlineNavigateNext className={styles.btn_next} onClick={handleNext} />
       </div>
       <ul className={styles.list_wrap}>
@@ -156,31 +136,19 @@ export default function Analysis() {
         </div>
         <li className={styles.sub_title}>좋았던 장소</li>
         <div>
-          {bestPlaces.length > 0 ? (
-            bestPlaces.map((place, index) => (
-              <motion.div custom={index} variants={cardVariants} initial="hidden" animate="visible" key={index}>
-                <AnalysisCard place={place} place_name={place.placeName} category_name={place.categoryName} road_address_name={place.roadAddressName} address_name={place.addressName} />
-              </motion.div>
-            ))
-          ) : (
-            <div>
-              <Lottie style={{ pointerEvents: 'none', position: 'relative' }} options={defaultOptions1} height={200} width={200} />
-            </div>
-          )}
+          {bestPlaces.map((place, index) => (
+            <motion.div custom={index} variants={cardVariants} initial="hidden" animate="visible" key={index}>
+              <AnalysisCard place={place} place_name={place.placeName} category_name={place.categoryName} road_address_name={place.roadAddressName} address_name={place.addressName} />
+            </motion.div>
+          ))}
         </div>
         <li className={styles.sub_title}>별로였던 장소</li>
         <div>
-          {worstPlaces.length > 0 ? (
-            worstPlaces.map((place, index) => (
-              <motion.div custom={index} variants={cardVariants} initial="hidden" animate="visible" key={index}>
-                <AnalysisCard place={place} place_name={place.placeName} category_name={place.categoryName} road_address_name={place.roadAddressName} address_name={place.addressName} />
-              </motion.div>
-            ))
-          ) : (
-            <div>
-              <Lottie style={{ pointerEvents: 'none', position: 'relative' }} options={defaultOptions1} height={200} width={200} />
-            </div>
-          )}
+          {worstPlaces.map((place, index) => (
+            <motion.div custom={index} variants={cardVariants} initial="hidden" animate="visible" key={index}>
+              <AnalysisCard place={place} place_name={place.placeName} category_name={place.categoryName} road_address_name={place.roadAddressName} address_name={place.addressName} />
+            </motion.div>
+          ))}
         </div>
       </ul>
     </motion.div>
