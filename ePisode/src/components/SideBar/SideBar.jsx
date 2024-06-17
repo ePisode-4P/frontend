@@ -52,7 +52,7 @@ export default function SideBar() {
   }
 
   const handleAnalysis = () => {
-    if (location.pathname === '/map/analysis') {
+    if (location.pathname === '/map/analysis' || location.pathname === '/map/allanalysis' || location.pathname.startsWith('/map/analysis/')) {
       navigate('/map')
     } else {
       navigate('/map/analysis')
@@ -67,7 +67,7 @@ export default function SideBar() {
 
   const searchIconStyle = location.pathname === '/map/search' ? style : {}
   const recommendIconStyle = location.pathname === '/map/recommend' ? style : {}
-  const analysisIconStyle = location.pathname === '/map/analysis' || location.pathname === '/map/allanalysis' ? style : {}
+  const analysisIconStyle = location.pathname === '/map/analysis' || location.pathname === '/map/allanalysis' || location.pathname.startsWith('/map/analysis/') ? style : {}
   const likeIconStyle = location.pathname === '/map/likes' ? style : {}
   const heartIconStyle = location.pathname === '/map/bookmark' ? style : {}
 

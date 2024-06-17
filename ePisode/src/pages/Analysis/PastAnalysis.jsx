@@ -1,34 +1,47 @@
 import React from 'react'
+import { useQuery } from '@tanstack/react-query'
+import { getAnalysisId } from '../../services/analysis'
+import { useNavigate, useParams } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import styles from './Analysis.module.css'
+import styles from './PastAnalysis.module.css'
 import { MdOutlineNavigateNext } from 'react-icons/md'
-import { useNavigate } from 'react-router-dom'
-import AnalysisCard from '../../components/Card/AnalysisCard'
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js'
 import { Pie } from 'react-chartjs-2'
 import ChartDataLabels from 'chartjs-plugin-datalabels'
-import { useQuery } from '@tanstack/react-query'
-import { getAnalysisRecency } from '../../services/analysis'
+import AnalysisCard from '../../components/Card/AnalysisCard'
 import Lottie from 'react-lottie'
 import noData from '../../assets/lotties/nothing.json'
 import { MdOutlineFileDownload } from 'react-icons/md'
 
 ChartJS.register(ArcElement, Tooltip, Legend, ChartDataLabels)
 
-export default function Analysis() {
+//TODO - 엑셀 다운로드 기능 추가
+
+export default function PastAnalysis() {
+  const { id } = useParams()
   const navigate = useNavigate()
 
   const {
-    data: report = [],
+    data: analysis = {},
     isLoading,
     isError,
   } = useQuery({
-    queryKey: ['recencyReport'],
-    queryFn: () => getAnalysisRecency(),
+    queryKey: ['analysis', id],
+    queryFn: () => getAnalysisId(id),
     onError: (error) => {
-      console.error('최근 보고서를 가져오는데 실패했습니다.', error)
+      console.error(error)
     },
+    enabled: !!id,
   })
+
+  const defaultOptions1 = {
+    loop: true,
+    autoplay: true,
+    animationData: noData,
+    renderSettings: {
+      preserveAspectRatio: 'xMidYMid slice',
+    },
+  }
 
   const handleNext = () => {
     navigate('/map/allanalysis')
@@ -56,16 +69,11 @@ export default function Analysis() {
     return <div>에러가 발생했습니다.</div>
   }
 
-  const defaultOptions1 = {
-    loop: true,
-    autoplay: true,
-    animationData: noData,
-    renderSettings: {
-      preserveAspectRatio: 'xMidYMid slice',
-    },
+  if (!analysis || !Object.keys(analysis).length) {
+    return <div>보고서를 찾을 수 없습니다.</div>
   }
 
-  if (report.message === '기간 내 방문 장소 없음') {
+  if (analysis.message == '기간 내 방문 장소 없음') {
     return (
       <motion.div
         className={styles.wrap}
@@ -88,7 +96,7 @@ export default function Analysis() {
     )
   }
 
-  const { graphData, bestPlaces, worstPlaces, activityArea } = report
+  const { graphData, bestPlaces, worstPlaces, activityArea } = analysis
   const data = {
     labels: graphData.labels,
     datasets: [

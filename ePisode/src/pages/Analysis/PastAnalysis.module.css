@@ -65,11 +65,6 @@
   color: #ff70a6;
 }
 
-.btn_next:hover {
-  transition: 0.2s;
-  color: #ff70a6;
-}
-
 .btn_downLoad {
   width: 25px;
   height: 25px;
@@ -78,18 +73,20 @@
   cursor: pointer;
 }
 
+.btn_downLoad:hover {
+  transition: 0.2s;
+  color: #ff70a6;
+}
+
 .sub_title {
-  margin: 10px 0px;
+  margin: 20px 0px;
   font-size: 1.3em;
   font-weight: bold;
 }
 
 .list_wrap {
   overflow-y: scroll;
-
   scrollbar-width: none;
-
-  /* 스크롤바 숨기기: Chrome, Safari, Edge */
   &::-webkit-scrollbar {
     display: none;
   }
