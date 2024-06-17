@@ -56,7 +56,7 @@ export default function Bookmark() {
         {likes.length == 0 && (
           <div className={styles.lottie_wrap}>
             <Lottie style={{ pointerEvents: 'none', position: 'relative' }} options={defaultOptions1} height={200} width={200} />
-            <div className={styles.noBookmark}>즐겨찾기로 등록된 장소가 없습니다.</div>
+            <div className={styles.noBookmark}>즐겨찾는 장소가 없습니다.</div>
           </div>
         )}
         {likes &&
