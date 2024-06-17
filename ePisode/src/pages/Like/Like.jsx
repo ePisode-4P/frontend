@@ -4,6 +4,8 @@ import styles from './Like.module.css'
 import LikeCard from '../../components/Card/LikeCard'
 import { useQuery } from '@tanstack/react-query'
 import { getInterests } from '../../services/recommend'
+import Lottie from 'react-lottie'
+import noData from '../../assets/lotties/nothing.json'
 
 export default function Like() {
   const {
@@ -32,6 +34,15 @@ export default function Like() {
     }),
   }
 
+  const defaultOptions1 = {
+    loop: true,
+    autoplay: true,
+    animationData: noData,
+    renderSettings: {
+      preserveAspectRatio: 'xMidYMid slice',
+    },
+  }
+
   return (
     <motion.div
       className={styles.wrap}
@@ -42,7 +53,12 @@ export default function Like() {
     >
       <h2 className={styles.category}>관심 장소</h2>
       <div className={styles.wrap_card}>
-        {interests.length == 0 && <p>관심 장소로 등록된 장소가 없습니다.</p>}
+        {interests.length == 0 && (
+          <div className={styles.lottie_wrap}>
+            <Lottie style={{ pointerEvents: 'none', position: 'relative' }} options={defaultOptions1} height={200} width={200} />
+            <div className={styles.noLike}>관심 장소가 없습니다.</div>
+          </div>
+        )}
         {interests &&
           interests.length > 0 &&
           interests.map((place, index) => (

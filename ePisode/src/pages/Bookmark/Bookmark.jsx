@@ -4,6 +4,8 @@ import styles from './Bookmark.module.css'
 import BookmarkCard from '../../components/Card/BookmarkCard'
 import { useQuery } from '@tanstack/react-query'
 import { getLikes } from '../../services/like'
+import Lottie from 'react-lottie'
+import noData from '../../assets/lotties/nothing.json'
 
 export default function Bookmark() {
   const {
@@ -32,6 +34,15 @@ export default function Bookmark() {
     }),
   }
 
+  const defaultOptions1 = {
+    loop: true,
+    autoplay: true,
+    animationData: noData,
+    renderSettings: {
+      preserveAspectRatio: 'xMidYMid slice',
+    },
+  }
+
   return (
     <motion.div
       className={styles.wrap}
@@ -42,7 +53,12 @@ export default function Bookmark() {
     >
       <h2 className={styles.category}>즐겨찾기</h2>
       <div className={styles.wrap_card}>
-        {likes.length == 0 && <p>즐겨찾기로 등록된 장소가 없습니다.</p>}
+        {likes.length == 0 && (
+          <div className={styles.lottie_wrap}>
+            <Lottie style={{ pointerEvents: 'none', position: 'relative' }} options={defaultOptions1} height={200} width={200} />
+            <div className={styles.noBookmark}>즐겨찾기로 등록된 장소가 없습니다.</div>
+          </div>
+        )}
         {likes &&
           likes.length > 0 &&
           likes.map((place, index) => (
