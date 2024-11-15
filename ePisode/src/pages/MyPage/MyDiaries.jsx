@@ -1,39 +1,41 @@
-import React from 'react'
-import styles from './MyDiaries.module.css'
-import { motion } from 'framer-motion'
-import { useNavigate } from 'react-router-dom'
-import { MdLocationOn } from 'react-icons/md'
-import { getMyDiaries } from '../../services/diary'
-import { useQuery } from '@tanstack/react-query'
-import { useSelectedPlace } from '../../contexts/SelectedPlaceContext'
+import React from "react";
+import styles from "./MyDiaries.module.css";
+import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
+import { MdLocationOn } from "react-icons/md";
+import { getMyDiaries } from "../../services/diary";
+import { useQuery } from "@tanstack/react-query";
+import { useSelectedPlace } from "../../contexts/SelectedPlaceContext";
 
 export default function MyDiaries() {
-  const navigate = useNavigate()
-  const { setSelectedPlace } = useSelectedPlace()
+  const navigate = useNavigate();
+  const { setSelectedPlace } = useSelectedPlace();
 
   const {
     data: mine = [],
     isLoading,
     isError,
   } = useQuery({
-    queryKey: ['mine'],
+    queryKey: ["mine"],
     queryFn: () => getMyDiaries(0),
     onError: (error) => {
-      console.error(error)
+      console.error(error);
     },
     refetchOnWindowFocus: true,
     refetchOnMount: true,
     staleTime: Infinity,
     cacheTime: 0,
-  })
+  });
+
+  console.log(mine.length);
 
   const handleClick = () => {
-    navigate('/map')
-  }
+    navigate("/map");
+  };
 
   const handleInnerClick = (e) => {
-    e.stopPropagation()
-  }
+    e.stopPropagation();
+  };
 
   const handleEpisodeClick = (id, selectedPlace) => {
     navigate(`/map/episode/${id}`, {
@@ -42,7 +44,7 @@ export default function MyDiaries() {
         selectedPlace,
         isPublic: false,
       },
-    })
+    });
 
     const newPlace = {
       place_name: selectedPlace.place_name,
@@ -50,9 +52,9 @@ export default function MyDiaries() {
       address_name: selectedPlace.address_name,
       x: selectedPlace.x,
       y: selectedPlace.y,
-    }
-    setSelectedPlace({ place: newPlace })
-  }
+    };
+    setSelectedPlace({ place: newPlace });
+  };
 
   const cardVariants = {
     hidden: (index) => ({
@@ -66,7 +68,7 @@ export default function MyDiaries() {
         delay: index * 0.1,
       },
     }),
-  }
+  };
 
   return (
     <div className={styles.filter} onClick={handleClick}>
@@ -75,7 +77,13 @@ export default function MyDiaries() {
         <div className={styles.wrap_card}>
           {mine.length == 0 && <p>내가 쓴 글이 없습니다.</p>}
           {mine.map((diary, index) => (
-            <motion.div custom={index} variants={cardVariants} initial="hidden" animate="visible" key={index}>
+            <motion.div
+              custom={index}
+              variants={cardVariants}
+              initial="hidden"
+              animate="visible"
+              key={index}
+            >
               <div
                 className={styles.card}
                 onClick={() =>
@@ -89,7 +97,7 @@ export default function MyDiaries() {
                 }
               >
                 <p>
-                  {diary.writeDate} - {diary.title || '무제'}
+                  {diary.writeDate} - {diary.title || "무제"}
                 </p>
                 <p className={styles.location}>{diary.placeName}에서</p>
               </div>
@@ -98,5 +106,5 @@ export default function MyDiaries() {
         </div>
       </div>
     </div>
-  )
+  );
 }

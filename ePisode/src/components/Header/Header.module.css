@@ -5,6 +5,8 @@
   align-items: center;
   justify-content: space-between;
   padding: 70px 0px;
+  container-name: header;
+  container-type: inline-size;
 }
 
 .dot {
@@ -13,4 +15,10 @@
   top: 60px;
   right: -40px;
   z-index: 0;
+}
+
+@container header (max-width: 500px) {
+  .dot {
+    display: none;
+  }
 }
