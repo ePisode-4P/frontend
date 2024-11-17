@@ -4,6 +4,8 @@
   display: flex;
   margin: auto;
   align-items: center;
+  container-type: inline-size;
+  container-name: home;
 }
 
 .wrap_lottie {
@@ -20,11 +22,13 @@
   font-size: 3em;
   font-weight: bold;
 }
+
 .desc2 {
   margin-top: 10px;
   font-size: 2.2em;
   font-weight: bold;
 }
+
 .desc3 {
   margin-top: 24px;
   margin-bottom: 40px;
@@ -43,6 +47,7 @@
   height: 80px;
   z-index: -100;
 }
+
 .dot2 {
   position: absolute;
   top: 580px;
@@ -61,9 +66,10 @@
   cursor: pointer;
   overflow: hidden;
 }
+
 .btn:hover {
   transition: 0.3s;
-  border: 3px solid ff70a6;
+  border: 3px solid #ff70a6;
   background-color: white;
   color: #ff70a6;
 }
@@ -84,4 +90,43 @@
 .btn:hover .text {
   display: inline-block;
   animation: slideUpAndDown 0.5s;
+}
+
+@container home (max-width: 500px) {
+  .intro {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+    min-width: 50%;
+    padding: 5.5em 1.5em;
+  }
+
+  .desc {
+    text-align: center;
+    font-size: 3.5em;
+  }
+
+  .desc2 {
+    margin-top: 1em;
+    font-size: 1.5em;
+    text-align: center;
+  }
+
+  .desc3 {
+    width: 100%;
+    text-align: center;
+    font-size: 1em;
+    line-height: 25px;
+  }
+
+  .btn {
+    margin-top: 5em;
+  }
+
+  .dot,
+  .dot2,
+  .wrap_lottie {
+    display: none;
+  }
 }

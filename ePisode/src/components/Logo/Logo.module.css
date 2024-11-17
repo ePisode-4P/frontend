@@ -12,3 +12,9 @@
   left: 20px;
   width: 80px;
 }
+
+@container header (max-width: 500px) {
+  .logo {
+    margin-left: -30px;
+  }
+}
