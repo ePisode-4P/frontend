@@ -1,5 +1,4 @@
-const API_BASE_URL =
-  "http://ec2-43-201-180-21.ap-northeast-2.compute.amazonaws.com:8080";
+const API_BASE_URL = "https://episode4p.shop";
 
 export const getAnalysisRecency = async () => {
   const token = localStorage.getItem("access-token");
