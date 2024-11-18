@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { PiStarFill, PiStarLight } from "react-icons/pi";
 import { BsCloudFog2, BsShare } from "react-icons/bs";
 import { GrFormNext, GrFormPrevious } from "react-icons/gr";
@@ -10,7 +10,7 @@ import {
   IoThunderstormOutline,
 } from "react-icons/io5";
 import styles from "./EpisodeDetail.module.css";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import {
   getEpisode,
   getPublicDiaries,
@@ -22,8 +22,14 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 export default function EpisodeDetail() {
   const navigate = useNavigate();
   const location = useLocation();
+  const [searchParams] = useSearchParams();
   const queryClient = useQueryClient();
-  const { id, selectedPlace, isPublic } = location.state || {};
+
+  const id = searchParams.get("id") || location.state?.id;
+  const isPublic =
+    searchParams.get("isPublic") === "true" || location.state?.isPublic;
+  const selectedPlace = location.state?.selectedPlace;
+
   const [showShareToast, setShowShareToast] = useState(false);
   const [toastPosition, setToastPosition] = useState({ x: 0, y: 0 });
 
@@ -44,15 +50,13 @@ export default function EpisodeDetail() {
     isLoading,
     isError,
   } = useQuery({
-    queryKey: ["episode", id],
+    queryKey: ["episode", id, isPublic],
     queryFn: () => fetchEpisodeDetails(id),
     onError: (error) => {
       console.error(error);
     },
     enabled: !!id,
   });
-
-  console.log(episode);
 
   const { mutate: mutateDelete } = useMutation({
     mutationFn: () => removeEpisode(id),
@@ -95,12 +99,15 @@ export default function EpisodeDetail() {
 
   const handleShare = async () => {
     const rating = "★".repeat(episode.rating) + "☆".repeat(5 - episode.rating);
-    const currentUrl = window.location.href;
+
+    const baseUrl = `${window.location.origin}/map/episode/${id}`;
+    const shareUrl = `${baseUrl}?id=${id}&isPublic=true`;
+
     const shareText = `[다이어리 공유]\n\n제목: ${
       episode.title || "무제"
     }\n날짜: ${episode.visitDate || "언젠가 들렀음"}\n평점: ${rating}\n날씨: ${
       episode.weather || "-"
-    }\n\n${episode.content}\n\n🔗 링크: ${currentUrl}`;
+    }\n\n${episode.content}\n\n🔗 링크: ${shareUrl}`;
 
     try {
       await navigator.clipboard.writeText(shareText);
@@ -135,6 +142,24 @@ export default function EpisodeDetail() {
         : episode.diaryImage.length - 1
     );
   };
+
+  useEffect(() => {
+    const urlId = searchParams.get("id");
+    if (urlId && !location.state) {
+      navigate(location.pathname, {
+        state: {
+          id: urlId,
+          isPublic: true,
+        },
+        replace: true,
+      });
+    }
+  }, [searchParams, location.state, navigate, location.pathname]);
+
+  if (isLoading) return <div>로딩중...</div>;
+  if (isError) return <div>에피소드를 불러올 수 없습니다.</div>;
+  if (!episode || Object.keys(episode).length === 0)
+    return <div>에피소드가 존재하지 않습니다.</div>;
 
   return (
     <div className={styles.filter} onClick={handleClick}>
