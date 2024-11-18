@@ -95,11 +95,12 @@ export default function EpisodeDetail() {
 
   const handleShare = async () => {
     const rating = "★".repeat(episode.rating) + "☆".repeat(5 - episode.rating);
+    const currentUrl = window.location.href;
     const shareText = `[다이어리 공유]\n\n제목: ${
       episode.title || "무제"
     }\n날짜: ${episode.visitDate || "언젠가 들렀음"}\n평점: ${rating}\n날씨: ${
       episode.weather || "-"
-    }\n\n${episode.content}`;
+    }\n\n${episode.content}\n\n🔗 링크: ${currentUrl}`;
 
     try {
       await navigator.clipboard.writeText(shareText);
