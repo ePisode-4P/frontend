@@ -2,7 +2,11 @@
   width: 400px;
   height: 100vh;
 
-  background: linear-gradient(161.66deg, rgba(255, 255, 255, 0.18) 5.63%, rgba(255, 255, 255, 0.6) 94.57%);
+  background: linear-gradient(
+    161.66deg,
+    rgba(255, 255, 255, 0.18) 5.63%,
+    rgba(255, 255, 255, 0.6) 94.57%
+  );
   box-shadow: 4px 0px 4px rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(30px);
   border-radius: 25px;
@@ -76,6 +80,11 @@
   margin-top: 12px;
   margin-left: 5px;
   cursor: pointer;
+  transition: 0.3s;
+}
+.btn_downLoad:hover {
+  scale: 1.2;
+  color: #ff70a6;
 }
 
 .sub_title {
